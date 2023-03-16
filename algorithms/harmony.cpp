@@ -39,25 +39,6 @@ double PAR() {
     double mx = PAR_MAX - (double)((double)((PAR_MAX-PAR_MIN)*t)/ITERATIONS);
     return mx;
 }
-
-void bernoulli() {
-    for(int i = 0; i < HMS; i++) {
-        int profit = 0;
-        for(int j = 0; j < ITEM_COUNT; j++) {
-            // randomly choose 0 or 1 as decision for j'th item in harmony
-            int decision = rand()%2;
-            harmonies[i].F.push_back((decision ? 1 : 0));
-            if (decision == 1) profit += items[j].F;
-        }    
-        harmonies[i].S = profit;
-        if (profit > bestProfit) {
-            bestProfit = profit;
-            best = i;
-        }
-        WORST.push(make_pair(profit, i));
-    }
-}
-
 void REPAIR(vector<bool> &CUR) {
     // calculate total weight of harmony vector
     int weight = 0;
@@ -95,6 +76,31 @@ void REPAIR(vector<bool> &CUR) {
     }
 }
 
+void bernoulli() {
+    // TODO: REPAIR the original HM
+    for(int i = 0; i < HMS; i++) {
+        for(int j = 0; j < ITEM_COUNT; j++) {
+            // randomly choose 0 or 1 as decision for j'th item in harmony
+            int decision = rng()%2;
+            harmonies[i].F.push_back((decision ? 1 : 0));
+        }    
+        REPAIR(harmonies[i].F);
+        int profit = 0;
+        for(int j = 0; j < ITEM_COUNT; j++) {
+            if (harmonies[i].F[j] == 1) {
+                profit += items[j].F;
+            }
+        }
+        harmonies[i].S = profit;
+        if (profit > bestProfit) {
+            bestProfit = profit;
+            best = i;
+        }
+        WORST.push(make_pair(profit, i));
+    }
+}
+
+
 void EVALUATE(vector<bool> &CUR, int totalProfit) {
     if (totalProfit >= harmonies[best].S) {
         harmonies[best].F = CUR;
@@ -114,7 +120,8 @@ void gen() {
     int totalProfit = 0;
     for(int i = 0; i < ITEM_COUNT; i++) {
         // TODO: change rng()%2 to double type random for parameter comparisons
-        if (rng()%2 <= hmcr) {
+        double rnd = ((double)rng()/(double)4294967295);
+        if (rnd <= hmcr) {
             // choose the corresponding bit in best harmony
             CUR[i] = harmonies[best].F[i];
         }
@@ -123,7 +130,8 @@ void gen() {
             int choice = rng()%HMS;
             while(choice == best) choice = rng()%HMS;
             // pitch adjustment
-            if (rng()%2 <= par) {
+            rnd = ((double)rng()/(double)4294967295);
+            if (rnd <= par) {
                 // flip the bit
                 CUR[i] = (CUR[i] ? 0 : 1);
             }
@@ -150,17 +158,17 @@ void DGHS() {
 
 int main() {
     ios_base::sync_with_stdio(0); cin.tie(0);
-
+    cin >> HMS >> ITEM_COUNT >> maxWeight;
     harmonies.resize(HMS); 
-    cin >> ITEM_COUNT >> maxWeight;
     for(int i = 0; i < ITEM_COUNT; i++) {
         int profit, weight;
         cin >> profit >> weight;
         items.push_back(make_pair(profit, weight));
     }
     for(int i = 0; i < ITEM_COUNT; i++) {
-        double density = (double)(items[i].F/items[i].S);
+        double density = ((double)items[i].F/(double)items[i].S);
         profitDensity.push_back(make_pair(density, i));
     }
     sort(all(profitDensity));
+    DGHS();
 }   
