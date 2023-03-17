@@ -77,7 +77,6 @@ void REPAIR(vector<bool> &CUR) {
 }
 
 void bernoulli() {
-    // TODO: REPAIR the original HM
     for(int i = 0; i < HMS; i++) {
         for(int j = 0; j < ITEM_COUNT; j++) {
             // randomly choose 0 or 1 as decision for j'th item in harmony
@@ -103,11 +102,14 @@ void bernoulli() {
 
 void EVALUATE(vector<bool> &CUR, int totalProfit) {
     if (totalProfit >= harmonies[best].S) {
+        // if CUR harmony is better than best harmony, replace worst with CUR 
         harmonies[best].F = CUR;
     }
     else if (totalProfit >= harmonies[worst].S) {
+        // if CUR harmony is better than worst harmony, replace worst with CUR 
         harmonies[worst].F = CUR;
         WORST.pop();
+        // switch out worst with CUR harmony in priority queue
         WORST.push(make_pair(totalProfit, worst));
     }
 }
@@ -119,7 +121,6 @@ void gen() {
     vector<bool> CUR(ITEM_COUNT);
     int totalProfit = 0;
     for(int i = 0; i < ITEM_COUNT; i++) {
-        // TODO: change rng()%2 to double type random for parameter comparisons
         double rnd = ((double)rng()/(double)4294967295);
         if (rnd <= hmcr) {
             // choose the corresponding bit in best harmony
@@ -129,6 +130,7 @@ void gen() {
             // choose a harmony x != best -> CUR[i] = x[i];
             int choice = rng()%HMS;
             while(choice == best) choice = rng()%HMS;
+            CUR[i] = harmonies[choice].F[i];
             // pitch adjustment
             rnd = ((double)rng()/(double)4294967295);
             if (rnd <= par) {
@@ -144,10 +146,8 @@ void gen() {
 }
 
 void DGHS() {
-    cin >> HMS;
     bernoulli();
     while(t <= ITERATIONS) {
-        // TODO: calculate best and worst 
         worst = WORST.top().S;
         gen();
         t += 1;
