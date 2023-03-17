@@ -1,4 +1,4 @@
-#include "bits/stdc++.h"
+#include <bits/stdc++.h>
  
 using namespace std;
  
@@ -73,6 +73,7 @@ void REPAIR(vector<bool> &CUR) {
                 }
             }
         }
+        reverse(all(profitDensity));
     }
 }
 
