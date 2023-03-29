@@ -22,7 +22,7 @@ int t = 0;
 const int ITERATIONS = 20;
 const double HMCR_MAX = 0.75, HMCR_MIN = 0.25;
 const double PAR_MAX = 0.75, PAR_MIN = 0.25;
-priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> WORST;
+multiset<pair<int, int>> WORST;
 
 vector<pair<vector<bool>, int>> harmonies;
 vector<pair<int, int>> items;
@@ -96,7 +96,7 @@ void bernoulli() {
             bestProfit = profit;
             best = i;
         }
-        WORST.push(make_pair(profit, i));
+        WORST.insert(make_pair(profit, i));
     }
 }
 
@@ -105,14 +105,17 @@ void EVALUATE(vector<bool> &CUR, int totalProfit) {
         // if CUR harmony is better than best harmony, replace worst with CUR 
         harmonies[best].F = CUR;
         harmonies[best].S = totalProfit;
+        auto it = prev(WORST.end());
+        WORST.erase(it);
+        WORST.insert(make_pair(totalProfit, best));
     }
     else if (totalProfit >= harmonies[worst].S) {
         // if CUR harmony is better than worst harmony, replace worst with CUR 
         harmonies[worst].F = CUR;
         harmonies[worst].S = totalProfit;
-        WORST.pop();
+        WORST.erase(WORST.begin());
         // switch out worst with CUR harmony in priority queue
-        WORST.push(make_pair(totalProfit, worst));
+        WORST.insert(make_pair(totalProfit, worst));
     }
 }
 
@@ -150,7 +153,7 @@ void gen() {
 void DGHS() {
     bernoulli();
     while(t <= ITERATIONS) {
-        worst = WORST.top().S;
+        worst = (*WORST.begin()).S;
         gen();
         t += 1;
     }

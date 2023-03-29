@@ -28,9 +28,10 @@ vector<pair<vector<bool>, int>> solutions;
 vector<pair<int, int>> items;
 vector<pair<int, int>> weightSort;
 vector<pair<double, int>> profitDensity;
-priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> WORST;
+multiset<pair<int, int>> WORST;
 
 int getFlips() {
+    // TODO: check whether this works for higher ITEM_COUNT
     // initialize value for parameter HMCR in terms of t
     double curSpace = (double)ITEM_COUNT/(double)3;
     STDEV = ((double)t/(double)ITERATIONS) * (curSpace);
@@ -47,12 +48,12 @@ int getFlips() {
 int REPAIR(vector<bool> &CUR, int totalProfit) {
     int weight = 0, temp;
 
-    //check if you even need to repair
     for(int i = 0; i < ITEM_COUNT; i++) {
         if (CUR[i]) weight += items[i].S;
     }
+    //check if weight = maxWeight -> no repair
     if (weight == maxWeight) return totalProfit;
-    
+
     vector<pair<double, int>> itemDensity; 
     vector<pair<int, int>> itemWeight;
     // make a vector with chosen items in CUR binary vector
@@ -64,7 +65,7 @@ int REPAIR(vector<bool> &CUR, int totalProfit) {
     }
     sort(all(itemDensity), greater<pair<double, int>>());
     sort(all(itemWeight));
-    if (weight < maxWeight) {
+    if (weight > maxWeight) {
         // Stage 1: Density first stage 
         weight = 0;
         temp = 0;
@@ -84,14 +85,13 @@ int REPAIR(vector<bool> &CUR, int totalProfit) {
             totalProfit -= items[index].F;
         }
     }
-
     // Stage 2: Minimum weight first stage
     int i = 0;
     while(weight < maxWeight && i < itemWeight.size()) {
-        if (CUR[itemWeight[i].F] == 0 && weight + items[itemWeight[i].F].S <= maxWeight) {
-            CUR[itemWeight[i].F] = 1;
-            totalProfit += items[itemWeight[i].F].F;
-            temp += items[itemWeight[i].F].S;
+        if (CUR[itemWeight[i].S] == 0 && weight + items[itemWeight[i].S].S <= maxWeight) {
+            CUR[itemWeight[i].S] = 1;
+            totalProfit += items[itemWeight[i].S].F;
+            weight += items[itemWeight[i].S].S;
         }
         else break;
         i++;
@@ -113,27 +113,31 @@ void bernoulli() {
             bestProfit = profit;
             best = i;
         }
-        WORST.push(make_pair(profit, i));
+        WORST.insert(make_pair(profit, i));
     } 
 }
 
 bool EVALUATE(vector<bool> &CUR, int totalProfit) {
     if (totalProfit >= solutions[best].S) {
         solutions[best].F = CUR;
+        solutions[best].S = totalProfit;
+        auto it = prev(WORST.end());
+        WORST.erase(it);
+        WORST.insert(make_pair(totalProfit, best));
         return 1;
     }
-    else if (totalProfit >= solutions[WORST.top().S].S) {
-        solutions[WORST.top().S].F = CUR;
-        WORST.pop();
-        WORST.push(make_pair(totalProfit, worst)); 
+    else if (totalProfit >= solutions[(*WORST.begin()).S].S) {
+        solutions[(*WORST.begin()).S].F = CUR;
+        WORST.erase(WORST.begin()); 
+        WORST.insert(make_pair(totalProfit, worst));
         return 1;
     }
     return 0;
 }
 
 vector<bool> gen(bool &ret) {
-    vector<bool> CUR = solutions[WORST.top().S].F;
-    int curProfit = WORST.top().F;
+    vector<bool> CUR = solutions[(*WORST.begin()).S].F;
+    int curProfit = (*WORST.begin()).F;
     int flips = getFlips();
     flips %= ITEM_COUNT;
     int flipCount = 0;
@@ -151,6 +155,7 @@ vector<bool> gen(bool &ret) {
         i += (flips < 0 ? -1 : 1);     
         if (i == -1) i = ITEM_COUNT-1;
         else if (i == ITEM_COUNT) i = 0;
+        flipCount++;
     } 
     // mutate one bit toward optimal
     // (p = 1 gives slow mutations toward current optimal allowing for diversity)
@@ -169,7 +174,7 @@ vector<bool> gen(bool &ret) {
 void BMQHOA() {
     bernoulli();
     while(t <= ITERATIONS) {
-        worst = WORST.top().S;
+        worst = (*WORST.begin()).S;
         bool stable = 0;
         while(stable == 0) {
             bool ret = 0;
@@ -198,4 +203,5 @@ int main() {
         double density = ((double)items[i].F/(double)items[i].S);
         profitDensity.push_back(make_pair(density, i)); 
     }
+    BMQHOA();
 }   
