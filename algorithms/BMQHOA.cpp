@@ -170,7 +170,7 @@ vector<bool> gen(bool &ret) {
     int bit = rng()%ITEM_COUNT;
     if (CUR[bit] != solutions[best].F[bit]) {
         CUR[bit] = (CUR[bit] ? 0 : 1); 
-        curProfit += (CUR[bit] == 1 ? items[i].F : -items[i].F);
+        curProfit += (CUR[bit] == 1 ? items[bit].F : -items[bit].F);
     }
     // repair
     curProfit = REPAIR(CUR, curProfit);
@@ -212,4 +212,4 @@ int main() {
         profitDensity.push_back(make_pair(density, i)); 
     }
     BMQHOA();
-}   
+} 
