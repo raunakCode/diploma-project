@@ -46,6 +46,8 @@ int getFlips() {
 }
 
 int REPAIR(vector<bool> &CUR, int totalProfit) {
+    // TODO: fix repair function
+    // sometimes output > input > maxWeight
     int weight = 0, temp;
 
     for(int i = 0; i < ITEM_COUNT; i++) {
@@ -68,32 +70,37 @@ int REPAIR(vector<bool> &CUR, int totalProfit) {
     if (weight > maxWeight) {
         // Stage 1: Density first stage 
         weight = 0;
-        temp = 0;
         int i = 0;
-        while(temp < maxWeight && i < itemDensity.size()) {
-            weight = temp;
-            temp += items[itemDensity[i].S].S;
-            i++;
-            if (temp > maxWeight) {
-                i--;
-                break;
+        bool flag = 0;
+        while(i < itemDensity.size()) {
+            int index = itemDensity[i].S;
+            if (flag == 1) {
+                CUR[index] = 0;
+                totalProfit -= items[index].F;
             }
-        }
-        for(int j = i; j < itemDensity.size(); j++) {
-            int index = itemDensity[j].S;
-            CUR[index] = 0;
-            totalProfit -= items[index].F;
+            else {
+                int potentialWeight = weight + items[index].S;
+                if (potentialWeight <= maxWeight) weight = potentialWeight;
+                else {
+                    flag = 1;
+                    CUR[index] = 0;
+                    totalProfit -= items[index].F;
+                }
+            }
+            i++;
         }
     }
     // Stage 2: Minimum weight first stage
     int i = 0;
-    while(weight < maxWeight && i < itemWeight.size()) {
-        if (CUR[itemWeight[i].S] == 0 && weight + items[itemWeight[i].S].S <= maxWeight) {
-            CUR[itemWeight[i].S] = 1;
-            totalProfit += items[itemWeight[i].S].F;
-            weight += items[itemWeight[i].S].S;
+    while(i < itemWeight.size()) {
+        if (CUR[itemWeight[i].S] == 0) {
+            if (weight + itemWeight[i].F <= maxWeight) {
+                CUR[itemWeight[i].S] = 1;
+                totalProfit += items[itemWeight[i].S].F;
+                weight += itemWeight[i].F; 
+            }
+            else break;
         }
-        else break;
         i++;
     }
     return totalProfit;
@@ -128,6 +135,7 @@ bool EVALUATE(vector<bool> &CUR, int totalProfit) {
     }
     else if (totalProfit >= solutions[(*WORST.begin()).S].S) {
         solutions[(*WORST.begin()).S].F = CUR;
+        solutions[(*WORST.begin()).S].S = totalProfit;
         WORST.erase(WORST.begin()); 
         WORST.insert(make_pair(totalProfit, worst));
         return 1;
@@ -143,12 +151,12 @@ vector<bool> gen(bool &ret) {
     int flipCount = 0;
     int i = rng()%ITEM_COUNT;
     // flipping some number of bits
-    while(flipCount < flips) {
+    while(flipCount < abs(flips)) {
         if (CUR[i] == 0) {
             CUR[i] = 1;
             curProfit += items[i].F;
         }
-        else {
+        else if (CUR[i] == 1) {
             CUR[i] = 0;
             curProfit -= items[i].F;
         }
@@ -161,9 +169,9 @@ vector<bool> gen(bool &ret) {
     // (p = 1 gives slow mutations toward current optimal allowing for diversity)
     int bit = rng()%ITEM_COUNT;
     if (CUR[bit] != solutions[best].F[bit]) {
-        curProfit += (CUR[bit] == 0 ? items[i].F : -items[i].F);
+        CUR[bit] = (CUR[bit] ? 0 : 1); 
+        curProfit += (CUR[bit] == 1 ? items[i].F : -items[i].F);
     }
-
     // repair
     curProfit = REPAIR(CUR, curProfit);
     // evaluate 
