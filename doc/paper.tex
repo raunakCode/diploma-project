@@ -2,8 +2,6 @@
 
 \usepackage{preamble}
 
-\usepackage{graphicx} % Required for inserting images
-
 \title{
     \textbf{COMPARISON OF \\
     HEURISTIC ALGORITHMS \\
@@ -48,16 +46,99 @@ Typical combinatorial optimization problems are not limited to but include:
     \item \textcolor{blue}{Set Cover} - Given a set of elements $\{1, 2, ..., n\}$ , what is the and a collection of $m$ sets whose union equals the universe, what is the smallest sub-collection of sets whose union is the universe?
 \end{itemize}
 
-The Knapsack Problem in particular has many variants which include the 0-1 knapsack problem, the bounded and unbounded knapsack problems, the multidimensional knapsack problem, the discounted knapsack problem, etc. The 0-1 Knapsack Problem is the simplest form of the knapsack problem and thus is also the one which has been worked on the most. 
+Combinatorial optimization problems show up in an array of different fields. The Knapsack Problem in particular has many variants which include the 0-1 knapsack problem, the bounded and unbounded knapsack problems, the multidimensional knapsack problem, the discounted knapsack problem, etc. The 0-1 Knapsack Problem is the simplest form of the knapsack problem and thus has also been the main focus in the research community. It appears in real-world decision-making processes in a variety of fields. Some examples include: 
+
+Many of combinatorial optimization problems including the 0-1 Knapsack problem currently do not have deterministic algorithms which are considered fast enough for them to be used on a large-scale basis. Consequently, the research focus has been on approaches that do not necessarily guarantee the best solution but win over deterministic approaches when it comes to time. 
+
+\subsubsection*{Problem statement}
+In the 0-1 Knapsack Problem, there $n$ items and a maximum weight capacity $W$. Each item has a profit value $p_i$ and a weight value $w_i$. Find the optimal selection of items which maximizes the profit value while respecting the max weight value. The problem can be mathematically represented as so:
+
+\begin{gather}
+    \text{Maximize} \sum_{i = 1}^{n} p_i x_i \\
+    \text{subject to} \sum_{i = 1}^{n} w_i <= W \\
+    x \in \{1, 0\}
+\end{gather}
+
+The rest of this paper will follow the shorthand "KP01" for the 0-1 Knapsack Problem. 
 
 
 \subsection{Aim}
+The aim of this paper is to compare various algorithms in order to investigate the strength of commonly used techniques in for solving optimization problems.
 
 \subsection{Research Question}
+How do the global-best harmony search algorithm and the binary harmonic multi-scale algorithms perform when implemented for solving KP01?
 
 \section{Theory}
+\subsection{Computational Complexity}
+In computer science, computational complexity is the measure of how expensive it is to the run an algorithm; the amount of resources required to run the algorithm. The 2 resources are time and memory, notated time complexity and space complexity. As the memory complexity is dependent on the time complexity, the time complexity is the limiting factor for the efficiency of an algorithm and is usually the one focused on. Computable problems can be factorial, exponential, polynomial, logarithmic, etc.
+
+\subsubsection*{Big O notation}
+The time complexity of an algorithm is a function of the size of the input of that algorithm. For example, if $n$ numbers $a_1, a_2, a_3, ..., a_n$ are given, and an algorithm checks the existence of an certain element in those numbers, by checking all n elements, then the time complexity is some constant times n - the size of the input. Computer scientists would denote this using Big O notation as $O(n)$. Big O notation is a system developed by mathematicians to describe a functions asymptotic limiting factor.
+
+Computer scientists usually categories the time complexity of an algorithm into polynomial time complexities and non polynomial time complexities. This is because non-polynomial functions like factorial and exponential functions tend to grow quicker than polynomial functions and thus are usually considered nonviable for large data. 
+
+\vskip 1cm
+
+% time complexities graph
+\begin{center}
+
+\begin{tikzpicture}
+  \begin{axis}[
+    grid = major,
+    clip = true,
+    ticks = none,
+    width=1\textwidth,
+    height=0.8\textwidth,
+    every axis plot/.append style={very thick},
+    axis line style = ultra thick,
+    clip mode=individual,
+    restrict y to domain=0:10,
+    restrict x to domain=0:10,
+    axis x line = left,
+    axis y line = left,
+    domain = 0.00:10,
+    xmin = 0,
+    xmax = 11,
+    ymin = 0,
+    ymax = 11,
+    xlabel = n,
+    ylabel = no. of operations,
+    xlabel style = {at={(axis description cs:0.5,-0.1)},anchor=south},
+    ylabel style = {at={(axis description cs:-0.08,0.5)},anchor=north},
+    label style = {font=\LARGE\bf},
+  ]
+\addplot [
+    samples=100, 
+    color=green,
+]
+{x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(n)$};
+\addplot [
+    samples=100, 
+    color=blue,
+]
+{log2 x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(\log{}n)$};
+\addplot [
+    samples=100, 
+    color=red,
+]
+{3*2^x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(3*2^x)$};
+\addplot [
+    samples=100, 
+    color=black,
+]
+{1}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(1)$};
+
+\addplot [
+  samples=100,
+  color=orange, 
+] gnuplot{gamma(x+1)} node[above,pos=1,style={font=\Large}]{$\mathcal{O}(n!)$};
+
+\end{axis}
+\end{tikzpicture}
+
+\end{center}  
 
 
-
+ \bibliography{refs}
 
 \end{document}

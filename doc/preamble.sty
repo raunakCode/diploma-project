@@ -55,9 +55,6 @@
 % references
 \renewcommand\refname{\normalsize \textbf{\scshape{References}}}
 
-% figures
-\usepackage[labelfont={sc}]{caption}
-
 % hyphen
 \usepackage{hyphenat}
 
@@ -68,6 +65,11 @@
 % draw stuff
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
+
+% figures
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{width = 10cm, compat=1.18}
 
 % argmin function
 \DeclareMathOperator*{\argmax}{argmax}
