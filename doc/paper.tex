@@ -53,10 +53,12 @@ Many of combinatorial optimization problems including the 0-1 Knapsack problem c
 \subsubsection*{Problem statement}
 In the 0-1 Knapsack Problem, there $n$ items and a maximum weight capacity $W$. Each item has a profit value $p_i$ and a weight value $w_i$. Find the optimal selection of items which maximizes the profit value while respecting the max weight value. The problem can be mathematically represented as so:
 
+\vskip -0.5cm
+
 \begin{gather}
     \text{Maximize} \sum_{i = 1}^{n} p_i x_i \\
-    \text{subject to} \sum_{i = 1}^{n} w_i <= W \\
-    x \in \{1, 0\}
+    \text{subject to} \sum_{i = 1}^{n} w_i x_i <= W \\
+    x \in \{0, 1\}
 \end{gather}
 
 The rest of this paper will follow the shorthand "KP01" for the 0-1 Knapsack Problem. 
@@ -73,7 +75,7 @@ How do the global-best harmony search algorithm and the binary harmonic multi-sc
 In computer science, computational complexity is the measure of how expensive it is to the run an algorithm; the amount of resources required to run the algorithm. The 2 resources are time and memory, notated time complexity and space complexity. As the memory complexity is dependent on the time complexity, the time complexity is the limiting factor for the efficiency of an algorithm and is usually the one focused on. Computable problems can be factorial, exponential, polynomial, logarithmic, etc.
 
 \subsubsection*{Big O notation}
-The time complexity of an algorithm is a function of the size of the input of that algorithm. For example, if $n$ numbers $a_1, a_2, a_3, ..., a_n$ are given, and an algorithm checks the existence of an certain element in those numbers, by checking all n elements, then the time complexity is some constant times n - the size of the input. Computer scientists would denote this using Big O notation as $O(n)$. Big O notation is a system developed by mathematicians to describe a functions asymptotic limiting factor.
+The time complexity of an algorithm is a function of the size of the input of that algorithm. For example, if $n$ numbers $a_1, a_2, a_3, ..., a_n$ are given, and an algorithm checks the existence of an certain element in those numbers, by checking all n elements, then the time complexity is some constant times $n$ - the size of the input. Computer scientists would denote this using Big O notation as $O(n)$. Big O notation is a system developed by mathematicians and computer scientists to describe an function/algorithm's asymptotic limiting factor.
 
 Computer scientists usually categories the time complexity of an algorithm into polynomial time complexities and non polynomial time complexities. This is because non-polynomial functions like factorial and exponential functions tend to grow quicker than polynomial functions and thus are usually considered nonviable for large data. 
 
@@ -81,63 +83,86 @@ Computer scientists usually categories the time complexity of an algorithm into 
 
 % time complexities graph
 \begin{center}
+    \begin{tikzpicture}
+      \begin{axis}[
+          grid = major,
+          clip = true,
+          ticks = none,
+          width=1\textwidth,
+          height=0.8\textwidth,
+          every axis plot/.append style={very thick},
+          axis line style = ultra thick,
+          clip mode=individual,
+          restrict y to domain=0:10,
+          restrict x to domain=0:10,
+          axis x line = left,
+          axis y line = left,
+          domain = 0.00:10,
+          xmin = 0,
+          xmax = 11,
+          ymin = 0,
+          ymax = 11,
+          xlabel = n,
+          ylabel = Operations,
+          xlabel style = {at={(axis description cs:0.5,-0.1)},anchor=south},
+          ylabel style = {at={(axis description cs:-0.08,0.5)},anchor=north},
+          label style = {font=\LARGE\bf},
+          ]
+          \addplot [
+          samples=100, 
+          color=green,
+          ]
+          {x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(n)$};
+          \addplot [
+          samples=100, 
+          color=blue,
+          ]
+          {log2 x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(\log{}n)$};
+          \addplot [
+          samples=100, 
+          color=red,
+          ]
+          {3*2^x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(3*2^n)$};
+          \addplot [
+          samples=100, 
+          color=violet,
+          ]
+          {1}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(1)$};  
+          \addplot [
+          samples=100,
+          color=orange, 
+          ] gnuplot{gamma(x+1)} node[above,pos=1,style={font=\Large}]{$\mathcal{O}(n!)$};  
+      \end{axis}
+    \end{tikzpicture}
+\end{center}
 
-\begin{tikzpicture}
-  \begin{axis}[
-    grid = major,
-    clip = true,
-    ticks = none,
-    width=1\textwidth,
-    height=0.8\textwidth,
-    every axis plot/.append style={very thick},
-    axis line style = ultra thick,
-    clip mode=individual,
-    restrict y to domain=0:10,
-    restrict x to domain=0:10,
-    axis x line = left,
-    axis y line = left,
-    domain = 0.00:10,
-    xmin = 0,
-    xmax = 11,
-    ymin = 0,
-    ymax = 11,
-    xlabel = n,
-    ylabel = no. of operations,
-    xlabel style = {at={(axis description cs:0.5,-0.1)},anchor=south},
-    ylabel style = {at={(axis description cs:-0.08,0.5)},anchor=north},
-    label style = {font=\LARGE\bf},
-  ]
-\addplot [
-    samples=100, 
-    color=green,
-]
-{x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(n)$};
-\addplot [
-    samples=100, 
-    color=blue,
-]
-{log2 x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(\log{}n)$};
-\addplot [
-    samples=100, 
-    color=red,
-]
-{3*2^x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(3*2^x)$};
-\addplot [
-    samples=100, 
-    color=black,
-]
-{1}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(1)$};
+\subsection{Solving the 0-1 Knapsack Problem}
 
-\addplot [
-  samples=100,
-  color=orange, 
-] gnuplot{gamma(x+1)} node[above,pos=1,style={font=\Large}]{$\mathcal{O}(n!)$};
+\subsubsection*{Deterministic algorithms}
+Dynamic programming is a general technique for solving optimization problems. If a problem has optimal substructure and over-lapping subproblems, then dynamic programming is applicable. In computer science 
+a problem has \emph{optimal substructure} if an optimal solution can be made from optimal solutions of its sub-problems, and over-lapping subproblems is when a problem can be decomposed into sub-problems which are reused. Dynamic programming breaks down a complicate problem into smaller sub-problems in a recursive manner, while also using some memory to save the solutions of the sub-problems (either in tabular form or memoized form). This way, when we need to get a solution for a sub-problem again, we can just use our previously calculated value. 
 
-\end{axis}
-\end{tikzpicture}
-
-\end{center}  
-
+KP01 is solved using dynamic programming using a table based computation:
+\begin{algorithm}
+\caption{Pseudocode for solving 0-1 Knapsack with Dynamic Programming}\label{dp}
+    \begin{algorithmic}
+        \For {$i = 0 \text{ to } noItems $}
+            \State $Table[i][0] \gets 0 $
+        \EndFor
+        \For {$k = 0 \text{ to } maxCapacity $}
+            \State $Table[0][k] \gets 0 $
+        \EndFor
+        \For {$i = 0 \text{ to } noItems$}
+            \For {$k = 0 \text{ to } maxCapacity $}
+                \State $Table[i][k] \gets Table[i-1][k]$
+                \If {$k-weights[i] >= 0$}
+                    \State $Table[i][k] \gets max(Table[i-1][k-weights[i]] + profits[i], Table[i][k]) $
+                \EndIf
+            \EndFor
+        \EndFor
+        \State $\text{Print } Table[noItems][maxCapacity]$
+    \end{algorithmic}
+\end{algorithm}
 
  \bibliography{refs}
 
