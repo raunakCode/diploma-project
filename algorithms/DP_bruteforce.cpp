@@ -29,10 +29,7 @@ void solve() {
     }
     for(int i = 1; i <= n; i++) {
         for(int j = 1; j <= k; j++) {
-            // to start with you are gonna have as many pages as possible
-            // without having considered the current book
             DP[i][j] = DP[i-1][j];
-            // then we are going to see if not taking any book previously beats it
             int left = j-cost[i];
             if (left >= 0) {
                 DP[i][j] = max(DP[i][j], DP[i-1][left] + profit[i]);
