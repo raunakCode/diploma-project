@@ -13,6 +13,9 @@
 \usepackage[Symbol]{upgreek}
 \usepackage{nicefrac, amsmath, amsthm, amssymb}
 \usepackage[c]{esvect}
+    \RenewDocumentCommand{\Vec}{me{_}}{%
+      \IfNoValueTF{#2}{\vv{#1}}{\vv*{#1}{\mspace{-2mu}#2}}%
+    }
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 

@@ -56,7 +56,7 @@ In the 0-1 Knapsack Problem, there $n$ items and a maximum weight capacity $W$. 
 \vskip -0.5cm
 
 \begin{gather}
-    \text{Maximize} \sum_{i = 1}^{n} p_i x_i \\
+    \text{Maximize}\;\; f(\Vec{x}) = \sum_{i = 1}^{n} p_i x_i \\
     \text{subject to} \sum_{i = 1}^{n} w_i x_i <= W \\
     x \in \{0, 1\}
 \end{gather}
@@ -75,7 +75,7 @@ How do the global-best harmony search algorithm and the binary harmonic multi-sc
 In computer science, computational complexity is the measure of how expensive it is to the run an algorithm; the amount of resources required to run the algorithm. The 2 resources are time and memory, notated time complexity and space complexity. As the memory complexity is dependent on the time complexity, the time complexity is the limiting factor for the efficiency of an algorithm and is usually the one focused on. Computable problems can be factorial, exponential, polynomial, logarithmic, etc.
 
 \subsubsection*{Big O notation}
-The time complexity of an algorithm is a function of the size of the input of that algorithm. For example, if $n$ numbers $a_1, a_2, a_3, ..., a_n$ are given, and an algorithm checks the existence of an certain element in those numbers, by checking all n elements, then the time complexity is some constant times $n$ - the size of the input. Computer scientists would denote this using Big O notation as $O(n)$. Big O notation is a system developed by mathematicians and computer scientists to describe an function/algorithm's asymptotic limiting factor.
+The time complexity of an algorithm is a function of the size of the input of that algorithm. For example, if $n$ numbers $a_1, a_2, a_3, ..., a_n$ are given, and an algorithm checks the existence of an certain element in those numbers, by checking all n elements, then the time complexity is some constant times $n$ - the size of the input. Computer scientists would denote this using Big O notation as $\mathcal{O}(n)$. Big O notation is a system developed by mathematicians and computer scientists to describe an function/algorithm's asymptotic limiting factor.
 
 Computer scientists usually categories the time complexity of an algorithm into polynomial time complexities and non polynomial time complexities. This is because non-polynomial functions like factorial and exponential functions tend to grow quicker than polynomial functions and thus are usually considered nonviable for large data. 
 
@@ -103,7 +103,7 @@ Computer scientists usually categories the time complexity of an algorithm into 
           ymin = 0,
           ymax = 11,
           xlabel = n,
-          ylabel = Operations,
+          ylabel = Computer Operations,
           xlabel style = {at={(axis description cs:0.5,-0.1)},anchor=south},
           ylabel style = {at={(axis description cs:-0.08,0.5)},anchor=north},
           label style = {font=\LARGE\bf},
@@ -122,7 +122,7 @@ Computer scientists usually categories the time complexity of an algorithm into 
           samples=100, 
           color=red,
           ]
-          {3*2^x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(3*2^n)$};
+          {3*2^x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(3\cdot2^n)$};
           \addplot [
           samples=100, 
           color=violet,
@@ -138,31 +138,47 @@ Computer scientists usually categories the time complexity of an algorithm into 
 
 \subsection{Solving the 0-1 Knapsack Problem}
 
+There are 2 main approaches to solving KP01: An exact solution using deterministic algorithms, and probabilistic approaches involving heuristic algorithms. A small-scale KP01 can be solved with deterministic approaches, but for high-scale situations it is not realistic to get optimal solutions with exact approaches \ref{QWPA} as the KP01 problem is NP-complete \ref{some website}.
+
 \subsubsection*{Deterministic algorithms}
 Dynamic programming is a general technique for solving optimization problems. If a problem has optimal substructure and over-lapping subproblems, then dynamic programming is applicable. In computer science 
-a problem has \emph{optimal substructure} if an optimal solution can be made from optimal solutions of its sub-problems, and over-lapping subproblems is when a problem can be decomposed into sub-problems which are reused. Dynamic programming breaks down a complicate problem into smaller sub-problems in a recursive manner, while also using some memory to save the solutions of the sub-problems (either in tabular form or memoized form). This way, when we need to get a solution for a sub-problem again, we can just use our previously calculated value. 
+a problem has \emph{optimal substructure} if an optimal solution for a problems can be constructed from optimal solutions of its sub-problems, and \emph{over-lapping subproblems} is when a problem can be decomposed into sub-problems which are reused. Dynamic programming breaks down a complicate problem into smaller sub-problems in a recursive manner, while also using some memory to save the solutions of the sub-problems (either in tabular form or memoized form). This way, when we need to get a solution for a sub-problem again, we can just use our previously calculated value. 
 
 KP01 is solved using dynamic programming using a table based computation:
+
 \begin{algorithm}
 \caption{Pseudocode for solving 0-1 Knapsack with Dynamic Programming}\label{dp}
     \begin{algorithmic}
-        \For {$i = 0 \text{ to } noItems $}
-            \State $Table[i][0] \gets 0 $
+        \For {$i = 0 \text{ to } noItems $} \Comment{// If no items, then profit = 0}
+            \State $Table[i][0] \gets 0 $ 
         \EndFor
-        \For {$k = 0 \text{ to } maxCapacity $}
+        \For {$k = 0 \text{ to } maxCapacity $} \Comment{// If no items, then profit = 0}
             \State $Table[0][k] \gets 0 $
         \EndFor
         \For {$i = 0 \text{ to } noItems$}
             \For {$k = 0 \text{ to } maxCapacity $}
-                \State $Table[i][k] \gets Table[i-1][k]$
-                \If {$k-weights[i] >= 0$}
+                \State $Table[i][k] \gets Table[i-1][k]$  
+                \If {$k-weights[i] >= 0$} 
                     \State $Table[i][k] \gets max(Table[i-1][k-weights[i]] + profits[i], Table[i][k]) $
                 \EndIf
             \EndFor
         \EndFor
-        \State $\text{Print } Table[noItems][maxCapacity]$
+        \State $\textbf{Print } Table[noItems][maxCapacity] $
     \end{algorithmic}
 \end{algorithm}
+
+This implementation of dynamic programming method has a time complexity of $\mathcal{O}(N\cdot W)$, where N is the number of items, and W is max capacity. The dynamic programming algorithm does not end until the entire table is built. This proves to be inefficient very quickly as the maximum capacity of the knapsack increases. So with the increase in the scale, the feasibility of dynamic programming decreases.
+
+\subsubsection*{Heuristic algorithms}
+When deterministic algorithms prove to be too slow for practical applications, heuristic algorithms are chosen for their (usually) near optimal outputs and their speed. Heuristic algorithms should not be confused with approximation algorithms. Approximation algorithms guarantee a maximum margin of error; a constant factor off of the optimal. On the other hand, a heuristic algorithm does not guarantee anything, so it can perform better or worse than an approximation algorithm. 
+
+\paragraph*{Discrete Global-Best Harmony Search Algorithm}
+\paragraph*{Binary Multi-Scale Quantum Harmonic Oscillator Algorithm}
+
+
+
+
+
 
  \bibliography{refs}
 
