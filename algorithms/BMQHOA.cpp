@@ -22,7 +22,7 @@ int k = 1;
 // Initially, 3 STDEVs should roughly equal ITEM_COUNT
 double STDEV;
 int t = 1;
-const int ITERATIONS = 20;
+const int ITERATIONS = 100;
 
 vector<pair<vector<bool>, int>> solutions;
 vector<pair<int, int>> items;

@@ -19,7 +19,7 @@ int best = 0;
 int bestProfit = 0;
 int worst;
 int t = 0;
-const int ITERATIONS = 20;
+const int ITERATIONS = 100;
 const double HMCR_MAX = 0.75, HMCR_MIN = 0.25;
 const double PAR_MAX = 0.75, PAR_MIN = 0.25;
 multiset<pair<int, int>> WORST;
