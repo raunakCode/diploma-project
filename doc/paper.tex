@@ -152,7 +152,7 @@ KP01 is solved using dynamic programming using a table based computation:
         \For {$i = 0 \text{ to } noItems $} \Comment{// If no items, then profit = 0}
             \State $Table[i][0] \gets 0 $ 
         \EndFor
-        \For {$k = 0 \text{ to } maxCapacity $} \Comment{// If no items, then profit = 0}
+        \For {$k = 0 \text{ to } maxCapacity $} \Comment{// If no capacity, then profit = 0}
             \State $Table[0][k] \gets 0 $
         \EndFor
         \For {$i = 0 \text{ to } noItems$}
@@ -167,16 +167,52 @@ KP01 is solved using dynamic programming using a table based computation:
     \end{algorithmic}
 \end{algorithm}
 
-This implementation of dynamic programming method has a time complexity of $\mathcal{O}(N\cdot W)$, where N is the number of items, and W is max capacity. The dynamic programming algorithm does not end until the entire table is built. This proves to be inefficient very quickly as the maximum capacity of the knapsack increases. So with the increase in the scale, the feasibility of dynamic programming decreases.
+This implementation of dynamic programming method has a time complexity of $\mathcal{O}(N\cdot W)$, where N is the number of items, and W is max capacity. The dynamic programming algorithm does not end until the entire table is built. This proves to be inefficient very quickly as the maximum capacity and the number of items in the knapsack increases. So with the increase in the scale, the feasibility of dynamic programming decreases which has incentivized research in the field.
 
 \subsubsection*{Heuristic algorithms}
 When deterministic algorithms prove to be too slow for practical applications, heuristic algorithms are chosen for their (usually) near optimal outputs and their speed. Heuristic algorithms should not be confused with approximation algorithms. Approximation algorithms guarantee a maximum margin of error; a constant factor off of the optimal. On the other hand, a heuristic algorithm does not guarantee anything, so it can perform better or worse than an approximation algorithm. 
 
+Heuristic algorithms for combinatorial optimization are usually designed in a specific way:
+\begin{enumerate}
+    \item Create a potential solution which is current best.
+    \item Generate new solution.
+    \item If new solution better than current best, swap out the best with the newly generated. 
+    \item If satisfied, output best solution, else continue.
+\end{enumerate}
+
+Both the Discrete Global-Best Harmony Search (DGHS), and Binary Multi-Scale Quantum Harmonic Oscillator (BMQHOA) have a similar framework.
+
 \paragraph*{Discrete Global-Best Harmony Search Algorithm}
+The Harmony Search algorithm (HS) was developed in 2001 \ref{geem et al} based on the improvisation of music players \textcolor{red}{EXPAND}. This algorithm was made for continuous search spaces and thus cannot be used for discrete search spaces in combinatorial optimization problems. The Discrete Global-Best harmony search was proposed by \textcolor{red}{EXPAND} to overcome this. The DGHS for KP01 also has a repair-operator and a greedy selection mechanism. A harmony in this algorithm refers to a candidate solution, or a certain selection of items to be put in the knapsack. 
+
+It consists of 4 main parts:
+\begin{enumerate}
+    \item Create a harmony memory (HM - a fixed size of randomly generated harmonies), initialize parameters harmony memory consider rate (HMCR), and pitch adjusting rate (PAR).
+    \item Create a new harmony using the current HM (\textcolor{red}{Algorithm x}).
+    \item If generated harmony is better than the best in the harmony, replace it. If not, check if it is better than then worst harmony, and replace it if so. 
+    \item If maximum number of iterations has been met, output the best sum profit value found so far.
+\end{enumerate}
+
+The parameters HMCR and PAR are used when generating new harmonies. They determine the likelihood of heading toward the current best harmony, and the likelihood of randomly flipping a decision variable. The idea is that current best harmony should have an influence on the generation of a new harmony, and that a decision variable (whether or not an item is put in the knapsack) should be flipped to allow for diversity in the HM, making it easier to overcome local maxima. 
+
 \paragraph*{Binary Multi-Scale Quantum Harmonic Oscillator Algorithm}
 
+\paragraph{Pseudorandom numbers}
 
 
+\section{Methodology}
+
+Testdata is made up of different testcases, each of which is an input on which every algorithm is run.
+
+\subsection{Generating testdata}
+
+Five testcases were taken from a database \ref{some website}. These five testcases are mentioned/used several times in the literature.  Most of the testcases were made using a random number generator, where a random number was generated using the Mersenne Prime Twister (mt19937). A computer cannot generate a truly random number. A pseudorandom number is what is generated, which is a number which appears to be statistically random, but has been generated using a deterministic process. 
+
+First, the number of solutions in memory (for the heuristic algorithms) was put in the input file (20 in all testcases and algorithms for this report). In all testcases, the number of items $n$ was chosen to either be 1000 or 100000. The profit and weight values were then randomly generated in a range of \, $ [1, n] $ while a sum-of-weights variable \emph{sum} was kept. The max weight was then randomly generated in a range of $[\frac{\text{sum}}{100} , \frac{\text{sum}}{10}]$, so that the knapsack wouldn't be able to hold all the items. To avoid any overflow errors, all generated numbers (and the sum of the profit/weight values) were kept below the max value of an \emph{int} which is $2^{31}-1$ in many programming languages.  Then $n$, $W$ (maxWeight), and each item (profit and weight values) was put in an input file. 
+
+These input files were then saved for later testing of the algorithms. 
+
+Each testcase was then run on each algorithm and saved in a spreadsheet:
 
 
 
