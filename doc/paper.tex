@@ -26,6 +26,7 @@
 
 \newpage
 \tableofcontents
+\listofalgorithms
 \newpage
 \pagenumbering{arabic}
 
@@ -147,7 +148,7 @@ a problem has \emph{optimal substructure} if an optimal solution for a problems 
 KP01 is solved using dynamic programming using a table based computation:
 
 \begin{algorithm}
-\caption{Pseudocode for solving 0-1 Knapsack with Dynamic Programming}\label{dp}
+\caption{Algorithm 2: Solving 0-1 Knapsack with Dynamic Programming}\label{dp}
     \begin{algorithmic}
         \For {$i = 0 \text{ to } noItems $} \Comment{// If no items, then profit = 0}
             \State $Table[i][0] \gets 0 $ 
@@ -175,7 +176,7 @@ When deterministic algorithms prove to be too slow for practical applications, h
 Heuristic algorithms for combinatorial optimization are usually designed in a specific way:
 \begin{enumerate}
     \item Create a potential solution which is current best.
-    \item Generate new solution.
+    \item Generate new solution. (usually in polynomial time) 
     \item If new solution better than current best, swap out the best with the newly generated. 
     \item If satisfied, output best solution, else continue.
 \end{enumerate}
@@ -187,13 +188,65 @@ The Harmony Search algorithm (HS) was developed in 2001 \ref{geem et al} based o
 
 It consists of 4 main parts:
 \begin{enumerate}
-    \item Create a harmony memory (HM - a fixed size of randomly generated harmonies), initialize parameters harmony memory consider rate (HMCR), and pitch adjusting rate (PAR).
+    \item Create a harmony memory HM - a fixed size (HMS) of randomly generated harmonies. Initialize parameters harmony memory consider rate (HMCR), and pitch adjusting rate (PAR), and calculate profit-density vector for usage in the repair-operator.
     \item Create a new harmony using the current HM (\textcolor{red}{Algorithm x}).
     \item If generated harmony is better than the best in the harmony, replace it. If not, check if it is better than then worst harmony, and replace it if so. 
     \item If maximum number of iterations has been met, output the best sum profit value found so far.
 \end{enumerate}
 
-The parameters HMCR and PAR are used when generating new harmonies. They determine the likelihood of heading toward the current best harmony, and the likelihood of randomly flipping a decision variable. The idea is that current best harmony should have an influence on the generation of a new harmony, and that a decision variable (whether or not an item is put in the knapsack) should be flipped to allow for diversity in the HM, making it easier to overcome local maxima. 
+The parameters HMCR and PAR are used when generating new harmonies. They determine the likelihood of heading toward the current best harmony, and the likelihood of randomly flipping a decision variable. The idea is that current best harmony should have an influence on the generation of a new harmony, and that a decision variable (whether or not an item is put in the knapsack) should be flipped to allow for diversity in the HM, making it easier to overcome local maxima. These parameters are determined in terms of the current iteration like so:
+
+\begin{equation}
+    HMCR(t) = HMCR_{max} - \frac{HMCR_{max}-HMCR_{min}}{ITERATIONS} t
+\end{equation}
+\begin{equation}
+    PAR(t) = PAR_{max} - \frac{PAR_{max}-PAR_{min}}{ITERATIONS} t
+\end{equation}
+
+The dynamic updating of the parameters is designed in this way to let larger values of HMCR help accelerate the convergence of the harmonies early on with the the help of the best individual harmony, while smaller values of HMCR can help you overcome local maxima. Similarly, larger values of PAR in the beginning allow for increases in diversity through mutations (item decision bit flips), when there is time to "explore" different variants, smaller values allow convergence at the end of the search. 
+
+With these parameters one generates a new harmony:
+
+\begin{algorithm}
+\caption{Generating a new harmony during iterative part (part 2)}\label{harmonyGen}
+    \begin{algorithmic}
+        \For {$i = 1 \text{ to } noItems$}
+            \If {$rand(0, 1) <= HMCR(t)$}
+                \State $newHarmony[i] \gets bestHarmony[i]$ 
+            \Else
+                \State Generate a random integer number $a \in \{1, 2, ... HMS\}, a \neq best$
+                \State $newHarmony[i] \gets Harmony_{a}[i]$ 
+                \If {$rand(0, 1) <= PAR(t)$}
+                    \State $newHarmony[i] = |newHarmony[i]-1|$ \Comment{// Flipping i'th item - mutation}
+                \EndIf
+            \EndIf
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+
+
+Any time a harmony is generated, during Part 1 or Part 2, it is "repaired" in case the selection of items exceeds the capacity of the knapsack. The new generated harmony is also repaired if it can fit more items, without exceeding the capacity of the knapsack. The repair-operator consists of 2 phases:
+\begin{enumerate}
+    \item Drop phrase - repairing a harmony if it violates the constraint
+    \item Add phase - adding a items into the knapsack if the total weight is less than the capacity
+\end{enumerate}
+
+The add phase is always done after the drop phase, as a harmony previously infeasible becomes feasible after the drop phase, but its total weight may be less than the capacity of the knapsack. Here is the pseudocode for the repair-operator:
+
+\begin{algorithm}
+\caption{Repair-operator after harmony generation}
+    \begin{algorithmic}
+        \State \Comment{// Profit-density vector precomputed during Part 1 (initialization)}
+        \For {$i = 1 \text{ to } N$}
+            \State $\lambda_{i} = \frac{profit_{i}}{weight_{i}}$
+        \EndFor
+        \State \Comment{Actual repair-operator starts here}
+        \If {$totalWeight > maxWeight$}
+        \State \Comment{// DROP phase}
+        
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
 
 \paragraph*{Binary Multi-Scale Quantum Harmonic Oscillator Algorithm}
 
