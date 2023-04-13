@@ -147,13 +147,13 @@ a problem has \emph{optimal substructure} if an optimal solution for a problems 
 
 KP01 is solved using dynamic programming using a table based computation:
 
-\begin{algorithm}
-\caption{Algorithm 2: Solving 0-1 Knapsack with Dynamic Programming}\label{dp}
-    \begin{algorithmic}
-        \For {$i = 0 \text{ to } noItems $} \Comment{// If no items, then profit = 0}
+\begin{breakablealgorithm}
+\caption{Solving 0-1 Knapsack with Dynamic Programming}\label{dp}
+    \begin{algorithmic}[1]
+        \For {$i = 0 \text{ to } noItems $} \Comment{\textcolor{blue}{If no items, then profit = 0}}
             \State $Table[i][0] \gets 0 $ 
         \EndFor
-        \For {$k = 0 \text{ to } maxCapacity $} \Comment{// If no capacity, then profit = 0}
+        \For {$k = 0 \text{ to } maxCapacity $} \Comment{\textcolor{blue}{If no capacity, then profit = 0}}
             \State $Table[0][k] \gets 0 $
         \EndFor
         \For {$i = 0 \text{ to } noItems$}
@@ -166,7 +166,7 @@ KP01 is solved using dynamic programming using a table based computation:
         \EndFor
         \State $\textbf{Print } Table[noItems][maxCapacity] $
     \end{algorithmic}
-\end{algorithm}
+\end{breakablealgorithm}
 
 This implementation of dynamic programming method has a time complexity of $\mathcal{O}(N\cdot W)$, where N is the number of items, and W is max capacity. The dynamic programming algorithm does not end until the entire table is built. This proves to be inefficient very quickly as the maximum capacity and the number of items in the knapsack increases. So with the increase in the scale, the feasibility of dynamic programming decreases which has incentivized research in the field.
 
@@ -189,10 +189,32 @@ The Harmony Search algorithm (HS) was developed in 2001 \ref{geem et al} based o
 It consists of 4 main parts:
 \begin{enumerate}
     \item Create a harmony memory HM - a fixed size (HMS) of randomly generated harmonies. Initialize parameters harmony memory consider rate (HMCR), and pitch adjusting rate (PAR), and calculate profit-density vector for usage in the repair-operator.
-    \item Create a new harmony using the current HM (\textcolor{red}{Algorithm x}).
+    \item Create a new harmony using the current HM \ref{harmonyGen}.
     \item If generated harmony is better than the best in the harmony, replace it. If not, check if it is better than then worst harmony, and replace it if so. 
     \item If maximum number of iterations has been met, output the best sum profit value found so far.
 \end{enumerate}
+
+\begin{breakablealgorithm}
+\caption{The DGHS algorithm}\label{DGHS}
+    \begin{algorithmic}[1]
+        \State Set the harmony memory size $HMS$, the number of iterations $ITERATIONS$, and the minimum and maximum values of parameters $PAR$ and $HMCR$.
+        \State Initialize the HM, and use \ref{harmonyRepair} to the generated harmonies. Calculate the totalProfit and totalWeight values for each harmony in HM.
+        \State $iterator \gets 1$
+        \While {$iterator <= ITERATIONS$}
+            \State Record indices of the best and the worst harmonies in HM.
+            \State Calculate parameters HMCR and PAR for the current iteration.
+            \State Perform Algorithm \ref{harmonyGen} to produce a new harmony $\Vec{x}_{new}$
+            \State Perform Algorithm \ref{harmonyRepair} to repair the new harmony $\Vec{x}_{new}$
+            \If {$\Vec{x}_{new} \text{ is better than or equal to } \Vec{x}_{best}$}
+                \State Replace $\Vec{x}_{best} \text{ with } \Vec{x}_{new}$
+            \ElsIf {$\Vec{x}_{new} \text{ is better than or equal to } \Vec{x}_{worst}$}
+                \State Replace $\Vec{x}_{worst} \text{ with } \Vec{x}_{new}$
+            \EndIf
+            \State $iterator \gets iterator+1$
+        \EndWhile
+        \State Output profit of best harmony
+    \end{algorithmic}
+\end{breakablealgorithm}
 
 The parameters HMCR and PAR are used when generating new harmonies. They determine the likelihood of heading toward the current best harmony, and the likelihood of randomly flipping a decision variable. The idea is that current best harmony should have an influence on the generation of a new harmony, and that a decision variable (whether or not an item is put in the knapsack) should be flipped to allow for diversity in the HM, making it easier to overcome local maxima. These parameters are determined in terms of the current iteration like so:
 
@@ -207,9 +229,9 @@ The dynamic updating of the parameters is designed in this way to let larger val
 
 With these parameters one generates a new harmony:
 
-\begin{algorithm}
+\begin{breakablealgorithm}
 \caption{Generating a new harmony during iterative part (part 2)}\label{harmonyGen}
-    \begin{algorithmic}
+    \begin{algorithmic}[1]
         \For {$i = 1 \text{ to } noItems$}
             \If {$rand(0, 1) <= HMCR(t)$}
                 \State $newHarmony[i] \gets bestHarmony[i]$ 
@@ -222,35 +244,59 @@ With these parameters one generates a new harmony:
             \EndIf
         \EndFor
     \end{algorithmic}
-\end{algorithm}
+\end{breakablealgorithm}
 
 
 Any time a harmony is generated, during Part 1 or Part 2, it is "repaired" in case the selection of items exceeds the capacity of the knapsack. The new generated harmony is also repaired if it can fit more items, without exceeding the capacity of the knapsack. The repair-operator consists of 2 phases:
 \begin{enumerate}
-    \item Drop phrase - repairing a harmony if it violates the constraint
+    \item Drop phase - repairing a harmony if it violates the constraint
     \item Add phase - adding a items into the knapsack if the total weight is less than the capacity
 \end{enumerate}
 
 The add phase is always done after the drop phase, as a harmony previously infeasible becomes feasible after the drop phase, but its total weight may be less than the capacity of the knapsack. Here is the pseudocode for the repair-operator:
 
-\begin{algorithm}
-\caption{Repair-operator after harmony generation}
-    \begin{algorithmic}
-        \State \Comment{// Profit-density vector precomputed during Part 1 (initialization)}
-        \For {$i = 1 \text{ to } N$}
-            \State $\lambda_{i} = \frac{profit_{i}}{weight_{i}}$
-        \EndFor
-        \State \Comment{Actual repair-operator starts here}
+\begin{breakablealgorithm}
+\caption{Repair-operator after harmony generation}\label{harmonyRepair}
+    \begin{algorithmic}[1]
         \If {$totalWeight > maxWeight$}
-        \State \Comment{// DROP phase}
-        
+            \For {$i = 1 \text{ to } N$} \Comment{ DROP phase}
+                \State $\lambda_{i} = \frac{profit_{i}}{weight_{i}}$
+            \EndFor
+            \State Sort items in increasing order of $\lambda_{i}$, and let $ind_{i}$ denote the original index of each $\lambda_{i}$
+            \For {$i = 1 \text{ to } noItems $} 
+            \State Remove the ones with the least profit-density values greedily
+                \If {$\lambda_{i} == 0$}
+                    \State \textbf{Continue}
+                \EndIf
+                \State $newHarmony[ind_{i}] = 0$ \Comment{Unload the item}
+                \State $totalWeight \gets totalWeight - weight[ind_{i}]$
+                \State $totalProfit \gets totalProfit - profit[ind_{i}]$
+                \If {$totalWeight <= maxWeight$}
+                    \State \textbf{Break} \Comment{Terminate DROP phase}
+                \EndIf
+            \EndFor
+        \EndIf
+        \If {$totalWeight < maxWeight$}
+            \For {$i = 1 \text{ to } N$} \Comment{ADD phase}
+                \State $\lambda_{i} = \frac{profit_{i}}{weight_{i}}$
+            \EndFor
+            \State Sort items in increasing order of $\lambda_{i}$, and let $ind_{i}$ denote the original index of each $\lambda_{i}$
+            \For {$i = 1 \text{ to } noItems $} 
+                \State Add the ones with the greatest profit-density if possible 
+                \If {$newHarmony[ind_{i}] == 0$}
+                    \If {$totalWeight + weight[ind_{i}] <= maxWeight$}
+                        \State $newHarmony[ind_{i}] = 1$
+                        \State $totalWeight \gets totalWeight + weight[ind_{i}]$
+                        \State $totalProfit \gets totalProfit + profit[ind_{i}]$
+                    \EndIf
+                \EndIf
+            \EndFor
         \EndIf
     \end{algorithmic}
-\end{algorithm}
+\end{breakablealgorithm}
 
 \paragraph*{Binary Multi-Scale Quantum Harmonic Oscillator Algorithm}
 
-\paragraph{Pseudorandom numbers}
 
 
 \section{Methodology}
@@ -261,7 +307,7 @@ Testdata is made up of different testcases, each of which is an input on which e
 
 Five testcases were taken from a database \ref{some website}. These five testcases are mentioned/used several times in the literature.  Most of the testcases were made using a random number generator, where a random number was generated using the Mersenne Prime Twister (mt19937). A computer cannot generate a truly random number. A pseudorandom number is what is generated, which is a number which appears to be statistically random, but has been generated using a deterministic process. 
 
-First, the number of solutions in memory (for the heuristic algorithms) was put in the input file (20 in all testcases and algorithms for this report). In all testcases, the number of items $n$ was chosen to either be 1000 or 100000. The profit and weight values were then randomly generated in a range of \, $ [1, n] $ while a sum-of-weights variable \emph{sum} was kept. The max weight was then randomly generated in a range of $[\frac{\text{sum}}{100} , \frac{\text{sum}}{10}]$, so that the knapsack wouldn't be able to hold all the items. To avoid any overflow errors, all generated numbers (and the sum of the profit/weight values) were kept below the max value of an \emph{int} which is $2^{31}-1$ in many programming languages.  Then $n$, $W$ (maxWeight), and each item (profit and weight values) was put in an input file. 
+First, the number of solutions in memory (for the heuristic algorithms) was put in the input file which was kept constant, 20, in all testcases and algorithms for this report. In all testcases, the number of items $n$ was chosen to either be 1000 or 100000. The profit and weight values were then randomly generated in a range of \, $ [1, n] $ while a sum-of-weights variable \emph{sum} was kept. The max weight was then randomly generated in a range of $[\frac{\text{sum}}{100} , \frac{\text{sum}}{10}]$, so that the knapsack wouldn't be able to hold all the items. To avoid any overflow errors, all generated numbers (and the sum of the profit/weight values) were kept below the max value of an \emph{int} which is $2^{31}-1$ in many programming languages.  Then $n$, $W$ (maxWeight), and each item (profit and weight values) was put in an input file. 
 
 These input files were then saved for later testing of the algorithms. 
 
