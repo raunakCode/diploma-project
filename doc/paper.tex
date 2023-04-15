@@ -143,16 +143,17 @@ Computer scientists usually categories the time complexity of an algorithm into 
     \end{tikzpicture}
 \end{center}
 
-\subsection{Solving the 0-1 Knapsack Problem}
+\paragraph{Solving the 0-1 Knapsack Problem}\mbox{}\
 
 There are 2 main approaches to solving KP01: An exact solution using deterministic algorithms, and probabilistic approaches involving heuristic algorithms. A small-scale KP01 can be solved with deterministic approaches, but for high-scale situations it is not realistic to get optimal solutions with exact approaches \ref{QWPA} as the KP01 problem is NP-complete \ref{some website}.
 
-\subsubsection*{Deterministic algorithms}
+\subsection*{Deterministic algorithms}
 Dynamic programming is a general technique for solving optimization problems. If a problem has optimal substructure and over-lapping subproblems, then dynamic programming is applicable. In computer science 
-a problem has \emph{optimal substructure} if an optimal solution for a problems can be constructed from optimal solutions of its sub-problems, and \emph{over-lapping subproblems} is when a problem can be decomposed into sub-problems which are reused. Dynamic programming breaks down a complicate problem into smaller sub-problems in a recursive manner, while also using some memory to save the solutions of the sub-problems (either in tabular form or memoized form). This way, when we need to get a solution for a sub-problem again, we can just use our previously calculated value. 
+a problem has \emph{optimal substructure} if an optimal solution for a problems can be constructed from optimal solutions of its sub-problems, and \emph{over-lapping subproblems} is when a problem can be decomposed into sub-problems which are reused. Dynamic programming breaks down a complicate problem into smaller sub-problems in a recursive manner, while also using some memory to save the solutions of the sub-problems (usually in tabular form). This way, when we need to get a solution for a sub-problem again, we can just use our previously calculated value. 
 
 KP01 is solved using dynamic programming using a table based computation:
 
+%dp
 \begin{breakablealgorithm}
 \caption{Solving 0-1 Knapsack with Dynamic Programming}\label{dp}
     \begin{algorithmic}[1]
@@ -174,12 +175,14 @@ KP01 is solved using dynamic programming using a table based computation:
     \end{algorithmic}
 \end{breakablealgorithm}
 
+\vskip 0.5cm
+
 This implementation of dynamic programming method has a time complexity of $\mathcal{O}(N\cdot W)$, where N is the number of items, and W is max capacity. The dynamic programming algorithm does not end until the entire table is built. This proves to be inefficient very quickly as the maximum capacity and the number of items in the knapsack increases. So with the increase in the scale, the feasibility of dynamic programming decreases which has incentivized research in the field.
 
-\subsubsection*{Heuristic algorithms}
+\subsection*{Heuristic algorithms}
 When deterministic algorithms prove to be too slow for practical applications, heuristic algorithms are chosen for their (usually) near optimal outputs and their speed. Heuristic algorithms should not be confused with approximation algorithms. Approximation algorithms guarantee a maximum margin of error; a constant factor off of the optimal. On the other hand, a heuristic algorithm does not guarantee anything, so it can perform better or worse than an approximation algorithm. 
 
-Heuristic algorithms for combinatorial optimization are usually designed in a specific way:
+Heuristic algorithms for combinatorial optimization are usually designed in a specific way \ref{some website}:
 \begin{enumerate}
     \item Create a potential solution which is current best.
     \item Generate new solution. (usually in polynomial time) 
@@ -189,7 +192,7 @@ Heuristic algorithms for combinatorial optimization are usually designed in a sp
 
 Both the Discrete Global-Best Harmony Search (DGHS), and Binary Multi-Scale Quantum Harmonic Oscillator (BMQHOA) have a similar framework.
 
-\paragraph*{Discrete Global-Best Harmony Search Algorithm}
+\subsubsection{Discrete Global-Best Harmony Search Algorithm}
 The Harmony Search algorithm (HS) was developed in 2001 \ref{geem et al} based on the improvisation of music players \textcolor{red}{EXPAND}. This algorithm was made for continuous search spaces and thus cannot be used for discrete search spaces in combinatorial optimization problems. The Discrete Global-Best harmony search was proposed by \textcolor{red}{EXPAND} to overcome this. The DGHS for KP01 also has a repair-operator and a greedy selection mechanism. A harmony in this algorithm refers to a candidate solution, or a certain selection of items to be put in the knapsack. 
 
 It consists of 4 main parts:
@@ -200,6 +203,7 @@ It consists of 4 main parts:
     \item If maximum number of iterations has been met, output the best sum profit value found so far.
 \end{enumerate}
 
+\vskip 0.5cm
 %DGHS
 \begin{breakablealgorithm}
 \caption{The DGHS algorithm}\label{DGHS}
@@ -222,6 +226,7 @@ It consists of 4 main parts:
         \State Output profit of best harmony
     \end{algorithmic}
 \end{breakablealgorithm}
+\vskip 0.5cm
 
 The parameters HMCR and PAR are used when generating new harmonies. They determine the likelihood of heading toward the current best harmony, and the likelihood of randomly flipping a decision variable. The idea is that current best harmony should have an influence on the generation of a new harmony, and that a decision variable (whether or not an item is put in the knapsack) should be flipped to allow for diversity in the HM, making it easier to overcome local maxima. These parameters are determined in terms of the current iteration like so:
 
@@ -232,7 +237,7 @@ The parameters HMCR and PAR are used when generating new harmonies. They determi
     PAR(t) = PAR_{max} - \frac{PAR_{max}-PAR_{min}}{ITERATIONS} t
 \end{equation}
 
-The dynamic updating of the parameters is designed in this way to let larger values of HMCR help accelerate the convergence of the harmonies early on with the the help of the best individual harmony, while smaller values of HMCR can help you overcome local maxima. Similarly, larger values of PAR in the beginning allow for increases in diversity through mutations (item decision bit flips), when there is time to "explore" different variants, smaller values allow convergence at the end of the search. 
+The dynamic updating of the parameters is designed in this way to let larger values of HMCR help accelerate the convergence of the harmonies early on with the the help of the best individual harmony, while smaller values of HMCR can help you overcome local maxima \ref{DGHS-algorithm}. Similarly, larger values of PAR in the beginning allow for increases in diversity through mutations (item decision bit flips), when there is time to "explore" different variants, smaller values allow convergence at the end of the search. 
 
 With these parameters one generates a new harmony:
 
@@ -247,12 +252,13 @@ With these parameters one generates a new harmony:
                 \State Generate a random integer number $a \in \{1, 2, ... HMS\}, a \neq best$
                 \State $newHarmony[i] \gets Harmony_{a}[i]$ 
                 \If {$rand(0, 1) <= PAR(t)$}
-                    \State $newHarmony[i] = |newHarmony[i]-1|$ \Comment{// Flipping i'th item - mutation}
+                    \State $newHarmony[i] = |newHarmony[i]-1|$ \Comment{\textcolor{blue}{Flipping i'th item - mutation}}
                 \EndIf
             \EndIf
         \EndFor
     \end{algorithmic}
 \end{breakablealgorithm}
+\vskip 0.5cm
 
 
 Any time a harmony is generated, during Part 1 or Part 2, it is "repaired" in case the selection of items exceeds the capacity of the knapsack. The new generated harmony is also repaired if it can fit more items, without exceeding the capacity of the knapsack. The repair-operator consists of 2 phases:
@@ -263,12 +269,13 @@ Any time a harmony is generated, during Part 1 or Part 2, it is "repaired" in ca
 
 The add phase is always done after the drop phase, as a harmony previously infeasible becomes feasible after the drop phase, but its total weight may be less than the capacity of the knapsack. Here is the pseudocode for the repair-operator:
 
+\vskip 0.5cm
 %harmonyRepair
 \begin{breakablealgorithm}
 \caption{Repair-operator for DGHS}\label{harmonyRepair}
     \begin{algorithmic}[1]
         \If {$totalWeight > maxWeight$}
-            \For {$i = 1 \text{ to } N$} \Comment{ DROP phase}
+            \For {$i = 1 \text{ to } N$} \Comment{\textcolor{blue}{DROP phase}}
                 \State $\lambda_{i} = \frac{profit_{i}}{weight_{i}}$
             \EndFor
             \State Sort items in increasing order of $\lambda_{i}$, and let $ind_{i}$ denote the original index of each $\lambda_{i}$
@@ -277,16 +284,16 @@ The add phase is always done after the drop phase, as a harmony previously infea
                 \If {$\lambda_{i} == 0$}
                     \State \textbf{Continue}
                 \EndIf
-                \State $newHarmony[ind_{i}] = 0$ \Comment{Unload the item}
+                \State $newHarmony[ind_{i}] = 0$ \Comment{\textcolor{blue}{Unload the item}}
                 \State $totalWeight \gets totalWeight - weight[ind_{i}]$
                 \State $totalProfit \gets totalProfit - profit[ind_{i}]$
                 \If {$totalWeight <= maxWeight$}
-                    \State \textbf{Break} \Comment{Terminate DROP phase}
+                    \State \textbf{Break} \Comment{\textcolor{blue}{Terminate DROP phase}}
                 \EndIf
             \EndFor
         \EndIf
         \If {$totalWeight < maxWeight$}
-            \For {$i = 1 \text{ to } N$} \Comment{ADD phase}
+            \For {$i = 1 \text{ to } N$} \Comment{\textcolor{blue}{ADD phase}}
                 \State $\lambda_{i} = \frac{profit_{i}}{weight_{i}}$
             \EndFor
             \State Sort items in increasing order of $\lambda_{i}$, and let $ind_{i}$ denote the original index of each $\lambda_{i}$
@@ -304,7 +311,18 @@ The add phase is always done after the drop phase, as a harmony previously infea
     \end{algorithmic}
 \end{breakablealgorithm}
 
-\paragraph*{Binary Multi-Scale Quantum Harmonic Oscillator Algorithm}
+\vskip 1cm
+\subsubsection{Binary Multi-Scale Quantum Harmonic Oscillator Algorithm}
+
+The Multi-Scale Quantum Harmonic Oscillator Algorithm (MQHOA) is called such as it follows a model of a solving a particle's ground state wave function under the harmonic oscillator potential well \ref{BMQHOA-article} . In MQHOA, candidate solutions are generated by sampling points in a Gaussian distribution within a certain distance of something. The Binary Multi-Scale Quantum Harmonic Oscillator Algorithm (BMQHOA) discretizes this by defining the number of bits between solutions (item decision variable ) as the distance between solutions, so it becomes a discrete search space. Similar to the DGHS algorithm, a repair-operator is added fix solutions which violate the capacity constraint. 
+
+The BMQHOA algorithm consists of 4 parts:
+\begin{enumerate}
+    \item Random binary vector generation -> repair
+    \item Generating a solutions by flipping $m$ items, mutating, and repairing
+    \item Reducing the standard deviation value for the normal distribution from which $m$ is determined every iteration.
+    \item If termination constraint is satisfied, output best totalProfit value, else return to Step 2.
+\end{enumerate}
 
 %BMQHOA
 \begin{breakablealgorithm}
@@ -334,8 +352,14 @@ The add phase is always done after the drop phase, as a harmony previously infea
         \EndWhile
     \end{algorithmic}
 \end{breakablealgorithm}
+\vskip 0.5cm
 
-After generating a new solution, $m$ bits are flipped in the hope of increasing diversity in the solutions and increasing the likelihood of finding the optimal solution. They are generated randomly with a normal probability distribution around 0, with a variable std deviation. The Std. Deviation decreases with each new-solution-generation iteration so as to increase diversity in the beginning of the search, while reducing the likelihood of corrupting a binary vector closer to the end of the search when close to optimal solutions have (hopefully) been found. The normal distribution probability density function generator is implemented with the C++ Standard Library class normal\_distribution. An item's decision value is also made to match the corresponding decision in the best solution, which gives a slow mutation towards the current best solution allowing for diversity while still allowing the best solution to influence the process. Allowing multiple bits to mutate toward current best, this can lead to a premature local maximum, nullifying the rest of the search \ref{BMQHOA-article} . 
+After generating a new solution, $m$ items are flipped in the hope of increasing diversity in the solutions and increasing the likelihood of finding the optimal solution. They are generated randomly with a normal probability distribution around \textbf{0}, with a mean of $0$ and a variable std deviation. The Std. Deviation decreases with each new-solution-generation iteration so as to increase diversity in the beginning of the search, while reducing the likelihood of corrupting a binary vector closer to the end of the search when close to optimal solutions have (hopefully) been found. Initially the value of the standard deviation is set to $noItems/3$, so that there is a $\sim 99.7\%$ chance that the generated number of flipped items $m$ are in the range $[0-3\sigma_{s}, 0+3\sigma_{s}]$:
+$$STDEV_{max} = noItems/3$$
+$$\sigma_{s} = 1-\frac{t}{ITERATIONS} STDEV_{max}$$
+
+
+The normal distribution probability density function generator is implemented with the C++ Standard Library class normal\_distribution. An item's decision value is also made to match the corresponding decision in the best solution, which gives a slow mutation towards the current best solution allowing for diversity while still allowing the best solution to influence the process. Allowing multiple bits to mutate toward current best, this can lead to a premature local maximum, nullifying the rest of the search \ref{BMQHOA-article} . 
 
 The repair-operator of the BMQHOA algorithm has 3 phases:
 \begin{enumerate}
@@ -346,7 +370,7 @@ The repair-operator of the BMQHOA algorithm has 3 phases:
 $Q_{1}[1, 2,...,n]$ is the index for the items in the density ratio array in the original vector. $Q_{2}[1, 2,..., n]$ is index of the items in the minimum weight sorted array in the original vector.
 
 \begin{breakablealgorithm}
-\caption{Repair-Operator for BMQHOA} 
+\caption{Repair-Operator for BMQHOA}\label{harmonicRepair}
     \begin{algorithmic}
         \State Let $x$ be the current array/vector.
         \State $totalWeight = 0, temp = 0, i = 0, b = 0$
