@@ -34,7 +34,7 @@ int getFlips() {
     // TODO: check whether this works for higher ITEM_COUNT
     // initialize value for parameter HMCR in terms of t
     double curSpace = (double)ITEM_COUNT/(double)3;
-    STDEV = ((double)t/(double)ITERATIONS) * (curSpace);
+    STDEV = (1-(double)t/(double)ITERATIONS) * (curSpace);
     mt19937 generator(rd());
     // TODO: choose a random x value and get the normal distribution value for it 
         // TODO: check whether this actually gets decimal values
