@@ -8,7 +8,7 @@
 \usepackage[dvipsnames]{xcolor}
 
 % math
-\usepackage{ebgaramond-maths}
+
 \usepackage[T1]{fontenc}
 \usepackage[Symbol]{upgreek}
 \usepackage{nicefrac, amsmath, amsthm, amssymb}
@@ -18,6 +18,7 @@
     }
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+%\usepackage{ebgaramond-maths}
 \makeatletter
 \newenvironment{breakablealgorithm}
   {% \begin{breakablealgorithm}
@@ -52,7 +53,7 @@
 % chapters and sections
 \usepackage{titlesec}
 \usepackage[rightlabels]{titletoc}
-\renewcommand\thesection{\S\arabic{section}}
+\renewcommand\thesection{{\S}  \arabic{section}}
 \titleformat{\section}{\Huge \centering\scshape}{\thesection.}{1ex}{}
 \titleformat{\subsection}{\Large \centering\scshape}{\thesubsection}{1ex}{}
 \titleformat{\subsubsection}{\small \centering\scshape}{\thesubsubsection}{1ex}{}
@@ -76,7 +77,13 @@
 \newcommand{\epigraph}[1]{\begin{quote} \footnotesize #1 \end{quote} }
 
 % contents 
-\renewcommand\contentsname{\Huge \textbf{\scshape{Contents}} \bigskip}
+\renewcommand\contentsname{\Huge \textbf{\scshape{ Contents}} \bigskip}
+\makeatletter
+\renewcommand\tableofcontents{%
+  \null\hfill\textbf{\Large\contentsname}\hfill\null\par
+  \@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}%
+  \@starttoc{toc}%
+}
 
 % references
 \renewcommand\refname{\normalsize \textbf{\scshape{References}}}
@@ -86,6 +93,7 @@
 
 % captions
 \usepackage{caption}
+\usepackage{subcaption}
 \captionsetup[figure]{font=small}
 
 % draw stuff
@@ -96,6 +104,16 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{width = 10cm, compat=1.18}
+\usepackage{multirow, multicol}
+\usepackage{tabu}
+%Please add the following packages if necessary:
+%\usepackage{booktabs, multirow} % for borders and merged ranges
+%\usepackage{soul}% for underlines
+%\usepackage[table]{xcolor} % for cell colors
+%\usepackage{changepage,threeparttable} % for wide tables
+%If the table is too wide, replace \begin{table}[!htp]...\end{table} with
+%\begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb]...\end{threeparttable}\end{adjustwidth}
+
 
 % argmin function
 \DeclareMathOperator*{\argmax}{argmax}

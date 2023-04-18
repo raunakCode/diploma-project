@@ -1,4 +1,5 @@
 \documentclass[titlepage]{article}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
 
 \usepackage{preamble}
 
@@ -34,6 +35,7 @@
 
 \subsection{Background}
 
+\renewcommand{\familydefault}{Computer Modern}
 There are many situations in every day life, where a person wonders whether he is doing something efficiently. Unforunately, the human brain is not always capable of coming up with an optimal approach when the problem has a lot of factors at play. It is here when a system is used, and the true power of computing can be recognised. 
 
 To solve such problems, a computer is provided all the information, from which it will produce an optimal answer. For the system to process all the information, certain instructions must be written into the system so that it knows how to handle the information. This set of instructions is called an algorithm. The system or computer uses algorithms to take in information (the input), and produce an answer - an output. The efficiency (in all aspects) of the algorithm is dependant on the instructions which make up it. There are many algorithms which have been designed to solve many problems. For problems in computer science, more than one algorithm is usually proposed and used. Optimization problems are where this is frequently the case. 
@@ -64,9 +66,8 @@ In the 0-1 Knapsack Problem, there $n$ items and a maximum weight capacity $W$. 
 
 The rest of this paper will follow the shorthand "KP01" for the 0-1 Knapsack Problem. 
 
-
 \subsection{Aim}
-The aim of this paper is to compare various algorithms in order to investigate the strength of commonly used techniques in for solving optimization problems.
+The aim of this paper is to compare algorithms in order to investigate the strength of commonly used techniques in for solving optimization problems.
 
 \subsection{Research Question}
 How do the global-best harmony search algorithm and the binary harmonic multi-scale algorithms perform when implemented for solving KP01?
@@ -143,7 +144,7 @@ Computer scientists usually categories the time complexity of an algorithm into 
     \end{tikzpicture}
 \end{center}
 
-\paragraph{Solving the 0-1 Knapsack Problem}\mbox{}\
+\paragraph{\textbf Solving the 0-1 Knapsack Problem}} \mbox{}\
 
 There are 2 main approaches to solving KP01: An exact solution using deterministic algorithms, and probabilistic approaches involving heuristic algorithms. A small-scale KP01 can be solved with deterministic approaches, but for high-scale situations it is not realistic to get optimal solutions with exact approaches \ref{QWPA} as the KP01 problem is NP-complete \ref{some website}.
 
@@ -177,7 +178,7 @@ KP01 is solved using dynamic programming using a table based computation:
 
 \vskip 0.5cm
 
-This implementation of dynamic programming method has a time complexity of $\mathcal{O}(N\cdot W)$, where N is the number of items, and W is max capacity. The dynamic programming algorithm does not end until the entire table is built. This proves to be inefficient very quickly as the maximum capacity and the number of items in the knapsack increases. So with the increase in the scale, the feasibility of dynamic programming decreases which has incentivized research in the field.
+This implementation of dynamic programming method has a time complexity of $\mathcal{O}(N\cdot W)$, where N is the number of items, and W is max capacity. The dynamic programming algorithm does not end until the entire table is built. This proves to be inefficient very quickly as the maximum capacity and the number of items in the knapsack increases. So with the increase in the scale, the feasibility of dynamic programming decreases which has incentivized research in the subfield of heuristic algorithms.
 
 \subsection*{Heuristic algorithms}
 When deterministic algorithms prove to be too slow for practical applications, heuristic algorithms are chosen for their (usually) near optimal outputs and their speed. Heuristic algorithms should not be confused with approximation algorithms. Approximation algorithms guarantee a maximum margin of error; a constant factor off of the optimal. On the other hand, a heuristic algorithm does not guarantee anything, so it can perform better or worse than an approximation algorithm. 
@@ -354,7 +355,7 @@ The BMQHOA algorithm consists of 4 parts:
 \end{breakablealgorithm}
 \vskip 0.5cm
 
-After generating a new solution, $m$ items are flipped in the hope of increasing diversity in the solutions and increasing the likelihood of finding the optimal solution. They are generated randomly with a normal probability distribution around \textbf{0}, with a mean of $0$ and a variable std deviation. The Std. Deviation decreases with each new-solution-generation iteration so as to increase diversity in the beginning of the search, while reducing the likelihood of corrupting a binary vector closer to the end of the search when close to optimal solutions have (hopefully) been found. Initially the value of the standard deviation is set to $noItems/3$, so that there is a $\sim 99.7\%$ chance that the generated number of flipped items $m$ are in the range $[0-3\sigma_{s}, 0+3\sigma_{s}]$:
+After generating a new solution, $m$ items are flipped in the hope of increasing diversity in the solutions and increasing the likelihood of finding the optimal solution. They are generated randomly with a normal probability distribution around \textbf{0}, with a mean of $0$ and a variable std deviation. The Std. Deviation decreases with each new-solution-generation iteration so as to increase diversity in the beginning of the search, while reducing the likelihood of corrupting a binary vector closer to the end of the search when close to optimal solutions have (hopefully) been found. Initially the value of the standard deviation is set to $noItems/3$, so that there is a $\sim 99.7\%$ chance that the generated number of flipped items $m$ are in the range $[0-3\sigma_{s}, 0+3\sigma_{s}] \approx [-noItems, noItems]$:
 $$STDEV_{max} = noItems/3$$
 $$\sigma_{s} = 1-\frac{t}{ITERATIONS} STDEV_{max}$$
 
@@ -395,22 +396,241 @@ $Q_{1}[1, 2,...,n]$ is the index for the items in the density ratio array in the
     \end{algorithmic}
 \end{breakablealgorithm}
 
-\section{Methodology}
+\newpage
+
+\section{Not finished - Methodology}
 
 Testdata is made up of different testcases, each of which is an input on which every algorithm is run.
 
 \subsection{Generating testdata}
 
-Five testcases were taken from a database \ref{some website}. These five testcases are mentioned/used several times in the literature.  Most of the testcases were made using a random number generator, where a random number was generated using the Mersenne Prime Twister (mt19937). A computer cannot generate a truly random number. A pseudorandom number is what is generated, which is a number which appears to be statistically random, but has been generated using a deterministic process. 
+3 more testgroups of 5 testcases were made using a random number generator, where a random number was generated using the Mersenne Prime Twister (mt19937). A computer cannot generate a truly random number. A pseudorandom number is what is generated, which is a number which appears to be statistically random, but has been generated using a deterministic process. The 3 groups had item counts of 100, 1000, and 10000. The number of solutions in memory (for the heuristic algorithms) was put in the input file which was kept constant, 20, in all testcases and algorithms for this report. In the random number generated testcases, the number of items $n$ was chosen to either be 100, 1000 or 10000. The profit and weight values were then randomly generated in a range of \, $ [1, noItems] $ while a sum-of-weights variable \emph{sum} was kept. The max weight was then randomly generated in a range of $[\frac{\text{sum}}{100} , \frac{\text{sum}}{10}]$, so that the knapsack wouldn't be able to hold all the items. To avoid any overflow errors, all generated numbers (and the sum of the profit/weight values) were kept below the max value of an \emph{int} which is $2^{31}-1$ in many programming languages.  Then $n$, $W$ (maxWeight), and each item (profit and weight values) was put in an input file. To make a fair comparison the number of $ITERATIONS$ (how many times a candidate solution is generated) was set to 100 for both algorithms. 
 
-First, the number of solutions in memory (for the heuristic algorithms) was put in the input file which was kept constant, 20, in all testcases and algorithms for this report. In all testcases, the number of items $n$ was chosen to either be 1000 or 100000. The profit and weight values were then randomly generated in a range of \, $ [1, n] $ while a sum-of-weights variable \emph{sum} was kept. The max weight was then randomly generated in a range of $[\frac{\text{sum}}{100} , \frac{\text{sum}}{10}]$, so that the knapsack wouldn't be able to hold all the items. To avoid any overflow errors, all generated numbers (and the sum of the profit/weight values) were kept below the max value of an \emph{int} which is $2^{31}-1$ in many programming languages.  Then $n$, $W$ (maxWeight), and each item (profit and weight values) was put in an input file. 
+3 groups of five testcases were taken from a database \ref{some website}. These 3 "testgroups" are mentioned/used several times in the literature. The 3 testgroups are uncorrelated, weakly correlated, and strongly correlated; the correlation being between the items' profit and weight values. The number of solutions in memory (20) was added to each of these testcases taken from \ref{some website}. 
 
 These input files were then saved for later testing of the algorithms. 
 
-Each testcase was then run on each algorithm and saved in a spreadsheet:
+Each testcase was then run on each algorithm and saved in a spreadsheet producing a csv table, refer to appendix\S.
+
+\newpage
+
+\section{Results}
+
+\subsection{Raw Data}
+Refer to the appendix for the \hypertarget{random100}{raw data} for the algorithms running on the six testgroups: 100, 1000, 10k randomized numbers respectively and 3 differently correlated datasets. 
+% \href{https://github.com/raunakCode/diploma-project/blob/main/testing/algorithms%20results.csv}{\textcolor{purple}{Link to results}}
+
+\subsection{Processed Data}
+The mean and standard deviations for each group can be viewed in the following corresponding tables and graphs:
+
+\begin{table}[!h]\centering
+    \caption{Randomized 100 items} \label{100-mean}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        Harmony Mean &4160.33 &2561 &5288 &3535 &1747 \\ \hline
+        Harmony StDev. &3.50 &0 &19.66 &0 &0 \\ [-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &3926.83 &2561 &4879 &3360.66 &1711.5 \\ \hline
+        BMQHOA StDev. &40.27 &0 &46.18 &68.96 &25.71 \\[-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
+\begin{table}[!h]\centering
+    \caption{Randomized 1000 items} \label{1000-mean}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        Harmony Mean &156083.83 &118603.83 &144070 &109734.33 &126366.16 \\ \hline
+        Harmony StDev. &830.04 &1904.69 &1343.77 &1037.03 &1236.73 \\ [-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &145086.5 &109876.33 &136622.66 &101951.33 &118291.16 \\ \hline
+        BMQHOA StDev. &1035.45 &1540.63 &2042.95 &1271.88 &799.78 \\ [-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
+\begin{table}[!h]\centering
+    \caption{Randomized 10k items} \label{10k-mean}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        Harmony Mean &7681910.33 &10567302 &8014906 &9347061.66&9583139.16\\ \hline
+        Harmony StDev. &51555.39&23956.31&39449.15&56967.66&55816.60\\ [-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &7438487.16&10276681.83&7774520.83&9075476 &9330322.16\\ \hline
+        BMQHOA StDev. &29887.17&50507.35&34559.10&53168.02&46301.35\\ [-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
+\begin{table}[!h]\centering
+    \caption{Uncorrelated Dataset} \label{uncorrelated-mean}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        Harmony Mean &9147 &11238 &51019.5 &99036.16&448975 \\ \hline
+        Harmony StDev. &0 &0 &437.85&1544.34&1135.46\\ [-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &8974.5 &10976.5 &47401.5 &91725.83&431259.66\\ \hline
+        BMQHOA StDev. &147.24&154.37&841.75&1346.23&3049.43\\ [-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
+\begin{table}[!h]\centering
+    \caption{Weakly Correlated Dataset} \label{weakly-mean}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        Harmony Mean &1514 &1627.66&8907.33&17371.83&82681.33\\ \hline
+        Harmony StDev. &0 &2.42&27.56&126.76&390.98\\ [-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &1508.16&1613.66&8435.33&16539 &80900.66\\ \hline
+        BMQHOA StDev. &6.82&16.74&60.60&133.95&970.71\\ [-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
+\begin{table}[!h]\centering
+    \caption{Strongly Correlated Dataset} \label{strongly-mean}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        Harmony Mean &2391.66&2697 &13682.5 &26444.66&126448 \\ \hline
+        Harmony StDev. &6.08&0 &60.05&240.84&615.61\\ [-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &2327.33&2658.66&13334.66&25604 &123813.83\\ \hline
+        BMQHOA StDev. &48.55&48.81&182.91&91.32&773.19\\ [-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
 
 
 
- \bibliography{refs}
+\newpage
+
+\section{Appendix}
+\begin{table}[!h]\centering
+    \caption{Randomized 100 items} \label{random100}
+    \begin{tabu}{|c|c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        Optimal & 4169 & 2561 & 5309 & 3535 & 1747 \\ [-1pt] \tabucline[1pt]{1-6} 
+        \multirow{6}{*}{Harmony} & 4163 & 2561 & 5254 & 3535 & 1747 \\ \cline{2-6}
+        & 4163 & 2561 &5292 &3535 &1747 \\ \cline{2-6} 
+        &4161 &2561 &5307 &3535 &1747 \\ \cline{2-6} 
+        &4163 &2561 &5282 &3535 &1747 \\ \cline{2-6} 
+        &4155 &2561 &5307 &3535 &1747 \\ \cline{2-6} 
+        &4157 &2561 &5286 &3535 &1747 \\[-1pt] \tabucline[1pt]{1-6}
+        \multirow{6}{*}{BMQHOA} &3895 &2561 &4952 &3398 &1734 \\\cline{2-6} 
+        &3939 &2561 &4871 &3380 &1728 \\\cline{2-6} 
+        &3870 &2561 &4890 &3298 &1705 \\\cline{2-6} 
+        &3948 &2561 &4829 &3435 &1718 \\\cline{2-6} 
+        &3984 &2561 &4832 &3255 &1663 \\\cline{2-6} 
+        &3925 &2561 &4900 &3398 &1721 \\[-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
+\begin{table}[!h] \centering
+    \caption{Randomized 1000 items} \label{random1000}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        Optimal & 4169 & 2561 & 5309 & 3535 & 1747 \\ [-1pt] \tabucline[1pt]{1-6} 
+        \multirow{6}{*}{Harmony} & 156898 & 119888 & 141878 & 110608 & 128009 \\ \cline{2-6}
+        &155104 &117086 &143322 &108732 &124714 \\ \cline{2-6} 
+        &155849 &117110 &145381 &108973 &125400 \\ \cline{2-6} 
+        &155171 &116958 &145411 &109414 &126089 \\ \cline{2-6} 
+        &156929 &118957 &143984 &109292 &126532 \\ \cline{2-6} 
+        &156552 &121624 &144444 &111387 &127453 \\ [-1pt] \tabucline[1pt]{1-6}
+        \multirow{6}{*}{BMQHOA} &146187 &110066 &136620 &103073 &117832 \\ \cline{2-6} 
+        &146215 &107880 &133731 &101385 &117207 \\ \cline{2-6} 
+        &145231 &109374 &134981 &99977 &119272 \\ \cline{2-6} 
+        &143511 &108754 &137715 &102749 &117836 \\ \cline{2-6} 
+        &144522 &112065 &137185 &101318 &118550 \\ \cline{2-6} 
+        &144853 &111119 &139504 &103206 &119050 \\ [-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
+\begin{table}[!h] \centering
+    \caption{Randomized 10k items} \label{random10k}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        Optimal &9927473 &13743791 &10286004 &12155538 &12446154 \\ [-1pt] \tabucline[1pt]{1-6} 
+        \multirow{6}{*}{Harmony} &7667918 &10556718 &8064941 &9425334 &9545542 \\ \cline{2-6}
+        &7738704 &10587645 &8059383 &9305736 &9547723 \\ \cline{2-6} 
+        &7590747 &10523899 &7986766 &9304266 &9679149 \\ \cline{2-6} 
+        &7680907 &10571613 &8018689 &9377397 &9621182 \\ \cline{2-6} 
+        &7719598 &10584319 &7983856 &9386494 &9538807 \\ \cline{2-6} 
+        &7693588 &10579618 &7975801 &9283143 &9566432 \\ [-1pt] \tabucline[1pt]{1-6}
+        \multirow{6}{*}{BMQHOA} &7483414 &10312486 &7823273 &9090434 &9368506 \\ \cline{2-6} 
+        &7398497 &10196292 &7796298 &9030552 &9332763 \\ \cline{2-6} 
+        &7429280 &10328466 &7768443 &9107012 &9246868 \\ \cline{2-6} 
+        &7452071 &10285331 &7786678 &9064793 &9351821 \\ \cline{2-6} 
+        &7450200 &10236135 &7737071 &9006745 &9312696 \\ \cline{2-6} 
+        &7417461 &10301381 &7735362 &9153320 &9369279 \\ [-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
+\begin{table}[!h] \centering
+    \caption{Uncorrelated Dataset} \label{uncorrelated}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        Optimal &9147 &11238 &54503 &110625 &563647 \\ [-1pt] \tabucline[1pt]{1-6} 
+        \multirow{6}{*}{Harmony} &9147 &11238 &51166 &100770 &450386 \\ \cline{2-6}
+        &9147 &11238 &50911 &98217 &448025 \\ \cline{2-6} 
+        &9147 &11238 &50674 &100153 &449887 \\ \cline{2-6} 
+        &9147 &11238 &51168 &100285 &447368 \\ \cline{2-6} 
+        &9147 &11238 &51720 &97570 &448856 \\ \cline{2-6} 
+        &9147 &11238 &50478 &97222 &449328 \\ [-1pt] \tabucline[1pt]{1-6}
+        \multirow{6}{*}{BMQHOA} &8990 &11005 &47569 &91878 &429245 \\ \cline{2-6} 
+        &9147 &11031 &47106 &90966 &437054 \\ \cline{2-6} 
+        &8911 &10759 &47773 &93434 &432253 \\ \cline{2-6} 
+        &9147 &11168 &47302 &91491 &429942 \\ \cline{2-6} 
+        &8810 &10826 &48608 &89694 &429823 \\ \cline{2-6} 
+        &8842 &11070 &46051 &92892 &429241 \\ [-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
+\begin{table}[!h] \centering
+    \caption{Weakly Correlated Dataset} \label{weakly-correlated}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        Optimal &1514 &1634 &9052 &18051 &90204 \\ [-1pt] \tabucline[1pt]{1-6} 
+        \multirow{6}{*}{Harmony} &1514 &1627 &8917 &17251 &82712 \\ \cline{2-6}
+        &1514 &1629 &8898 &17224 &82571 \\ \cline{2-6} 
+        &1514 &1629 &8899 &17409 &82348 \\ \cline{2-6} 
+        &1514 &1629 &8892 &17519 &83330 \\ \cline{2-6} 
+        &1514 &1623 &8880 &17321 &82254 \\ \cline{2-6} 
+        &1514 &1629 &8958 &17507 &82873 \\ [-1pt] \tabucline[1pt]{1-6}
+        \multirow{6}{*}{BMQHOA} &1512 &1633 &8516 &16578 &80645 \\ \cline{2-6} 
+        &1512 &1625 &8493 &16493 &80431 \\ \cline{2-6} 
+        &1514 &1604 &8412 &16415 &80591 \\ \cline{2-6} 
+        &1501 &1626 &8385 &16495 &80443 \\ \cline{2-6} 
+        &1498 &1604 &8362 &16463 &82873 \\ \cline{2-6} 
+        &1512 &1590 &8444 &16790 &80421 \\ [-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
+\begin{table}[!h] \centering
+    \caption{Strongly correlated Dataset} \label{strongly-correlated}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        Optimal &2697 &14390 &28919 &146919 \\ [-1pt] \tabucline[1pt]{1-6} 
+        \multirow{6}{*}{Harmony} &2390 &2697 &13586 &26711 &126318 \\ \cline{2-6}
+        &2390 &2697 &13690 &26708 &127616 \\ \cline{2-6} 
+        &2397 &2697 &13673 &26311 &126212 \\ \cline{2-6} 
+        &2381 &2697 &13686 &26513 &126513 \\ \cline{2-6} 
+        &2396 &2697 &13685 &26114 &126212 \\ \cline{2-6} 
+        &2396 &2697 &13775 &26311 &125817 \\ [-1pt] \tabucline[1pt]{1-6}
+        \multirow{6}{*}{BMQHOA} &2294 &2596 &13183 &25712 &124918 \\ \cline{2-6} 
+        &2296 &2681 &13090 &25583 &123503 \\ \cline{2-6} 
+        &2390 &2696 &13570 &25706 &123613 \\ \cline{2-6} 
+        &2297 &2689 &13490 &25498 &123217 \\ \cline{2-6} 
+        &2390 &2596 &13288 &25515 &123017 \\ \cline{2-6} 
+        &2297 &2694 &13387 &25610 &124615 \\ [-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
+
+
+
+
+
+\bibliography{refs}
 
 \end{document}
