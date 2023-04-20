@@ -144,7 +144,7 @@ Computer scientists usually categories the time complexity of an algorithm into 
     \end{tikzpicture}
 \end{center}
 
-\paragraph{\textbf Solving the 0-1 Knapsack Problem}} \mbox{}\
+\paragraph{\textbf Solving the 0-1 Knapsack Problem} \mbox{}\
 
 There are 2 main approaches to solving KP01: An exact solution using deterministic algorithms, and probabilistic approaches involving heuristic algorithms. A small-scale KP01 can be solved with deterministic approaches, but for high-scale situations it is not realistic to get optimal solutions with exact approaches \ref{QWPA} as the KP01 problem is NP-complete \ref{some website}.
 
@@ -404,27 +404,27 @@ Testdata is made up of different testcases, each of which is an input on which e
 
 \subsection{Generating testdata}
 
-3 more testgroups of 5 testcases were made using a random number generator, where a random number was generated using the Mersenne Prime Twister (mt19937). A computer cannot generate a truly random number. A pseudorandom number is what is generated, which is a number which appears to be statistically random, but has been generated using a deterministic process. The 3 groups had item counts of 100, 1000, and 10000. The number of solutions in memory (for the heuristic algorithms) was put in the input file which was kept constant, 20, in all testcases and algorithms for this report. In the random number generated testcases, the number of items $n$ was chosen to either be 100, 1000 or 10000. The profit and weight values were then randomly generated in a range of \, $ [1, noItems] $ while a sum-of-weights variable \emph{sum} was kept. The max weight was then randomly generated in a range of $[\frac{\text{sum}}{100} , \frac{\text{sum}}{10}]$, so that the knapsack wouldn't be able to hold all the items. To avoid any overflow errors, all generated numbers (and the sum of the profit/weight values) were kept below the max value of an \emph{int} which is $2^{31}-1$ in many programming languages.  Then $n$, $W$ (maxWeight), and each item (profit and weight values) was put in an input file. To make a fair comparison the number of $ITERATIONS$ (how many times a candidate solution is generated) was set to 100 for both algorithms. 
+3 testgroups of 5 testcases were made using a random number generator, where a random number was generated using the Mersenne Prime Twister (mt19937). A computer cannot generate a truly random number. A pseudorandom number is what is generated, which is a number which appears to be statistically random, but has been generated using a deterministic process. The 3 groups had item counts of 100, 1000, and 10000. The number of solutions in memory (for the heuristic algorithms) was put in the input file which was kept constant, 20, in all testcases and algorithms for this report. In the random number generated testcases, the number of items $n$ was chosen to either be 100, 1000 or 10000. The profit and weight values were then randomly generated in a range of $ [1, noItems] $ while a sum-of-weights variable \emph{sum} was kept. The max weight was then randomly generated in a range of $[\frac{\text{sum}}{100} , \frac{\text{sum}}{10}]$, so that the knapsack wouldn't be able to hold all the items. To avoid any overflow errors, all generated numbers (and the sum of the profit/weight values) were kept below the max value of an \emph{int} which is $2^{31}-1$ in many programming languages.  Then $n$, $W$ (maxWeight), and each item (profit and weight values) was put in an input file. To make a fair comparison the number of $ITERATIONS$ (how many times a candidate solution is generated) was set to 100 for both algorithms. 
 
 3 groups of five testcases were taken from a database \ref{some website}. These 3 "testgroups" are mentioned/used several times in the literature. The 3 testgroups are uncorrelated, weakly correlated, and strongly correlated; the correlation being between the items' profit and weight values. The number of solutions in memory (20) was added to each of these testcases taken from \ref{some website}. 
 
 These input files were then saved for later testing of the algorithms. 
 
-Each testcase was then run on each algorithm and saved in a spreadsheet producing a csv table, refer to appendix\S.
+Each testcase was then run on each algorithm and saved in a spreadsheet producing a csv table, refer to appendix.
 
 \newpage
 
-\section{Results}
+\section{Not finished - Results}
 
 \subsection{Raw Data}
-Refer to the appendix for the \hypertarget{random100}{raw data} for the algorithms running on the six testgroups: 100, 1000, 10k randomized numbers respectively and 3 differently correlated datasets. 
+Refer to the appendix for the \hyperlink{random100}{raw data} for the algorithms running on the six testgroups: 100, 1000, 10k randomized numbers respectively and 3 differently correlated datasets. 
 % \href{https://github.com/raunakCode/diploma-project/blob/main/testing/algorithms%20results.csv}{\textcolor{purple}{Link to results}}
 
 \subsection{Processed Data}
 The mean and standard deviations for each group can be viewed in the following corresponding tables and graphs:
 
-\begin{table}[!h]\centering
-    \caption{Randomized 100 items} \label{100-mean}
+\begin{table}[h!]\centering
+    \caption{Mean and StDev. of 100 Randomized items} \label{100-mean}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
@@ -433,10 +433,10 @@ The mean and standard deviations for each group can be viewed in the following c
         BMQHOA Mean &3926.83 &2561 &4879 &3360.66 &1711.5 \\ \hline
         BMQHOA StDev. &40.27 &0 &46.18 &68.96 &25.71 \\[-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
-\end{table}
 
-\begin{table}[!h]\centering
-    \caption{Randomized 1000 items} \label{1000-mean}
+    \vspace{1cm}
+    
+    \caption{Mean and StDev. of 1000 Randomized items} \label{1000-mean}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
@@ -445,10 +445,10 @@ The mean and standard deviations for each group can be viewed in the following c
         BMQHOA Mean &145086.5 &109876.33 &136622.66 &101951.33 &118291.16 \\ \hline
         BMQHOA StDev. &1035.45 &1540.63 &2042.95 &1271.88 &799.78 \\ [-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
-\end{table}
 
-\begin{table}[!h]\centering
-    \caption{Randomized 10k items} \label{10k-mean}
+    \vspace{1cm}
+    
+    \caption{Mean and StDev. of 10k Randomized items} \label{10k-mean}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
@@ -459,8 +459,10 @@ The mean and standard deviations for each group can be viewed in the following c
     \end{tabu}
 \end{table}
 
-\begin{table}[!h]\centering
-    \caption{Uncorrelated Dataset} \label{uncorrelated-mean}
+   % \vspace{1cm}
+\begin{table}
+    \centering
+    \caption{Mean and StDev. of Uncorrelated Dataset} \label{uncorrelated-mean}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
@@ -469,10 +471,10 @@ The mean and standard deviations for each group can be viewed in the following c
         BMQHOA Mean &8974.5 &10976.5 &47401.5 &91725.83&431259.66\\ \hline
         BMQHOA StDev. &147.24&154.37&841.75&1346.23&3049.43\\ [-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
-\end{table}
-
-\begin{table}[!h]\centering
-    \caption{Weakly Correlated Dataset} \label{weakly-mean}
+    
+    \vspace{1cm}
+    
+    \caption{Mean and StDev. of Weakly Correlated Dataset} \label{weakly-mean}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
@@ -481,10 +483,10 @@ The mean and standard deviations for each group can be viewed in the following c
         BMQHOA Mean &1508.16&1613.66&8435.33&16539 &80900.66\\ \hline
         BMQHOA StDev. &6.82&16.74&60.60&133.95&970.71\\ [-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
-\end{table}
 
-\begin{table}[!h]\centering
-    \caption{Strongly Correlated Dataset} \label{strongly-mean}
+    \vspace{1cm}
+    
+    \caption{Mean and StDev. of Strongly Correlated Dataset} \label{strongly-mean}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
@@ -495,7 +497,307 @@ The mean and standard deviations for each group can be viewed in the following c
     \end{tabu}
 \end{table}
 
+%100 randomized items mean and stdev graph
+\begin{figure}[hbt!]
+\centering
+    \begin{tikzpicture}
+        \begin{axis} [
+            ybar = .05cm,
+            bar width = 12pt,
+            xmin = 1,
+            xmax = 6,
+            %ytick = data,
+            y tick label style={
+            /pgf/number format/1000 sep=},
+            enlarge y limits = {value = .25, upper},
+            enlarge x limits = {abs = .8}
+        ]
+        \addplot+ [
+                error bars/.cd,
+                    y dir=both,
+                    % (changed from `y explicit` so the error bars are (clearly) visible
+                    y explicit ,
+            ] coordinates {
+                (1, 4160.33) +- (0,3.5)
+                (2, 2561) +- (0,0)
+                (3, 5288) +- (0,19.667)
+                (4,3535) +- (0,0)
+                (5,1747) +- (0,0)
+                (6,1) +- (0, 0)
+            };
+        \addplot+ [
+                error bars/.cd,
+                    y dir=both,
+                    % (changed from `y explicit` so the error bars are (clearly) visible
+                    y explicit ,
+            ] coordinates {
+                (1, 3926.83) +- (0,40.27613023)
+                (2, 2561) +- (0,0)
+                (3, 4879) +- (0,46.18224767)
+                (4,3360.66) +- (0,68.9627919)
+                (5,1711.5) +- (0,25.71186497)
+                (6,1) +- (0, 0)
+            };
+        \legend {DGHS, BMQHOA};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Mean of profit values for 100 randomized items} \label{100-graph}
+\end{figure}
 
+%1000 random items mean and stdev graph
+\begin{figure}[hbt!]
+\centering
+    \begin{tikzpicture}
+        \begin{axis} [
+            ybar = .05cm,
+            bar width = 12pt,
+            xmin = 1,
+            xmax = 6,
+            %ytick = data,
+            y tick label style={
+            /pgf/number format/1000 sep=},
+            enlarge y limits = {value = .25, upper},
+            enlarge x limits = {abs = .8}
+        ]
+        \addplot+ [
+                error bars/.cd,
+                    y dir=both,
+                    % (changed from `y explicit` so the error bars are (clearly) visible
+                    y explicit ,
+            ] coordinates {
+                (1, 156083.83) +- (0,830.04)
+                (2, 118603.83) +- (0,1904.70)
+                (3, 144070.00) +- (0,1343.77)
+                (4, 109734.33) +- (0,1037.03)
+                (5, 126366.17) +- (0,1236.73)
+                (6,1) +- (0, 0)
+            };
+        \addplot+ [
+                error bars/.cd,
+                    y dir=both,
+                    % (changed from `y explicit` so the error bars are (clearly) visible
+                    y explicit ,
+            ] coordinates {
+                (1, 145086.50) +- (0,1035.46)
+                (2, 109876.33) +- (0,1540.63)
+                (3, 136622.67) +- (0,2042.95)
+                (4,101951.33) +- (0,1271.88)
+                (5,118291.17) +- (0,799.79)
+                (6,1) +- (0, 0)
+            };
+        \legend {DGHS, BMQHOA};
+        \end{axis}
+    \end{tikzpicture}
+\caption{Mean of profit values for 1000 randomized items} \label{1000-graph}
+%\end{figure}
+
+%10k random items mean and stdev graph
+%\begin{figure}[hbt!]
+%\centering
+    \begin{tikzpicture}
+        \begin{axis} [
+            ybar = .05cm,
+            bar width = 12pt,
+            xmin = 1,
+            xmax = 6,
+            %ytick = data,
+            y tick label style={
+            /pgf/number format/1000 sep=},
+            enlarge y limits = {value = .25, upper},
+            enlarge x limits = {abs = .8}
+        ]
+        \addplot+ [
+                error bars/.cd,
+                    y dir=both,
+                    % (changed from `y explicit` so the error bars are (clearly) visible
+                    y explicit ,
+            ] coordinates {
+                (1, 7681910.333) +- (0, 51555.40)
+                (2, 10567302) +- (0, 23956.32)
+                (3, 8014906) +- (0, 39449.15)
+                (4, 9347061.67) +- (0, 56967.67)
+                (5, 9583139.17) +- (0, 55816.61)
+                (6,1) +- (0, 0)
+            };
+        \addplot+ [
+                error bars/.cd,
+                    y dir=both,
+                    % (changed from `y explicit` so the error bars are (clearly) visible
+                    y explicit ,
+            ] coordinates {
+                (1, 7438487.17) +- (0, 29887.18)
+                (2, 10276681.83) +- (0, 50507.36)
+                (3, 7774520.83) +- (0, 34559.11)
+                (4, 9075476.00) +- (0, 53168.02)
+                (5, 9330322.17) +- (0, 46301.35)
+                (6, 1) +- (0, 0)
+            };
+        \legend {DGHS, BMQHOA};
+        \end{axis}
+    \end{tikzpicture}
+\caption{Mean of profit values for 10k randomized items} \label{10k-graph}
+\end{figure}
+
+%uncorrelated items mean and stdev graph
+\begin{figure}[hbt!]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis} [
+            ybar,
+            bar width = 12pt,
+            width = 14cm,
+            height = 6cm,
+            xmin = 1,
+            xmax = 6,
+            %x tick label style={rotate=45},
+            xtick = data,
+            %ytick = data,
+            y tick label style={/pgf/number format/1000 sep=},
+            enlarge y limits = {value = .25, upper},
+            legend cell align={left},
+            enlarge x limits = {abs = .8}
+            %enlarge x limits = {abs = .8}
+        ]
+        \addplot+ [
+                error bars/.cd,
+                    y dir=both,
+                    % (changed from `y explicit` so the error bars are (clearly) visible
+                    y explicit ,
+            ] coordinates {
+                (1, 9147) +- (0, 0.00)
+                (2, 11238.00) +- (0, 0.00)
+                (3, 51019.50) +- (0, 437.85)
+                (4, 99036.17) +- (0, 1544.34)
+                (5, 448975.00) +- (0, 1135.46)
+                (6, 0) +- (0, 0)
+            };
+        \addplot+ [
+                error bars/.cd,
+                    y dir=both,
+                    % (changed from `y explicit` so the error bars are (clearly) visible
+                    y explicit ,
+            ] coordinates {
+                (1, 8974.50) +- (0, 147.24)
+                (2, 10976.50) +- (0, 154.37)
+                (3, 47401.50) +- (0, 841.76)
+                (4, 91725.83) +- (0, 1346.24)
+                (5, 431259.67) +- (0, 3049.43)
+                (6, 0) +- (0, 0)
+            };
+        \legend {DGHS, BMQHOA};
+        \end{axis}
+    \end{tikzpicture}
+\caption{Mean of profit values for uncorrelated items} \label{uncorrelated-graph}
+%\end{figure}
+
+%\begin{figure}[hbt!]
+    %\centering
+    \begin{tikzpicture}
+        \begin{axis} [
+            ybar,
+            bar width = 12pt,
+            width = 14cm,
+            height = 6cm,
+            xmin = 1,
+            xmax = 6,
+            %x tick label style={rotate=45},
+            xtick = data,
+            %ytick = data,
+            y tick label style={/pgf/number format/1000 sep=},
+            enlarge y limits = {value = .25, upper},
+            legend cell align={left},
+            enlarge x limits = {abs = .8}
+            %enlarge x limits = {abs = .8}
+        ]
+        \addplot+ [
+                error bars/.cd,
+                    y dir=both,
+                    % (changed from `y explicit` so the error bars are (clearly) visible
+                    y explicit ,
+            ] coordinates {
+                (1, 1514) +- (0, 0.00)
+                (2, 1627.666667) +- (0, 2.422120283)
+                (3, 8907.333333) +- (0, 27.56567914)
+                (4, 17371.83333) +- (0, 126.7665834)
+                (5, 82681.33333) +- (0, 390.9842282)
+                (6, 0) +- (0, 0)
+            };
+        \addplot+ [
+                error bars/.cd,
+                    y dir=both,
+                    % (changed from `y explicit` so the error bars are (clearly) visible
+                    y explicit ,
+            ] coordinates {
+                (1, 1508.166667) +- (0, 6.823977335)
+                (2, 1613.666667) +- (0, 16.74116683)
+                (3, 8435.333333) +- (0, 60.6025302)
+                (4, 16539) +- (0, 133.9596954)
+                (5, 80900.66667) +- (0, 970.7196643)
+                (6, 0) +- (0, 0)
+            };
+        \legend {DGHS, BMQHOA};
+        \end{axis}
+    \end{tikzpicture}
+\caption{Mean of profit values for weakly correlated items} \label{weakly-graph}
+%\end{figure}
+
+%\begin{figure}[hbt!]
+    %\centering
+    \begin{tikzpicture}
+        \begin{axis} [
+            ybar,
+            bar width = 12pt,
+            width = 14cm,
+            height = 6cm,
+            xmin = 1,
+            xmax = 6,
+            %x tick label style={rotate=45},
+            xtick = data,
+            %ytick = data,
+            y tick label style={/pgf/number format/1000 sep=},
+            enlarge y limits = {value = .25, upper},
+            legend cell align={left},
+            enlarge x limits = {abs = .8}
+            %enlarge x limits = {abs = .8}
+        ]
+        \addplot+ [
+                error bars/.cd,
+                    y dir=both,
+                    % (changed from `y explicit` so the error bars are (clearly) visible
+                    y explicit ,
+            ] coordinates {
+                (1, 2391.666667) +- (0, 6.08824003)
+                (2, 2697) +- (0, 0)
+                (3, 13682.5) +- (0, 60.05580738)
+                (4, 26444.66667) +- (0, 240.8407496)
+                (5, 126448) +- (0, 615.61384)
+                (6, 0) +- (0, 0)
+            };
+        \addplot+ [
+                error bars/.cd,
+                    y dir=both,
+                    % (changed from `y explicit` so the error bars are (clearly) visible
+                    y explicit ,
+            ] coordinates {
+                (1, 2327.333333) +- (0, 48.55375028)
+                (2, 2658.666667) +- (0, 48.81666382)
+                (3, 13334.66667) +- (0, 182.9160099)
+                (4, 25604) +- (0, 91.32579044)
+                (5, 123813.8333) +- (0, 773.1955553)
+                (6, 0) +- (0, 0)
+            };
+        \legend {DGHS, BMQHOA};
+        \end{axis}
+    \end{tikzpicture}
+\caption{Mean of profit values for strongly correlated items} \label{strongly-graph}
+\end{figure}
+
+
+\clearpage
+
+\newpage 
+
+\section{Not finished - Discussion}
 
 \newpage
 
@@ -506,7 +808,7 @@ The mean and standard deviations for each group can be viewed in the following c
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
         Optimal & 4169 & 2561 & 5309 & 3535 & 1747 \\ [-1pt] \tabucline[1pt]{1-6} 
-        \multirow{6}{*}{Harmony} & 4163 & 2561 & 5254 & 3535 & 1747 \\ \cline{2-6}
+        \multirow{6}{*}{DGHS} & 4163 & 2561 & 5254 & 3535 & 1747 \\ \cline{2-6}
         & 4163 & 2561 &5292 &3535 &1747 \\ \cline{2-6} 
         &4161 &2561 &5307 &3535 &1747 \\ \cline{2-6} 
         &4163 &2561 &5282 &3535 &1747 \\ \cline{2-6} 
@@ -527,7 +829,7 @@ The mean and standard deviations for each group can be viewed in the following c
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
         Optimal & 4169 & 2561 & 5309 & 3535 & 1747 \\ [-1pt] \tabucline[1pt]{1-6} 
-        \multirow{6}{*}{Harmony} & 156898 & 119888 & 141878 & 110608 & 128009 \\ \cline{2-6}
+        \multirow{6}{*}{DGHS} & 156898 & 119888 & 141878 & 110608 & 128009 \\ \cline{2-6}
         &155104 &117086 &143322 &108732 &124714 \\ \cline{2-6} 
         &155849 &117110 &145381 &108973 &125400 \\ \cline{2-6} 
         &155171 &116958 &145411 &109414 &126089 \\ \cline{2-6} 
@@ -548,7 +850,7 @@ The mean and standard deviations for each group can be viewed in the following c
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
         Optimal &9927473 &13743791 &10286004 &12155538 &12446154 \\ [-1pt] \tabucline[1pt]{1-6} 
-        \multirow{6}{*}{Harmony} &7667918 &10556718 &8064941 &9425334 &9545542 \\ \cline{2-6}
+        \multirow{6}{*}{DGHS} &7667918 &10556718 &8064941 &9425334 &9545542 \\ \cline{2-6}
         &7738704 &10587645 &8059383 &9305736 &9547723 \\ \cline{2-6} 
         &7590747 &10523899 &7986766 &9304266 &9679149 \\ \cline{2-6} 
         &7680907 &10571613 &8018689 &9377397 &9621182 \\ \cline{2-6} 
@@ -569,7 +871,7 @@ The mean and standard deviations for each group can be viewed in the following c
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
         Optimal &9147 &11238 &54503 &110625 &563647 \\ [-1pt] \tabucline[1pt]{1-6} 
-        \multirow{6}{*}{Harmony} &9147 &11238 &51166 &100770 &450386 \\ \cline{2-6}
+        \multirow{6}{*}{DGHS} &9147 &11238 &51166 &100770 &450386 \\ \cline{2-6}
         &9147 &11238 &50911 &98217 &448025 \\ \cline{2-6} 
         &9147 &11238 &50674 &100153 &449887 \\ \cline{2-6} 
         &9147 &11238 &51168 &100285 &447368 \\ \cline{2-6} 
@@ -590,7 +892,7 @@ The mean and standard deviations for each group can be viewed in the following c
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
         Optimal &1514 &1634 &9052 &18051 &90204 \\ [-1pt] \tabucline[1pt]{1-6} 
-        \multirow{6}{*}{Harmony} &1514 &1627 &8917 &17251 &82712 \\ \cline{2-6}
+        \multirow{6}{*}{DGHS} &1514 &1627 &8917 &17251 &82712 \\ \cline{2-6}
         &1514 &1629 &8898 &17224 &82571 \\ \cline{2-6} 
         &1514 &1629 &8899 &17409 &82348 \\ \cline{2-6} 
         &1514 &1629 &8892 &17519 &83330 \\ \cline{2-6} 
@@ -610,8 +912,8 @@ The mean and standard deviations for each group can be viewed in the following c
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
-        Optimal &2697 &14390 &28919 &146919 \\ [-1pt] \tabucline[1pt]{1-6} 
-        \multirow{6}{*}{Harmony} &2390 &2697 &13586 &26711 &126318 \\ \cline{2-6}
+        Optimal &2397 &2697 &14390 &28919 &146919 \\ [-1pt] \tabucline[1pt]{1-6} 
+        \multirow{6}{*}{DGHS} &2390 &2697 &13586 &26711 &126318 \\ \cline{2-6}
         &2390 &2697 &13690 &26708 &127616 \\ \cline{2-6} 
         &2397 &2697 &13673 &26311 &126212 \\ \cline{2-6} 
         &2381 &2697 &13686 &26513 &126513 \\ \cline{2-6} 
