@@ -111,14 +111,14 @@ Computer scientists usually categories the time complexity of an algorithm into 
           label style = {font=\LARGE\bf},
           ]
           \addplot [
-            samples=100, 
-            color=red,
-          ]
-          {3*2^x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(3\cdot2^n)$};
-          \addplot [
             samples=100,
-            color=orange, 
-          ] gnuplot{gamma(x+1)} node[above,pos=1,style={font=\Large}]{$\mathcal{O}(n!)$};
+            color=red, 
+          ] gnuplot{gamma(x+1)*3^x} node[above,pos=1,style={font=\Large}]{$\mathcal{O}(n!\cdot3^{n})$};
+          \addplot [
+            samples=100, 
+            color=orange,
+          ]
+          {2^x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(2^{x})$};
           \addplot [
             samples=100, 
             color=green,
@@ -146,7 +146,7 @@ Computer scientists usually categories the time complexity of an algorithm into 
 
 \paragraph{\textbf Solving the 0-1 Knapsack Problem} \mbox{}\
 
-There are 2 main approaches to solving KP01: An exact solution using deterministic algorithms, and probabilistic approaches involving heuristic algorithms. A small-scale KP01 can be solved with deterministic approaches, but for high-scale situations it is not realistic to get optimal solutions with exact approaches \ref{QWPA} as the KP01 problem is NP-complete \ref{some website}.
+There are 2 main approaches to solving KP01: An exact solution using deterministic algorithms, and probabilistic approaches involving heuristic algorithms. A small-scale KP01 can be solved with deterministic approaches, but for high-scale situations it is not realistic to get optimal solutions with exact approaches \cite{QWPA} as the KP01 problem is NP-complete \ref{some website}.
 
 \subsection*{Deterministic algorithms}
 Dynamic programming is a general technique for solving optimization problems. If a problem has optimal substructure and over-lapping subproblems, then dynamic programming is applicable. In computer science 
@@ -194,7 +194,7 @@ Heuristic algorithms for combinatorial optimization are usually designed in a sp
 Both the Discrete Global-Best Harmony Search (DGHS), and Binary Multi-Scale Quantum Harmonic Oscillator (BMQHOA) have a similar framework.
 
 \subsubsection{Discrete Global-Best Harmony Search Algorithm}
-The Harmony Search algorithm (HS) was developed in 2001 \ref{geem et al} based on the improvisation of music players \textcolor{red}{EXPAND}. This algorithm was made for continuous search spaces and thus cannot be used for discrete search spaces in combinatorial optimization problems. The Discrete Global-Best harmony search was proposed by \textcolor{red}{EXPAND} to overcome this. The DGHS for KP01 also has a repair-operator and a greedy selection mechanism. A harmony in this algorithm refers to a candidate solution, or a certain selection of items to be put in the knapsack. 
+The Harmony Search algorithm (HS) was developed in 2001 \cite{geem01} based on the improvisation of music players \textcolor{red}{EXPAND}. This algorithm was made for continuous search spaces and thus cannot be used for discrete search spaces in combinatorial optimization problems. The Discrete Global-Best harmony search was proposed by Wan-li Xiang et al. \cite{DGHS-article} \textcolor{red}{EXPAND} to overcome this. The DGHS for KP01 also has a repair-operator and a greedy selection mechanism. A harmony in this algorithm refers to a candidate solution, or a certain selection of items to be put in the knapsack. 
 
 It consists of 4 main parts:
 \begin{enumerate}
@@ -238,7 +238,7 @@ The parameters HMCR and PAR are used when generating new harmonies. They determi
     PAR(t) = PAR_{max} - \frac{PAR_{max}-PAR_{min}}{ITERATIONS} t
 \end{equation}
 
-The dynamic updating of the parameters is designed in this way to let larger values of HMCR help accelerate the convergence of the harmonies early on with the the help of the best individual harmony, while smaller values of HMCR can help you overcome local maxima \ref{DGHS-algorithm}. Similarly, larger values of PAR in the beginning allow for increases in diversity through mutations (item decision bit flips), when there is time to "explore" different variants, smaller values allow convergence at the end of the search. 
+The dynamic updating of the parameters is designed in this way to let larger values of HMCR help accelerate the convergence of the harmonies early on with the the help of the best individual harmony, while smaller values of HMCR can help you overcome local maxima \cite{DGHS-article}. Similarly, larger values of PAR in the beginning allow for increases in diversity through mutations (item decision bit flips), when there is time to "explore" different variants, smaller values allow convergence at the end of the search. 
 
 With these parameters one generates a new harmony:
 
@@ -315,7 +315,7 @@ The add phase is always done after the drop phase, as a harmony previously infea
 \vskip 1cm
 \subsubsection{Binary Multi-Scale Quantum Harmonic Oscillator Algorithm}
 
-The Multi-Scale Quantum Harmonic Oscillator Algorithm (MQHOA) is called such as it follows a model of a solving a particle's ground state wave function under the harmonic oscillator potential well \ref{BMQHOA-article} . In MQHOA, candidate solutions are generated by sampling points in a Gaussian distribution within a certain distance of something. The Binary Multi-Scale Quantum Harmonic Oscillator Algorithm (BMQHOA) discretizes this by defining the number of bits between solutions (item decision variable ) as the distance between solutions, so it becomes a discrete search space. Similar to the DGHS algorithm, a repair-operator is added fix solutions which violate the capacity constraint. 
+The Multi-Scale Quantum Harmonic Oscillator Algorithm (MQHOA) is called such as it follows a model of a solving a particle's ground state wave function under the harmonic oscillator potential well \cite{BMQHOA-article} . In MQHOA, candidate solutions are generated by sampling points in a Gaussian distribution within a certain distance of something. The Binary Multi-Scale Quantum Harmonic Oscillator Algorithm (BMQHOA) discretizes this by defining the number of bits between solutions (item decision variable ) as the distance between solutions, so it becomes a discrete search space. Similar to the DGHS algorithm, a repair-operator is added fix solutions which violate the capacity constraint. 
 
 The BMQHOA algorithm consists of 4 parts:
 \begin{enumerate}
@@ -360,7 +360,7 @@ $$STDEV_{max} = noItems/3$$
 $$\sigma_{s} = 1-\frac{t}{ITERATIONS} STDEV_{max}$$
 
 
-The normal distribution probability density function generator is implemented with the C++ Standard Library class normal\_distribution. An item's decision value is also made to match the corresponding decision in the best solution, which gives a slow mutation towards the current best solution allowing for diversity while still allowing the best solution to influence the process. Allowing multiple bits to mutate toward current best, this can lead to a premature local maximum, nullifying the rest of the search \ref{BMQHOA-article} . 
+The normal distribution probability density function generator is implemented with the C++ Standard Library class normal\_distribution. An item's decision value is also made to match the corresponding decision in the best solution, which gives a slow mutation towards the current best solution allowing for diversity while still allowing the best solution to influence the process. Allowing multiple bits to mutate toward current best, this can lead to a premature local maximum, nullifying the rest of the search \cite{BMQHOA-article} . 
 
 The repair-operator of the BMQHOA algorithm has 3 phases:
 \begin{enumerate}
@@ -542,7 +542,7 @@ The mean and standard deviations for each group can be viewed in the following c
             enlarge y limits = {value = .2, upper},
             enlarge x limits = {abs = 13pt}
         ]
-        \addplot+[fill = blue] coordinates {
+        \addplot+[] coordinates {
             (100 randomized, 0.12)
             (1000 randomized, 12.73)
             (10k randomized, 22.78)
@@ -550,7 +550,7 @@ The mean and standard deviations for each group can be viewed in the following c
             (Weakly, 2.81)
             (Strongly, 5.52)
         };
-        \addplot+[fill = red] coordinates {
+        \addplot+[] coordinates {
             (100 randomized, 4.17)
             (1000 randomized, 18.50)
             (10k randomized, 25.02)
@@ -872,14 +872,22 @@ The mean and standard deviations for each group can be viewed in the following c
 \caption{Mean of profit values for strongly correlated items} \label{strongly-graph}
 \end{figure}
 
-
 \clearpage
 
 \newpage 
 
 \section{Not finished - Discussion}
+As one can see in Figure 1, the DGHS algorithm deviates more than the BMQHOA algorithm in all datasets. One can draw the conclusion that the DGHS algorithm is superior.
+
+In Table 7 and the corresponding Figure 1, the data shows that testcases with a greater number of items have resulted in greater deviations from the optimal. Both algorithms are probabilistic and work by generating new candidate solutions, and replacing worse solutions with better ones. As the generation process is only run 100 times in both algorithms, and as there are $2^{noItems}$ different possible solutions (possibly violating the constraints), the likelihood of finding optimal or near-optimal solutions decreases.
+
+The BMQHOA algorithm only flips 1 item toward the corresponding item in the current best solution during the solution generation process. The DGHS harmony generation, on the other hand, probabilistically considers every item for flipping toward the best solution, depending on the current iteration's HMCR value.  As the BMQHOA has produced worse profit values, it can be suggests that a greater level of evolution toward current best solutions is advantageous. 
 
 \newpage
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+
 
 \section{Appendix}
 \begin{table}[!h]\centering
@@ -1009,10 +1017,5 @@ The mean and standard deviations for each group can be viewed in the following c
 \end{table}
 
 
-
-
-
-
-\bibliography{refs}
 
 \end{document}
