@@ -53,8 +53,8 @@
 % chapters and sections
 \usepackage{titlesec}
 \usepackage[rightlabels]{titletoc}
-\renewcommand\thesection{{\S}  \arabic{section}}
-\titleformat{\section}{\Huge \centering\scshape}{\thesection.}{1ex}{}
+\renewcommand\thesection{{}  \arabic{section}}
+\titleformat{\section}{\huge \centering\scshape}{\thesection.}{1ex}{}
 \titleformat{\subsection}{\Large \centering\scshape}{\thesubsection}{1ex}{}
 \titleformat{\subsubsection}{\small \centering\scshape}{\thesubsubsection}{1ex}{}
 
@@ -94,7 +94,6 @@
 % captions
 \usepackage{caption}
 \usepackage{subcaption}
-\captionsetup[figure]{font=small}
 
 % draw stuff
 \usepackage{graphicx}
@@ -106,6 +105,7 @@
 \pgfplotsset{width = 10cm, compat=1.18}
 \usepackage{multirow, multicol}
 \usepackage{tabu}
+\usepackage{adjustbox}
 %Please add the following packages if necessary:
 %\usepackage{booktabs, multirow} % for borders and merged ranges
 %\usepackage{soul}% for underlines
@@ -135,3 +135,6 @@
 
 % Only place figures by themselves if they take up more than 75% of the page
 \renewcommand{\floatpagefraction}{0.75}
+
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist 

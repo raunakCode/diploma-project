@@ -1,5 +1,5 @@
 \documentclass[titlepage]{article}
-\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage[a4paper, total={6.5in, 8in}]{geometry}
 
 \usepackage{preamble}
 
@@ -15,11 +15,14 @@
 
 \author{
     \small \scshape{Raunak Redkar} \\ 
-    \small \scshape{Supervisors: Per-Olof Freerks and Felicia Dinnetz} \\
+    \small \scshape{Supervisors: Per-Olof Freerks and Felicia Dinnétz} \\
     \scriptsize \scshape{Kungsholmens Gymnasium}
 }
 
 \begin{document}
+
+
+\renewcommand{\arraystretch}{1.5}
 
 \onehalfspacing
 
@@ -36,25 +39,25 @@
 \subsection{Background}
 
 \renewcommand{\familydefault}{Computer Modern}
-There are many situations in every day life, where a person wonders whether he is doing something efficiently. Unforunately, the human brain is not always capable of coming up with an optimal approach when the problem has a lot of factors at play. It is here when a system is used, and the true power of computing can be recognised. 
+There are many situations in every day life, where people wonder whether they are doing something efficiently. Unforunately, the human brain is not always capable of coming up with an optimal approach when the problem has includes several factors to be accounted for. It is here when an external system is used, and the true power of computing can be recognised. 
 
-To solve such problems, a computer is provided all the information, from which it will produce an optimal answer. For the system to process all the information, certain instructions must be written into the system so that it knows how to handle the information. This set of instructions is called an algorithm. The system or computer uses algorithms to take in information (the input), and produce an answer - an output. The efficiency (in all aspects) of the algorithm is dependant on the instructions which make up it. There are many algorithms which have been designed to solve many problems. For problems in computer science, more than one algorithm is usually proposed and used. Optimization problems are where this is frequently the case. 
+To solve such problems, a computer is provided all the information, from which it will produce an optimal answer. For the system to process all the information, certain instructions must be written into the system so that it knows how to handle the information. This set of instructions is called an algorithm. The system or computer uses algorithms to take in information (the input), and produce an answer - the output. The efficiency (in all aspects) of the algorithm is dependant on the steps that make it up. Most problems have several algorithms which can solve them. For problems in computer science, more than one algorithm is usually proposed and used. This is usually the case for optimization problems. 
 
-In the fields of computer science and mathematics, optimization problems are problems of finding the best solution, from a range of many feasible solutions. They are usually categorized into 2 categories: discrete optimizations and continuous optimizations, depending on whether the variables are discrete or continuous respectively. Combinatorial optimization problems are a subset of optimization problems that fall into the discrete. Combinatorial optimization involves searching for a maxima or minima for an objective function whose search space domain is a discrete but (usually large) space.
+In the fields of computer science and mathematics, optimization problems are problems of finding the optimal solution, from a range of many feasible solutions. They are usually categorized into 2 categories: discrete optimizations and continuous optimizations, depending on whether the variables are discrete or continuous respectively. Combinatorial optimization problems are a subset of optimization problems that fall into the discrete. Combinatorial optimization involves searching for a maxima or minima for an objective function whose search space domain is discrete but usually large.
 
-Typical combinatorial optimization problems are not limited to but include:
+Typical combinatorial optimization problems include:
 \begin{itemize}
     \item \textcolor{blue}{General Knapsack Problem} - Given a set of items, each with weight and profit value and a knapsack capacity, what is the best way to choose the items while respecting the knapsack capacity?
     \item \textcolor{blue}{Traveling Salesman Problem}- Given a list of cities, what is the shortest possible path that visits each city exactly once and returns to the origin?
-    \item \textcolor{blue}{Set Cover} - Given a set of elements $\{1, 2, ..., n\}$ , what is the and a collection of $m$ sets whose union equals the universe, what is the smallest sub-collection of sets whose union is the universe?
+    \item \textcolor{blue}{Set Cover} - Given a set of elements $\{1, 2, ..., n\}$ called the universe, and a collection of $m$ sets whose union equals the universe, what is the smallest sub-collection of those m sets whose union is the universe?
 \end{itemize}
 
-Combinatorial optimization problems show up in an array of different fields. The Knapsack Problem in particular has many variants which include the 0-1 knapsack problem, the bounded and unbounded knapsack problems, the multidimensional knapsack problem, the discounted knapsack problem, etc. The 0-1 Knapsack Problem is the simplest form of the knapsack problem and thus has also been the main focus in the research community. It appears in real-world decision-making processes in a variety of fields. Some examples include: 
+Combinatorial optimization problems show up in an array of different fields. The Knapsack Problem in particular has many variants which include the 0-1 knapsack problem, the bounded and unbounded knapsack problems, the multidimensional knapsack problem, the discounted knapsack problem, etc. The 0-1 Knapsack Problem is the simplest form of the knapsack problem and thus has also been in the main focus within the research community. It appears in real-world decision-making processes in a variety of fields. Some examples include: financial modelling and investments \cite{finance}, cryptography, and resource allocation in networking \cite{resource} (all considered high-scale instances of the knapsack problem; large amount of data to process).
 
-Many of combinatorial optimization problems including the 0-1 Knapsack problem currently do not have deterministic algorithms which are considered fast enough for them to be used on a large-scale basis. Consequently, the research focus has been on approaches that do not necessarily guarantee the best solution but win over deterministic approaches when it comes to time. 
+Exact deterministic algorithms are those which will always produce the same optimal result every time. Many of combinatorial optimization problems including the 0-1 Knapsack problem currently do not have exact deterministic algorithms which are considered fast enough for them to be used in high-scale data situations. Consequently, the research focus has been on algorithms that do not necessarily guarantee the best solution but win over deterministic algorithms when it comes to time. 
 
 \subsubsection*{Problem statement}
-In the 0-1 Knapsack Problem, there $n$ items and a maximum weight capacity $W$. Each item has a profit value $p_i$ and a weight value $w_i$. Find the optimal selection of items which maximizes the profit value while respecting the max weight value. The problem can be mathematically represented as so:
+In the 0-1 Knapsack Problem, there are $n$ items and a maximum weight capacity $W$. Each item has a profit value $p_i$ and a weight value $w_i$. One must then find the optimal selection of items which maximizes the profit value while respecting the max weight value. The problem can be mathematically represented as such:
 
 \vskip -0.5cm
 
@@ -64,22 +67,24 @@ In the 0-1 Knapsack Problem, there $n$ items and a maximum weight capacity $W$. 
     x \in \{0, 1\}
 \end{gather}
 
-The rest of this paper will follow the shorthand "KP01" for the 0-1 Knapsack Problem. 
+The rest of this paper will use the abbreviation "KP01" for the 0-1 Knapsack Problem. 
 
 \subsection{Aim}
 The aim of this paper is to compare algorithms in order to investigate the strength of commonly used techniques in for solving optimization problems.
 
 \subsection{Research Question}
-How do the global-best harmony search algorithm and the binary harmonic multi-scale algorithms perform when implemented for solving KP01?
+How do the Discrete Global-Best Harmony Search Algorithm and the Binary Harmonic Multi-Scale Algorithm perform when implemented for solving KP01?
+
+\newpage
 
 \section{Theory}
 \subsection{Computational Complexity}
-In computer science, computational complexity is the measure of how expensive it is to the run an algorithm; the amount of resources required to run the algorithm. The 2 resources are time and memory, notated time complexity and space complexity. As the memory complexity is dependent on the time complexity, the time complexity is the limiting factor for the efficiency of an algorithm and is usually the one focused on. Computable problems can be factorial, exponential, polynomial, logarithmic, etc.
+In computer science, computational complexity is the measure of how expensive it is to the run an algorithm; the amount of resources required to run the algorithm. The 2 resources are time and memory usage by a computer. As there are many low-level computer operations which happen, it is hard to exactly know how much time a program will take to run, however since these low-level operations always occur, the time taken for a program to run is usually some constant times some function of the size of the input - the time complexity. For this reason, the time and memory are usually given as time and space complexities which are given in terms of the size of the input.  As the memory complexity is dependent on the time complexity, the time complexity is the limiting factor for the efficiency of an algorithm and is usually the one focused on. Computable problems' time complexities can be factorial, exponential, polynomial, logarithmic, etc.
 
 \subsubsection*{Big O notation}
-The time complexity of an algorithm is a function of the size of the input of that algorithm. For example, if $n$ numbers $a_1, a_2, a_3, ..., a_n$ are given, and an algorithm checks the existence of an certain element in those numbers, by checking all n elements, then the time complexity is some constant times $n$ - the size of the input. Computer scientists would denote this using Big O notation as $\mathcal{O}(n)$. Big O notation is a system developed by mathematicians and computer scientists to describe an function/algorithm's asymptotic limiting factor.
+The time complexity of an algorithm is a function of the size of the input of that algorithm. For example, if a set of $n$ numbers $a_1, a_2, a_3, ..., a_n$ are given, and an algorithm checks the existence of an certain number in that set, by checking all n elements of the set for equality, then the time complexity is some constant times $n$ - the size of the input. Computer scientists would denote this using Big O notation as $\mathcal{O}(n)$. Big O notation is a system developed by mathematicians and computer scientists to describe an function/algorithm's asymptotic limiting factor. \cite{bigO}
 
-Computer scientists usually categories the time complexity of an algorithm into polynomial time complexities and non polynomial time complexities. This is because non-polynomial functions like factorial and exponential functions tend to grow quicker than polynomial functions and thus are usually considered nonviable for large data. 
+Computer scientists usually categories the time complexity of an algorithm into polynomial time complexities and non polynomial time complexities. This is because non-polynomial functions like factorial and exponential functions tend to grow quicker than polynomial functions and thus are usually considered nonviable for large data. One can see thus in the graph below before that the \textit{non-polynomial} functions like $f(x) = x!\cdot3^{x}$ or $f(x) = 2^{x}$ grow much faster than the other \textit{polynomial} or \textit{subpolynomial} functions. 
 
 \vskip 1cm
 
@@ -138,19 +143,20 @@ Computer scientists usually categories the time complexity of an algorithm into 
           samples=100, 
           color=red,
           ]
-          {1}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(1)$};  
-            
+          {1}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(1)$};
       \end{axis}
     \end{tikzpicture}
 \end{center}
 
-\paragraph{\textbf Solving the 0-1 Knapsack Problem} \mbox{}\
+\subsubsection*{Complexity Classes}
+All problems in computer science are classified into a complexity class, which describes how difficult it is to find a solution for the problem on demand \cite{complexity-class}. For example the class $P$ is is the set of problems which can be solved in polynomial time. The problems of the $NP$ class are those where a proposed solution to an instance of the problem can be verified in polynomial time, but a way of algorithmically determining an optimal solution in polynomial time is not (yet) known. $NP\text{-complete}$ problems are a subset of $NP$ problems for which it is possible to reduce any other problem in $NP$ to a problem in the subset $NP\text{-complete}$ in some polynomial time process. This is important, because then if it is then shown that the Knapsack Problem (an NP-complete problem) is actually in $P$ (a method of determining an optimal solution quickly exists), then all NP problems will be in $P$, proving $P=NP$, which is sometimes considered to be the most important problem in computer science \cite{PvsNP}. 
 
-There are 2 main approaches to solving KP01: An exact solution using deterministic algorithms, and probabilistic approaches involving heuristic algorithms. A small-scale KP01 can be solved with deterministic approaches, but for high-scale situations it is not realistic to get optimal solutions with exact approaches \cite{QWPA} as the KP01 problem is NP-complete \ref{some website}.
+\textbf{Solving the 0-1 Knapsack Problem} \mbox{}\
+
+There are 2 main approaches to solving KP01: An exact solution using deterministic algorithms, and probabilistic approaches involving heuristic algorithms. A small-scale KP01 can be solved with deterministic approaches, but for high-scale situations it is not realistic to get optimal solutions with exact approaches \cite{QWPA} as the KP01 problem is NP-complete \cite{KPNP}. 
 
 \subsection*{Deterministic algorithms}
-Dynamic programming is a general technique for solving optimization problems. If a problem has optimal substructure and over-lapping subproblems, then dynamic programming is applicable. In computer science 
-a problem has \emph{optimal substructure} if an optimal solution for a problems can be constructed from optimal solutions of its sub-problems, and \emph{over-lapping subproblems} is when a problem can be decomposed into sub-problems which are reused. Dynamic programming breaks down a complicate problem into smaller sub-problems in a recursive manner, while also using some memory to save the solutions of the sub-problems (usually in tabular form). This way, when we need to get a solution for a sub-problem again, we can just use our previously calculated value. 
+Dynamic programming is a general technique for solving optimization problems. If a problem has an optimal substructure and over-lapping subproblems, then dynamic programming is applicable \cite{optimalSubstructure}. In computer science a problem has \emph{optimal substructure} if an optimal solution for a problem can be constructed from optimal solutions of its sub-problems, and \emph{over-lapping subproblems} is when a problem can be decomposed into sub-problems which are reused. Dynamic programming breaks down a complicated problem into smaller sub-problems in a recursive manner, while also using some memory to save the solutions of the sub-problems (usually in tabular form). This way, when one needs to get a solution for a sub-problem again, one can just use previously calculated values. 
 
 KP01 is solved using dynamic programming using a table based computation:
 
@@ -178,12 +184,12 @@ KP01 is solved using dynamic programming using a table based computation:
 
 \vskip 0.5cm
 
-This implementation of dynamic programming method has a time complexity of $\mathcal{O}(N\cdot W)$, where N is the number of items, and W is max capacity. The dynamic programming algorithm does not end until the entire table is built. This proves to be inefficient very quickly as the maximum capacity and the number of items in the knapsack increases. So with the increase in the scale, the feasibility of dynamic programming decreases which has incentivized research in the subfield of heuristic algorithms.
+This implementation of dynamic programming method has a time complexity of $\mathcal{O}(N\cdot W)$, where N is the number of items, and W is max capacity. The dynamic programming algorithm does not end until the entire table is built. This proves to be inefficient very quickly as the maximum capacity and the number of items in the knapsack increases. So, with the increase in the scale, the feasibility of dynamic programming decreases which has incentivized research in the subfield of heuristic algorithms \cite{QWPA}. 
 
 \subsection*{Heuristic algorithms}
-When deterministic algorithms prove to be too slow for practical applications, heuristic algorithms are chosen for their (usually) near optimal outputs and their speed. Heuristic algorithms should not be confused with approximation algorithms. Approximation algorithms guarantee a maximum margin of error; a constant factor off of the optimal. On the other hand, a heuristic algorithm does not guarantee anything, so it can perform better or worse than an approximation algorithm. 
+When deterministic algorithms prove to be too slow for practical applications such as online resource allocation, heuristic algorithms are chosen for their (usually) near optimal outputs and their speed. Heuristic algorithms should not be confused with approximation algorithms. Approximation algorithms guarantee a maximum margin of error; a constant factor off of the optimal. On the other hand, a heuristic algorithm does not guarantee anything, so it can perform better or worse than an approximation algorithm. 
 
-Heuristic algorithms for combinatorial optimization are usually designed in a specific way \ref{some website}:
+Heuristic algorithms for combinatorial optimization are usually designed in a specific way \cite{heuristic}:
 \begin{enumerate}
     \item Create a potential solution which is current best.
     \item Generate new solution. (usually in polynomial time) 
@@ -194,12 +200,12 @@ Heuristic algorithms for combinatorial optimization are usually designed in a sp
 Both the Discrete Global-Best Harmony Search (DGHS), and Binary Multi-Scale Quantum Harmonic Oscillator (BMQHOA) have a similar framework.
 
 \subsubsection{Discrete Global-Best Harmony Search Algorithm}
-The Harmony Search algorithm (HS) was developed in 2001 \cite{geem01} based on the improvisation of music players \textcolor{red}{EXPAND}. This algorithm was made for continuous search spaces and thus cannot be used for discrete search spaces in combinatorial optimization problems. The Discrete Global-Best harmony search was proposed by Wan-li Xiang et al. \cite{DGHS-article} \textcolor{red}{EXPAND} to overcome this. The DGHS for KP01 also has a repair-operator and a greedy selection mechanism. A harmony in this algorithm refers to a candidate solution, or a certain selection of items to be put in the knapsack. 
+The Harmony Search algorithm (HS) was developed in 2001 based on the improvisation of music players who try to create better harmonies by adjusting previously known harmonies, hoping to produce more desirable ones \cite{geem01}. This algorithm was made for continuous search spaces and thus cannot be used for discrete search spaces in combinatorial optimization problems, as in KP01, items are either fully chosen or not, meaning one cannot add a fraction of the weight and the profit value of a particular item into the knapsack. The DGHS was proposed by Wan-li Xiang et al to overcome this by rounding decimals to the nearest integer value to discretize the search space \cite{DGHS-article}. The DGHS for KP01 also has a repair-operator and a greedy selection mechanism. A harmony in this algorithm refers to a candidate solution, or a certain selection of items to be put in the knapsack. 
 
 It consists of 4 main parts:
 \begin{enumerate}
     \item Create a harmony memory HM - a fixed size (HMS) of randomly generated harmonies. Initialize parameters harmony memory consider rate (HMCR), and pitch adjusting rate (PAR), and calculate profit-density vector for usage in the repair-operator.
-    \item Create a new harmony using the current HM \ref{harmonyGen}.
+    \item Create a new harmony using the current HM - Algorithm \ref{harmonyGen}.
     \item If generated harmony is better than the best in the harmony, replace it. If not, check if it is better than then worst harmony, and replace it if so. 
     \item If maximum number of iterations has been met, output the best sum profit value found so far.
 \end{enumerate}
@@ -210,7 +216,7 @@ It consists of 4 main parts:
 \caption{The DGHS algorithm}\label{DGHS}
     \begin{algorithmic}[1]
         \State Set the harmony memory size $HMS$, the number of iterations $ITERATIONS$, and the minimum and maximum values of parameters $PAR$ and $HMCR$.
-        \State Initialize the HM through a randomized process, and use \ref{harmonyRepair} to the generated harmonies. Calculate the totalProfit and totalWeight values for each harmony in HM.
+        \State Initialize the HM through a randomized process, and use Algorithm \ref{harmonyRepair} to the generated harmonies. Calculate the totalProfit and totalWeight values for each harmony in HM.
         \State $iterator \gets 1$
         \While {$iterator <= ITERATIONS$}
             \State Record indices of the best and the worst harmonies in HM.
@@ -238,7 +244,7 @@ The parameters HMCR and PAR are used when generating new harmonies. They determi
     PAR(t) = PAR_{max} - \frac{PAR_{max}-PAR_{min}}{ITERATIONS} t
 \end{equation}
 
-The dynamic updating of the parameters is designed in this way to let larger values of HMCR help accelerate the convergence of the harmonies early on with the the help of the best individual harmony, while smaller values of HMCR can help you overcome local maxima \cite{DGHS-article}. Similarly, larger values of PAR in the beginning allow for increases in diversity through mutations (item decision bit flips), when there is time to "explore" different variants, smaller values allow convergence at the end of the search. 
+The dynamic updating of the parameters is designed in this way to let larger values of HMCR help accelerate the convergence of the harmonies early on with the the help of the best individual harmony, while smaller values of HMCR can help to overcome local maxima \cite{DGHS-article}. Similarly, larger values of PAR in the beginning allow for increases in diversity through mutations (item decision bit flips - deciding to take an item when having excluded it before or vice versa), when there is time to "explore" different variants, smaller values allow convergence at the end of the search. 
 
 With these parameters one generates a new harmony:
 
@@ -265,7 +271,7 @@ With these parameters one generates a new harmony:
 Any time a harmony is generated, during Part 1 or Part 2, it is "repaired" in case the selection of items exceeds the capacity of the knapsack. The new generated harmony is also repaired if it can fit more items, without exceeding the capacity of the knapsack. The repair-operator consists of 2 phases:
 \begin{enumerate}
     \item Drop phase - repairing a harmony if it violates the constraint
-    \item Add phase - adding a items into the knapsack if the total weight is less than the capacity
+    \item Add phase - adding items into the knapsack if the new total weight is less than the capacity (the total weight of the knapsack stays below a previously decided value)
 \end{enumerate}
 
 The add phase is always done after the drop phase, as a harmony previously infeasible becomes feasible after the drop phase, but its total weight may be less than the capacity of the knapsack. Here is the pseudocode for the repair-operator:
@@ -315,14 +321,14 @@ The add phase is always done after the drop phase, as a harmony previously infea
 \vskip 1cm
 \subsubsection{Binary Multi-Scale Quantum Harmonic Oscillator Algorithm}
 
-The Multi-Scale Quantum Harmonic Oscillator Algorithm (MQHOA) is called such as it follows a model of a solving a particle's ground state wave function under the harmonic oscillator potential well \cite{BMQHOA-article} . In MQHOA, candidate solutions are generated by sampling points in a Gaussian distribution within a certain distance of something. The Binary Multi-Scale Quantum Harmonic Oscillator Algorithm (BMQHOA) discretizes this by defining the number of bits between solutions (item decision variable ) as the distance between solutions, so it becomes a discrete search space. Similar to the DGHS algorithm, a repair-operator is added fix solutions which violate the capacity constraint. 
+The Multi-Scale Quantum Harmonic Oscillator Algorithm (MQHOA) is called as such as it follows a model of a solving a particle's ground state wave function under the harmonic oscillator potential well \cite{BMQHOA-article} . In MQHOA, candidate solutions are generated by sampling points in a Gaussian distribution within a certain distance of something. The Binary Multi-Scale Quantum Harmonic Oscillator Algorithm (BMQHOA) discretizes this by defining the number of bits between solutions (item decision variable) as the distance between solutions, so it becomes a discrete search space. Similar to the DGHS algorithm, a repair-operator is added to fix solutions that violate the capacity constraint. 
 
 The BMQHOA algorithm consists of 4 parts:
 \begin{enumerate}
     \item Random binary vector generation -> repair
     \item Generating a solutions by flipping $m$ items, mutating, and repairing
-    \item Reducing the standard deviation value for the normal distribution from which $m$ is determined every iteration.
-    \item If termination constraint is satisfied, output best totalProfit value, else return to Step 2.
+    \item Reducing the standard deviation value for the normal distribution from which the value for $m$ is determined during and for each iteration.
+    \item If termination constraint is satisfied, output the best total profit value found so far, else return to Step 2.
 \end{enumerate}
 
 %BMQHOA
@@ -355,17 +361,17 @@ The BMQHOA algorithm consists of 4 parts:
 \end{breakablealgorithm}
 \vskip 0.5cm
 
-After generating a new solution, $m$ items are flipped in the hope of increasing diversity in the solutions and increasing the likelihood of finding the optimal solution. They are generated randomly with a normal probability distribution around \textbf{0}, with a mean of $0$ and a variable std deviation. The Std. Deviation decreases with each new-solution-generation iteration so as to increase diversity in the beginning of the search, while reducing the likelihood of corrupting a binary vector closer to the end of the search when close to optimal solutions have (hopefully) been found. Initially the value of the standard deviation is set to $noItems/3$, so that there is a $\sim 99.7\%$ chance that the generated number of flipped items $m$ are in the range $[0-3\sigma_{s}, 0+3\sigma_{s}] \approx [-noItems, noItems]$:
+After generating a new solution, $m$ items are flipped in the aspiration of increasing diversity of the solutions and increasing the likelihood of finding the optimal solution. A normal distribution is defined by a mean value and a standard deviation. The value for $m$ is generated randomly by using a normal probability distribution which has a mean of $0$ and a Std. Deviation value which is determined by the iteration the algorithm is on. The Std. Deviation decreases with each new-solution-generation iteration so as to increase diversity in the beginning of the search, while reducing the likelihood of deteriorating a binary vector near the end of the search when close to optimal solutions have probably been found \cite{BMQHOA-article}. Initially the value of the standard deviation is set to $noItems/3$, so that there is a $\sim 99.7\%$ chance that the generated number of flipped items $m$ are in the range $[0-3\sigma_{s}, 0+3\sigma_{s}] \approx [-noItems, noItems]$, however in the case that $m \notin [-noItems, noItems]$, the value is reduced mod $noItems$:
+
 $$STDEV_{max} = noItems/3$$
 $$\sigma_{s} = 1-\frac{t}{ITERATIONS} STDEV_{max}$$
 
-
-The normal distribution probability density function generator is implemented with the C++ Standard Library class normal\_distribution. An item's decision value is also made to match the corresponding decision in the best solution, which gives a slow mutation towards the current best solution allowing for diversity while still allowing the best solution to influence the process. Allowing multiple bits to mutate toward current best, this can lead to a premature local maximum, nullifying the rest of the search \cite{BMQHOA-article} . 
+The normal distribution probability density function generator is implemented with the C++ Standard Library class normal\_distribution. An item's decision value is also made to match the corresponding decision in the best solution, which gives a slow mutation towards the current best solution allowing for diversity while still allowing the best solution to influence the process. This is because allowing multiple bits to mutate toward current best can lead to a premature local maximum, nullifying the rest of the search \cite{BMQHOA-article} . 
 
 The repair-operator of the BMQHOA algorithm has 3 phases:
 \begin{enumerate}
     \item Density-first stage: The already selected items are sorted based on their profit to weight ratio in non-increasing order and then greedily selected while respecting the weight constraint. 
-    \item Minimum-weight-first stage: Out of the items that weren't selected in the first stage are sorted based on their weight values in non-decreasing order, then greedily selected while respecting the weight constraint.   
+    \item Minimum-weight-first stage: Out of the items that were not selected in the first stage are sorted based on their weight values in non-decreasing order, then greedily selected while respecting the weight constraint.   
 \end{enumerate}
 
 $Q_{1}[1, 2,...,n]$ is the index for the items in the density ratio array in the original vector. $Q_{2}[1, 2,..., n]$ is index of the items in the minimum weight sorted array in the original vector.
@@ -423,31 +429,30 @@ Refer to the appendix for the \hyperlink{random100}{raw data} for the algorithms
 \subsection{Processed Data}
 The mean and standard deviations for each group can be viewed in the following corresponding tables and graphs:
 
-\begin{table}[h!]\centering
+\begin{changemargin}{8mm}{8mm} 
+\begin{table}[h!]
+    \centering
+    \scriptsize
     \caption{Mean and StDev. of 100 Randomized items} \label{100-mean}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
-        DGHS Mean &4160.33 &2561 &5288 &3535 &1747 \\ \hline
-        DGHS StDev. &3.50 &0 &19.66 &0 &0 \\ \hline
-        Mean Percent deviation from optimal &0.21 &0.00 &0.40 &0.00 &0.00 \\ [-1pt] \tabucline[1pt]{1-6}
-        BMQHOA Mean &3926.83 &2561 &4879 &3360.66 &1711.5 \\ \hline
-        BMQHOA StDev. &40.27 &0 &46.18 &68.96 &25.71 \\ \hline
-        Mean Percent deviation from optimal &5.80&0 &8.09&4.93&2.03\\ [-1pt] \tabucline[1pt]{1-6}
+        DGHS Mean &4160.33$\pm$3.50 &2561$\pm$0 &5288$\pm$19.66 &3535$\pm$0 &1747$\pm$0 \\[1em] \hline
+        Mean Percent deviation from optimal &0.21\%  &0\%  &0.40\%  &0\%  &0\%  \\ [-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &3926.83$\pm$40.27 &2561.00$\pm$0 &4879$\pm$46.18 &3360.66$\pm$68.96 &1711.5$\pm$25.71 \\[1em] \hline
+        Mean Percent deviation from optimal &5.80\% &0\%  &8.09\% &4.93\% &2.03\% \\ [-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
 
     \vspace{1cm}
-    
+    \hspace{-4cm}
     \caption{Mean and StDev. of 1000 Randomized items} \label{1000-mean}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
-        DGHS Mean &156083.83 &118603.83 &144070 &109734.33 &126366.16 \\ \hline
-        DGHS StDev. &830.04 &1904.69 &1343.77 &1037.03 &1236.73 \\ \hline
-        Mean Percent deviation from optimal &13.71&11.76&14.12&10.77&13.27\\ [-1pt] \tabucline[1pt]{1-6}
-        BMQHOA Mean &145086.5 &109876.33 &136622.66 &101951.33 &118291.16 \\ \hline
-        BMQHOA StDev. &1035.45 &1540.63 &2042.95 &1271.88 &799.78 \\ \hline
-        Mean Percent deviation from optimal &19.79&18.25&18.56&17.10&18.82\\ [-1pt] \tabucline[1pt]{1-6}
+        DGHS Mean &156083.83$\pm$830.04 &118603.83$\pm$830.04 &144070$\pm$1343.77 &109734.33$\pm$1037.03 &126366.16$\pm$1236.73 \\ \hline
+        Mean Percent deviation from optimal &13.71\% &11.76\% &14.12\% &10.77\% &13.27\% \\ [-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &145086.5$\pm$1035.45 &109876.33$\pm$1540.63 &136622.66$\pm$2042.95 &101951.33$\pm$1271.88 &118291.16$\pm$799.78 \\ \hline
+        Mean Percent deviation from optimal &19.79\% &18.25\% &18.56\% &17.10\% &18.82\% \\ [-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
 
     \vspace{1cm}
@@ -456,28 +461,27 @@ The mean and standard deviations for each group can be viewed in the following c
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
-        DGHS Mean &7681910.33 &10567302 &8014906 &9347061.66&9583139.16\\ \hline
-        DGHS StDev. &51555.39&23956.31&39449.15&56967.66&55816.60\\ \hline 
-        Mean Percent deviation from optimal &22.61&23.11&22.07&23.10&23.00\\[-1pt] \tabucline[1pt]{1-6}
-        BMQHOA Mean &7438487.16&10276681.83&7774520.83&9075476 &9330322.16\\ \hline
-        BMQHOA StDev. &29887.17&50507.35&34559.10&53168.02&46301.35\\ \hline 
-        Mean Percent deviation from optimal &25.07&25.22&24.41&25.33&25.03\\[-1pt] \tabucline[1pt]{1-6}
+        DGHS Mean &7681910$\pm$51555 &10567302$\pm$23956 &8014906$\pm$39449.15 &9347061$\pm$56967.66 &9583139$\pm$55816.60 \\ \hline
+        Mean Percent deviation from optimal &22.61\% &23.11\% &22.07\% &23.10\% &23.00\% \\[-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &7438487$\pm$29887.17 &10276681$\pm$50507.35 &7774520$\pm$34559.10 &9075476$\pm$53168.02 &9330322$\pm$46301.35 \\ \hline
+        Mean Percent deviation from optimal &25.07\% &25.22\% &24.41\% &25.33\% &25.03\% \\[-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
 \end{table}
+
+
 
    % \vspace{1cm}
 \begin{table}[h!]
     \centering
+    \scriptsize
     \caption{Mean and StDev. of Uncorrelated Dataset} \label{uncorrelated-mean}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
-        DGHS Mean &9147 &11238 &51019.5 &99036.16&448975 \\ \hline
-        DGHS StDev. &0 &0 &437.85&1544.34&1135.46\\ \hline 
-        Mean Percent deviation from optimal &0 &0 &6.39&10.47&20.34\\[-1pt] \tabucline[1pt]{1-6}
-        BMQHOA Mean &8974.5 &10976.5 &47401.5 &91725.83&431259.66\\ \hline
-        BMQHOA StDev. &147.24&154.37&841.75&1346.23&3049.43\\ \hline
-        Mean Percent deviation from optimal &1.88&2.32&13.02&17.08&23.48\\[-1pt] \tabucline[1pt]{1-6}
+        DGHS Mean &9147$\pm$0 &11238$\pm$0 &51019.50$\pm$437.85 &99036.16$\pm$1544.34 &448975$\pm$1135.46 \\ \hline
+        Mean Percent deviation from optimal &0\% &0.00\% &6.39\% &10.47\% &20.34\% \\[-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &8974.5$\pm$147.24 &10976.50$\pm$154.37 &47401.50$\pm$841.75 &91725.83$\pm$1346.23 &431259.66$\pm$3049.43 \\ \hline
+        Mean Percent deviation from optimal &1.88\% &2.32\% &13.02\% &17.08\% &23.48\% \\[-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
     
     \vspace{1cm}
@@ -486,12 +490,10 @@ The mean and standard deviations for each group can be viewed in the following c
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
-        DGHS Mean &1514 &1627.66&8907.33&17371.83&82681.33\\ \hline
-        DGHS StDev. &0 &2.42&27.56&126.76&390.98\\ \hline 
-        Mean Percent deviation from optimal &0 &0.38&1.59&3.76&8.33\\[-1pt] \tabucline[1pt]{1-6}
-        BMQHOA Mean &1508.16&1613.66&8435.33&16539 &80900.66\\ \hline
-        BMQHOA StDev. &6.82&16.74&60.60&133.95&970.71\\ \hline 
-        Mean Percent deviation from optimal &0.38&1.24&6.81&8.37&10.31\\[-1pt] \tabucline[1pt]{1-6}
+        DGHS Mean &1514$\pm$0 &1627.66$\pm$2.42 &8907.33$\pm$27.56 &17371.83$\pm$126.76 &82681.33$\pm$390.98 \\ \hline
+        Mean Percent deviation from optimal &0\% &0.38\% &1.59\% &3.76\% &8.33\% \\[-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &1508.16$\pm$6.82 &1613.66$\pm$16.74 &8435.33$\pm$60.60 &16539$\pm$133.95 &80900.66$\pm$970.71 \\ \hline
+        Mean Percent deviation from optimal &0.38\% &1.24\% &6.81\% &8.37\% &10.31\% \\[-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
 
     \vspace{1cm}
@@ -500,12 +502,10 @@ The mean and standard deviations for each group can be viewed in the following c
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
-        DGHS Mean &2391.66&2697 &13682.5 &26444.66&126448 \\ \hline
-        DGHS StDev. &6.08&0 &60.05&240.84&615.61\\ \hline 
-        Mean Percent deviation from optimal &0.22&0 &4.91&8.55&13.93\\[-1pt] \tabucline[1pt]{1-6}
-        BMQHOA Mean &2327.33&2658.66&13334.66&25604 &123813.83\\ \hline
-        BMQHOA StDev. &48.55&48.81&182.91&91.32&773.19\\ \hline
-        Mean Percent deviation from optimal &2.90&1.42&7.33&11.46&15.72\\[-1pt] \tabucline[1pt]{1-6}
+        DGHS Mean &2391.66$\pm$6.08 &2697$\pm$0 &13682.5$\pm$60.05 &26444.66$\pm$240.84 &126448$\pm$615.61 \\ \hline
+        Mean Percent deviation from optimal &0.22\% &0\% &4.91\% &8.55\% &13.93\% \\[-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &2327.33$\pm$48.55 &2658.66$\pm$48.81 &13334.66$\pm$182.91 &25604$\pm$91.32 &123813.83$\pm$773.19 \\ \hline
+        Mean Percent deviation from optimal &2.90\% &1.42\% &7.33\% &11.46\% &15.72\% \\[-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
 \end{table}
 
@@ -523,13 +523,14 @@ The mean and standard deviations for each group can be viewed in the following c
         Strongly Correlated Dataset &5.52\%&7.77\% \\[-1pt] \tabucline[1pt]{1-6} 
     \end{tabu}
 \end{table}
-
+\end{changemargin}
 %100 randomized items mean and stdev graph
 
 \begin{figure}[hbt!]
 \centering
     \begin{tikzpicture}
         \begin{axis} [
+            title = {Mean percentage deviation from the optimal for DGHS and BMQHOA across all datasets},
             ybar = .05cm,
             bar width = 9pt,
             symbolic x coords={100 randomized, 1000 randomized, 10k randomized, Uncorrelated, Weakly, Strongly},
@@ -563,9 +564,10 @@ The mean and standard deviations for each group can be viewed in the following c
         \end{axis}
     \end{tikzpicture}
     \caption{Mean percentage deviation from optimal across all datasets} \label{deviation-graph}
-    %\vfill
+    \vspace{1em}
     \begin{tikzpicture}
         \begin{axis} [
+            title = Means of total profit values generated by DGHS and BMQHOA for 100 randomized items,
             ybar = .05cm,
             bar width = 12pt,
             xmin = 1,
@@ -608,7 +610,7 @@ The mean and standard deviations for each group can be viewed in the following c
         \legend {DGHS, BMQHOA};
         \end{axis}
     \end{tikzpicture}
-    \caption{Mean of profit values for 100 randomized items} \label{100-graph}
+    \caption{Shows the means of profit values for 100 randomized items} \label{100-graph}
 \end{figure}
 
 %1000+10k random items mean and stdev graph
@@ -616,6 +618,7 @@ The mean and standard deviations for each group can be viewed in the following c
 \centering
     \begin{tikzpicture}
         \begin{axis} [
+            title = {Means of total profit values generated by DGHS and BMQHOA for 1000 randomized items},
             ybar = .05cm,
             bar width = 12pt,
             xmin = 1,
@@ -658,7 +661,8 @@ The mean and standard deviations for each group can be viewed in the following c
         \legend {DGHS, BMQHOA};
         \end{axis}
     \end{tikzpicture}
-\caption{Mean of profit values for 1000 randomized items} \label{1000-graph}
+\caption{Shows the means of profit values for 1000 randomized items} \label{1000-graph}
+    \vspace{1em}
 %\end{figure}
 
 %10k random items mean and stdev graph
@@ -666,6 +670,7 @@ The mean and standard deviations for each group can be viewed in the following c
 %\centering
     \begin{tikzpicture}
         \begin{axis} [
+            title = Means of total profit values generated by DGHS and BMQHOA for 10k randomized items,
             ybar = .05cm,
             bar width = 12pt,
             xmin = 1,
@@ -708,7 +713,7 @@ The mean and standard deviations for each group can be viewed in the following c
         \legend {DGHS, BMQHOA};
         \end{axis}
     \end{tikzpicture}
-\caption{Mean of profit values for 10k randomized items} \label{10k-graph}
+\caption{Shows the mean of profit values for 10k randomized items} \label{10k-graph}
 \end{figure}
 
 %all correlations of items mean and stdev graph
@@ -716,6 +721,7 @@ The mean and standard deviations for each group can be viewed in the following c
     \centering
     \begin{tikzpicture}
         \begin{axis} [
+            title = Means of total profit values generated by DGHS and BMQHOA for the items uncorrelated by profit-weight,
             ybar,
             bar width = 12pt,
             width = 14cm,
@@ -763,13 +769,15 @@ The mean and standard deviations for each group can be viewed in the following c
         \legend {DGHS, BMQHOA};
         \end{axis}
     \end{tikzpicture}
-\caption{Mean of profit values for uncorrelated items} \label{uncorrelated-graph}
+\caption{Shows the means of profit values for uncorrelated items} \label{uncorrelated-graph}
+    \vspace{1em}
 %\end{figure}
 
 %\begin{figure}[hbt!]
     %\centering
     \begin{tikzpicture}
         \begin{axis} [
+            title = Means of total profit values generated by DGHS and BMQHOA for the items weakly-correlated by profit-weight,
             ybar,
             bar width = 12pt,
             width = 14cm,
@@ -816,13 +824,15 @@ The mean and standard deviations for each group can be viewed in the following c
         \legend {DGHS, BMQHOA};
         \end{axis}
     \end{tikzpicture}
-\caption{Mean of profit values for weakly correlated items} \label{weakly-graph}
+\caption{Shows the means of profit values for weakly correlated items} \label{weakly-graph}
+    \vspace{1em}
 %\end{figure}
 
 %\begin{figure}[hbt!]
     %\centering
     \begin{tikzpicture}
         \begin{axis} [
+            title = Means of total profit values generated by DGHS and BMQHOA for the items strongly-correlated by profit-weight,
             ybar,
             bar width = 12pt,
             xlabel = Testcase,
@@ -869,7 +879,7 @@ The mean and standard deviations for each group can be viewed in the following c
         \legend {DGHS, BMQHOA};
         \end{axis}
     \end{tikzpicture}
-\caption{Mean of profit values for strongly correlated items} \label{strongly-graph}
+\caption{Shows the means of profit values for strongly correlated items} \label{strongly-graph}
 \end{figure}
 
 \clearpage
@@ -881,7 +891,7 @@ As one can see in Figure 1, the DGHS algorithm deviates more than the BMQHOA alg
 
 In Table 7 and the corresponding Figure 1, the data shows that testcases with a greater number of items have resulted in greater deviations from the optimal. Both algorithms are probabilistic and work by generating new candidate solutions, and replacing worse solutions with better ones. As the generation process is only run 100 times in both algorithms, and as there are $2^{noItems}$ different possible solutions (possibly violating the constraints), the likelihood of finding optimal or near-optimal solutions decreases.
 
-The BMQHOA algorithm only flips 1 item toward the corresponding item in the current best solution during the solution generation process. The DGHS harmony generation, on the other hand, probabilistically considers every item for flipping toward the best solution, depending on the current iteration's HMCR value.  As the BMQHOA has produced worse profit values, it can be suggests that a greater level of evolution toward current best solutions is advantageous. 
+The BMQHOA algorithm only flips 1 item toward the corresponding item in the current best solution during the solution generation process. The DGHS harmony generation, on the other hand, probabilistically considers every item for flipping toward the best solution, depending on the current iteration's HMCR value.  As the BMQHOA has produced worse profit values, it can be suggested that a greater level of evolution toward current best solutions is advantageous - so flipping more items toward the best solution in the BMQHOA algorithm might have resulted in better profit values. 
 
 \newpage
 
