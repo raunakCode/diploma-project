@@ -29,13 +29,22 @@
 \maketitle
 
 \newpage
+
+\begin{abstract}
+    The 0-1 Knapsack problem is a well-known NP-complete problem. Various types of heuristic algorithms like genetic algorithms, simulated annealing algorithms, population evolution algorithms have been designed to solve the 0-1 Knapsack problem. The diploma project compared two such heuristic algorithms' ability to solve the 0-1 Knapsack Problem based on the generated total profit values: the Binary Multi-Scale Harmonic Oscillator Algorithm versus the Discrete Global-Best Harmony Search Algorithm. All codes for this paper are available at \href{github.com/raunakCode}{https://github.com/raunakCode/diploma-project}.
+\end{abstract}
+
+\newpage
+
+\pagenumbering{roman}
+
 \tableofcontents
 \listofalgorithms
 \newpage
-\pagenumbering{arabic}
 
 \section{Introduction}
 
+\pagenumbering{arabic}
 \subsection{Background}
 
 \renewcommand{\familydefault}{Computer Modern}
@@ -70,7 +79,7 @@ In the 0-1 Knapsack Problem, there are $n$ items and a maximum weight capacity $
 The rest of this paper will use the abbreviation "KP01" for the 0-1 Knapsack Problem. 
 
 \subsection{Aim}
-The aim of this paper is to compare algorithms in order to investigate the strength of commonly used techniques in for solving optimization problems.
+The aim of this paper is to compare the Discrete Global-Best Harmony Search Algorithm and the Binary Harmonic Multi-Scale Algorithm on their ability to solve KP01 to investigate the strength of commonly used techniques for solving optimization problems.
 
 \subsection{Research Question}
 How do the Discrete Global-Best Harmony Search Algorithm and the Binary Harmonic Multi-Scale Algorithm perform when implemented for solving KP01?
@@ -156,7 +165,7 @@ All problems in computer science are classified into a complexity class, which d
 There are 2 main approaches to solving KP01: An exact solution using deterministic algorithms, and probabilistic approaches involving heuristic algorithms. A small-scale KP01 can be solved with deterministic approaches, but for high-scale situations it is not realistic to get optimal solutions with exact approaches \cite{QWPA} as the KP01 problem is NP-complete \cite{KPNP}. 
 
 \subsection*{Deterministic algorithms}
-Dynamic programming is a general technique for solving optimization problems. If a problem has an optimal substructure and over-lapping subproblems, then dynamic programming is applicable \cite{optimalSubstructure}. In computer science a problem has \emph{optimal substructure} if an optimal solution for a problem can be constructed from optimal solutions of its sub-problems, and \emph{over-lapping subproblems} is when a problem can be decomposed into sub-problems which are reused. Dynamic programming breaks down a complicated problem into smaller sub-problems in a recursive manner, while also using some memory to save the solutions of the sub-problems (usually in tabular form). This way, when one needs to get a solution for a sub-problem again, one can just use previously calculated values. 
+Dynamic programming is a general technique for solving optimization problems. If a problem has an optimal substructure and over-lapping subproblems, then dynamic programming is applicable . In computer science a problem has \emph{optimal substructure} if an optimal solution for a problem can be constructed from optimal solutions of its sub-problems, and \emph{over-lapping subproblems} is when a problem can be decomposed into sub-problems which are reused \cite{optimalSubstructure}. Dynamic programming breaks down a complicated problem into smaller sub-problems in a recursive manner, while also using some memory to save the solutions of the sub-problems (usually in tabular form). This way, when one needs to get a solution for a sub-problem again, one can just use previously calculated values. 
 
 KP01 is solved using dynamic programming using a table based computation:
 
@@ -245,6 +254,7 @@ The parameters HMCR and PAR are used when generating new harmonies. They determi
 \end{equation}
 
 The dynamic updating of the parameters is designed in this way to let larger values of HMCR help accelerate the convergence of the harmonies early on with the the help of the best individual harmony, while smaller values of HMCR can help to overcome local maxima \cite{DGHS-article}. Similarly, larger values of PAR in the beginning allow for increases in diversity through mutations (item decision bit flips - deciding to take an item when having excluded it before or vice versa), when there is time to "explore" different variants, smaller values allow convergence at the end of the search. 
+
 
 With these parameters one generates a new harmony:
 
@@ -410,7 +420,7 @@ Testdata is made up of different testcases, each of which is an input on which e
 
 \subsection{Generating testdata}
 
-3 testgroups of 5 testcases were made using a random number generator, where a random number was generated using the Mersenne Prime Twister (mt19937). A computer cannot generate a truly random number. A pseudorandom number is what is generated, which is a number which appears to be statistically random, but has been generated using a deterministic process. The 3 groups had item counts of 100, 1000, and 10000. The number of solutions in memory (for the heuristic algorithms) was put in the input file which was kept constant, 20, in all testcases and algorithms for this report. In the random number generated testcases, the number of items $n$ was chosen to either be 100, 1000 or 10000. The profit and weight values were then randomly generated in a range of $ [1, noItems] $ while a sum-of-weights variable \emph{sum} was kept. The max weight was then randomly generated in a range of $[\frac{\text{sum}}{100} , \frac{\text{sum}}{10}]$, so that the knapsack wouldn't be able to hold all the items. To avoid any overflow errors, all generated numbers (and the sum of the profit/weight values) were kept below the max value of an \emph{int} which is $2^{31}-1$ in many programming languages.  Then $n$, $W$ (maxWeight), and each item (profit and weight values) was put in an input file. To make a fair comparison the number of $ITERATIONS$ (how many times a candidate solution is generated) was set to 100 for both algorithms. 
+3 testgroups of 5 testcases were made using a random number generator, where a random number was generated using the Mersenne Prime Twister (mt19937). A computer cannot generate a truly random number. A pseudorandom number is what is generated, which is a number which appears to be statistically random, but has been generated using a deterministic process. The 3 groups had item counts of 100, 1000, and 10000. The number of solutions in memory (for the heuristic algorithms) was put in the input file which was kept constant, 20, in all testcases and algorithms for this report. In the random number generated testcases, the number of items $n$ was chosen to either be 100, 1000 or 10000. The profit and weight values were then randomly generated in a range of $ [1, noItems] $ while a sum-of-weights variable \emph{sum} was kept. The max weight was then randomly generated in a range of $[\frac{\text{sum}}{100} , \frac{\text{sum}}{10}]$, so that the knapsack would not be able to hold all the items. To avoid any overflow errors, all generated numbers (and the sum of the profit/weight values) were kept below the max value of an \emph{int} which is $2^{31}-1$ in many programming languages.  Then $n$, $W$ (maxWeight), and each item (profit and weight values) was put in an input file. To make a fair comparison the number of $ITERATIONS$ (how many times a candidate solution is generated) was set to 100 for both algorithms. 
 
 3 groups of five testcases were taken from a database \ref{some website}. These 3 "testgroups" are mentioned/used several times in the literature. The 3 testgroups are uncorrelated, weakly correlated, and strongly correlated; the correlation being between the items' profit and weight values. The number of solutions in memory (20) was added to each of these testcases taken from \ref{some website}. 
 
@@ -423,17 +433,18 @@ Each testcase was then run on each algorithm and saved in a spreadsheet producin
 \section{Not finished - Results}
 
 \subsection{Raw Data}
-Refer to the appendix for the \hyperlink{random100}{raw data} for the algorithms running on the six testgroups: 100, 1000, 10k randomized numbers respectively and 3 differently correlated datasets. 
+Refer to the appendix for the \hyperlink{random100}{raw data} for the algorithms running on the six testgroups: 100, 1000, 10k randomized numbers respectively and 3 differently profit-weight correlated datasets. 
 % \href{https://github.com/raunakCode/diploma-project/blob/main/testing/algorithms%20results.csv}{\textcolor{purple}{Link to results}}
 
 \subsection{Processed Data}
 The mean and standard deviations for each group can be viewed in the following corresponding tables and graphs:
 
 \begin{changemargin}{8mm}{8mm} 
+%100
 \begin{table}[h!]
     \centering
     \scriptsize
-    \caption{Mean and StDev. of 100 Randomized items} \label{100-mean}
+    \caption{\scriptsize Shows the mean and StDev. of the total profit values produced in dataset of 100 randomized items} \label{100-mean}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
@@ -442,128 +453,9 @@ The mean and standard deviations for each group can be viewed in the following c
         BMQHOA Mean &3926.83$\pm$40.27 &2561.00$\pm$0 &4879$\pm$46.18 &3360.66$\pm$68.96 &1711.5$\pm$25.71 \\[1em] \hline
         Mean Percent deviation from optimal &5.80\% &0\%  &8.09\% &4.93\% &2.03\% \\ [-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
-
-    \vspace{1cm}
-    \hspace{-4cm}
-    \caption{Mean and StDev. of 1000 Randomized items} \label{1000-mean}
-    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
-        \tabucline[1pt]{1-6} 
-        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
-        DGHS Mean &156083.83$\pm$830.04 &118603.83$\pm$830.04 &144070$\pm$1343.77 &109734.33$\pm$1037.03 &126366.16$\pm$1236.73 \\ \hline
-        Mean Percent deviation from optimal &13.71\% &11.76\% &14.12\% &10.77\% &13.27\% \\ [-1pt] \tabucline[1pt]{1-6}
-        BMQHOA Mean &145086.5$\pm$1035.45 &109876.33$\pm$1540.63 &136622.66$\pm$2042.95 &101951.33$\pm$1271.88 &118291.16$\pm$799.78 \\ \hline
-        Mean Percent deviation from optimal &19.79\% &18.25\% &18.56\% &17.10\% &18.82\% \\ [-1pt] \tabucline[1pt]{1-6}
-    \end{tabu}
-
-    \vspace{1cm}
-    
-    \caption{Mean and StDev. of 10k Randomized items} \label{10k-mean}
-    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
-        \tabucline[1pt]{1-6} 
-        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
-        DGHS Mean &7681910$\pm$51555 &10567302$\pm$23956 &8014906$\pm$39449.15 &9347061$\pm$56967.66 &9583139$\pm$55816.60 \\ \hline
-        Mean Percent deviation from optimal &22.61\% &23.11\% &22.07\% &23.10\% &23.00\% \\[-1pt] \tabucline[1pt]{1-6}
-        BMQHOA Mean &7438487$\pm$29887.17 &10276681$\pm$50507.35 &7774520$\pm$34559.10 &9075476$\pm$53168.02 &9330322$\pm$46301.35 \\ \hline
-        Mean Percent deviation from optimal &25.07\% &25.22\% &24.41\% &25.33\% &25.03\% \\[-1pt] \tabucline[1pt]{1-6}
-    \end{tabu}
 \end{table}
-
-
-
-   % \vspace{1cm}
-\begin{table}[h!]
-    \centering
-    \scriptsize
-    \caption{Mean and StDev. of Uncorrelated Dataset} \label{uncorrelated-mean}
-    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
-        \tabucline[1pt]{1-6} 
-        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
-        DGHS Mean &9147$\pm$0 &11238$\pm$0 &51019.50$\pm$437.85 &99036.16$\pm$1544.34 &448975$\pm$1135.46 \\ \hline
-        Mean Percent deviation from optimal &0\% &0.00\% &6.39\% &10.47\% &20.34\% \\[-1pt] \tabucline[1pt]{1-6}
-        BMQHOA Mean &8974.5$\pm$147.24 &10976.50$\pm$154.37 &47401.50$\pm$841.75 &91725.83$\pm$1346.23 &431259.66$\pm$3049.43 \\ \hline
-        Mean Percent deviation from optimal &1.88\% &2.32\% &13.02\% &17.08\% &23.48\% \\[-1pt] \tabucline[1pt]{1-6}
-    \end{tabu}
-    
-    \vspace{1cm}
-    
-    \caption{Mean and StDev. of Weakly Correlated Dataset} \label{weakly-mean}
-    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
-        \tabucline[1pt]{1-6} 
-        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
-        DGHS Mean &1514$\pm$0 &1627.66$\pm$2.42 &8907.33$\pm$27.56 &17371.83$\pm$126.76 &82681.33$\pm$390.98 \\ \hline
-        Mean Percent deviation from optimal &0\% &0.38\% &1.59\% &3.76\% &8.33\% \\[-1pt] \tabucline[1pt]{1-6}
-        BMQHOA Mean &1508.16$\pm$6.82 &1613.66$\pm$16.74 &8435.33$\pm$60.60 &16539$\pm$133.95 &80900.66$\pm$970.71 \\ \hline
-        Mean Percent deviation from optimal &0.38\% &1.24\% &6.81\% &8.37\% &10.31\% \\[-1pt] \tabucline[1pt]{1-6}
-    \end{tabu}
-
-    \vspace{1cm}
-    
-    \caption{Mean and StDev. of Strongly Correlated Dataset} \label{strongly-mean}
-    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
-        \tabucline[1pt]{1-6} 
-        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
-        DGHS Mean &2391.66$\pm$6.08 &2697$\pm$0 &13682.5$\pm$60.05 &26444.66$\pm$240.84 &126448$\pm$615.61 \\ \hline
-        Mean Percent deviation from optimal &0.22\% &0\% &4.91\% &8.55\% &13.93\% \\[-1pt] \tabucline[1pt]{1-6}
-        BMQHOA Mean &2327.33$\pm$48.55 &2658.66$\pm$48.81 &13334.66$\pm$182.91 &25604$\pm$91.32 &123813.83$\pm$773.19 \\ \hline
-        Mean Percent deviation from optimal &2.90\% &1.42\% &7.33\% &11.46\% &15.72\% \\[-1pt] \tabucline[1pt]{1-6}
-    \end{tabu}
-\end{table}
-
-\begin{table}[h!]
-    \centering
-    \caption{Mean percentage deviation from optimal across all datasets}\label{deviation-table}
-    \begin{tabu}{|c|c|c|}
-        \tabucline[1pt]{1-6} 
-        & DGHS mean percentage deviation & BMQHOA mean percentage deviation \\ [-1pt] \tabucline[1pt]{1-6} 
-        100 randomized items &0.12\% &4.17\% \\ \hline
-        1000 randomized items &12.73\%&18.50\% \\\hline
-        10k randomized items &22.78\%&25.01\% \\\hline
-        Uncorrelated dataset &7.44\%&11.56\% \\\hline
-        Weakly Correlated dataset &2.81\%&5.42\% \\\hline
-        Strongly Correlated Dataset &5.52\%&7.77\% \\[-1pt] \tabucline[1pt]{1-6} 
-    \end{tabu}
-\end{table}
-\end{changemargin}
-%100 randomized items mean and stdev graph
 
 \begin{figure}[hbt!]
-\centering
-    \begin{tikzpicture}
-        \begin{axis} [
-            title = {Mean percentage deviation from the optimal for DGHS and BMQHOA across all datasets},
-            ybar = .05cm,
-            bar width = 9pt,
-            symbolic x coords={100 randomized, 1000 randomized, 10k randomized, Uncorrelated, Weakly, Strongly},
-            x tick label style={font=\scriptsize,text width=1cm,align=left},
-            ymin=0,
-            ylabel = Percent deviation from optimal, 
-            legend cell align={left},
-            legend pos = north west,
-            %ytick = data,+
-            enlarge y limits = {value = .2, upper},
-            enlarge x limits = {abs = 13pt}
-        ]
-        \addplot+[] coordinates {
-            (100 randomized, 0.12)
-            (1000 randomized, 12.73)
-            (10k randomized, 22.78)
-            (Uncorrelated, 7.44)
-            (Weakly, 2.81)
-            (Strongly, 5.52)
-        };
-        \addplot+[] coordinates {
-            (100 randomized, 4.17)
-            (1000 randomized, 18.50)
-            (10k randomized, 25.02)
-            (Uncorrelated, 11.56)
-            (Weakly, 5.42)
-            (Strongly, 7.77)
-        };
-        
-        \legend {DGHS, BMQHOA};
-        \end{axis}
-    \end{tikzpicture}
-    \caption{Mean percentage deviation from optimal across all datasets} \label{deviation-graph}
     \vspace{1em}
     \begin{tikzpicture}
         \begin{axis} [
@@ -613,7 +505,21 @@ The mean and standard deviations for each group can be viewed in the following c
     \caption{Shows the means of profit values for 100 randomized items} \label{100-graph}
 \end{figure}
 
-%1000+10k random items mean and stdev graph
+%1000
+\begin{table}
+    \centering
+    \scriptsize
+    \caption{\scriptsize Shows the mean and StDev. of the total profit values produced in dataset of 1000 randomized items} \label{1000-mean}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        DGHS Mean &156083.83$\pm$830.04 &118603.83$\pm$830.04 &144070$\pm$1343.77 &109734.33$\pm$1037.03 &126366.16$\pm$1236.73 \\ \hline
+        Mean Percent deviation from optimal &13.71\% &11.76\% &14.12\% &10.77\% &13.27\% \\ [-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &145086.5$\pm$1035.45 &109876.33$\pm$1540.63 &136622.66$\pm$2042.95 &101951.33$\pm$1271.88 &118291.16$\pm$799.78 \\ \hline
+        Mean Percent deviation from optimal &19.79\% &18.25\% &18.56\% &17.10\% &18.82\% \\ [-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
 \begin{figure}[hbt!]
 \centering
     \begin{tikzpicture}
@@ -663,11 +569,26 @@ The mean and standard deviations for each group can be viewed in the following c
     \end{tikzpicture}
 \caption{Shows the means of profit values for 1000 randomized items} \label{1000-graph}
     \vspace{1em}
-%\end{figure}
+\end{figure}
+\vskip -5cm
+%10k
+\begin{table}
+    \centering
+    \scriptsize
+    \vspace{1cm}
+    \caption{\scriptsize Shows the mean and StDev. of the total profit values produced in dataset of 10k randomized items} \label{10k-mean}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        DGHS Mean &7681910$\pm$51555 &10567302$\pm$23956 &8014906$\pm$39449.15 &9347061$\pm$56967.66 &9583139$\pm$55816.60 \\ \hline
+        Mean Percent deviation from optimal &22.61\% &23.11\% &22.07\% &23.10\% &23.00\% \\[-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &7438487$\pm$29887.17 &10276681$\pm$50507.35 &7774520$\pm$34559.10 &9075476$\pm$53168.02 &9330322$\pm$46301.35 \\ \hline
+        Mean Percent deviation from optimal &25.07\% &25.22\% &24.41\% &25.33\% &25.03\% \\[-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
 
-%10k random items mean and stdev graph
-%\begin{figure}[hbt!]
-%\centering
+\begin{figure}[hbt!]
+\centering
     \begin{tikzpicture}
         \begin{axis} [
             title = Means of total profit values generated by DGHS and BMQHOA for 10k randomized items,
@@ -716,7 +637,21 @@ The mean and standard deviations for each group can be viewed in the following c
 \caption{Shows the mean of profit values for 10k randomized items} \label{10k-graph}
 \end{figure}
 
-%all correlations of items mean and stdev graph
+%uncorrelated
+\begin{table}[h!]
+    \centering
+    \scriptsize
+    \caption{\scriptsize Shows the mean and StDev. of the total profit values produced in the profit-weight uncorrelated dataset} \label{uncorrelated-mean}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        DGHS Mean &9147$\pm$0 &11238$\pm$0 &51019.50$\pm$437.85 &99036.16$\pm$1544.34 &448975$\pm$1135.46 \\ \hline
+        Mean Percent deviation from optimal &0\% &0.00\% &6.39\% &10.47\% &20.34\% \\[-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &8974.5$\pm$147.24 &10976.50$\pm$154.37 &47401.50$\pm$841.75 &91725.83$\pm$1346.23 &431259.66$\pm$3049.43 \\ \hline
+        Mean Percent deviation from optimal &1.88\% &2.32\% &13.02\% &17.08\% &23.48\% \\[-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
 \begin{figure}[hbt!]
     \centering
     \begin{tikzpicture}
@@ -770,10 +705,24 @@ The mean and standard deviations for each group can be viewed in the following c
         \end{axis}
     \end{tikzpicture}
 \caption{Shows the means of profit values for uncorrelated items} \label{uncorrelated-graph}
-    \vspace{1em}
-%\end{figure}
+\end{figure}
+\newpage
+%weakly-correlated
+\begin{table}[h!]
+    \centering
+    \scriptsize
+    \caption{\scriptsize Shows the mean and StDev. of the total profit values produced in the profit-weight weakly-correlated dataset} \label{weakly-mean}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        DGHS Mean &1514$\pm$0 &1627.66$\pm$2.42 &8907.33$\pm$27.56 &17371.83$\pm$126.76 &82681.33$\pm$390.98 \\ \hline
+        Mean Percent deviation from optimal &0\% &0.38\% &1.59\% &3.76\% &8.33\% \\[-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &1508.16$\pm$6.82 &1613.66$\pm$16.74 &8435.33$\pm$60.60 &16539$\pm$133.95 &80900.66$\pm$970.71 \\ \hline
+        Mean Percent deviation from optimal &0.38\% &1.24\% &6.81\% &8.37\% &10.31\% \\[-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
 
-%\begin{figure}[hbt!]
+\begin{figure}[hbt!]
     %\centering
     \begin{tikzpicture}
         \begin{axis} [
@@ -825,10 +774,25 @@ The mean and standard deviations for each group can be viewed in the following c
         \end{axis}
     \end{tikzpicture}
 \caption{Shows the means of profit values for weakly correlated items} \label{weakly-graph}
-    \vspace{1em}
-%\end{figure}
+\end{figure}
 
-%\begin{figure}[hbt!]
+
+%strongly correlated
+\begin{table}[h!]
+    \centering
+    \scriptsize
+    \caption{\scriptsize Shows the mean and StDev. of the total profit values produced in the profit-weight strongly-correlated dataset} \label{strongly-mean}
+    \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
+        DGHS Mean &2391.66$\pm$6.08 &2697$\pm$0 &13682.5$\pm$60.05 &26444.66$\pm$240.84 &126448$\pm$615.61 \\ \hline
+        Mean Percent deviation from optimal &0.22\% &0\% &4.91\% &8.55\% &13.93\% \\[-1pt] \tabucline[1pt]{1-6}
+        BMQHOA Mean &2327.33$\pm$48.55 &2658.66$\pm$48.81 &13334.66$\pm$182.91 &25604$\pm$91.32 &123813.83$\pm$773.19 \\ \hline
+        Mean Percent deviation from optimal &2.90\% &1.42\% &7.33\% &11.46\% &15.72\% \\[-1pt] \tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
+\begin{figure}[hbt!]
     %\centering
     \begin{tikzpicture}
         \begin{axis} [
@@ -882,12 +846,93 @@ The mean and standard deviations for each group can be viewed in the following c
 \caption{Shows the means of profit values for strongly correlated items} \label{strongly-graph}
 \end{figure}
 
+%mean percentage deviation
+\begin{table}[h!]
+    \centering
+    \scriptsize
+    \caption{\scriptsize Shows the mean percentage deviation from optimal total profit value across all datasets}\label{deviation-table}
+    \begin{tabu}{|c|c|c|}
+        \tabucline[1pt]{1-6} 
+        & DGHS mean percentage deviation & BMQHOA mean percentage deviation \\ [-1pt] \tabucline[1pt]{1-6} 
+        100 randomized items &0.12\% &4.17\% \\ \hline
+        1000 randomized items &12.73\%&18.50\% \\\hline
+        10k randomized items &22.78\%&25.01\% \\\hline
+        Uncorrelated dataset &7.44\%&11.56\% \\\hline
+        Weakly Correlated dataset &2.81\%&5.42\% \\\hline
+        Strongly Correlated Dataset &5.52\%&7.77\% \\[-1pt] \tabucline[1pt]{1-6} 
+    \end{tabu}
+\end{table}
+
+\begin{figure}[hbt!]
+\centering
+    \begin{tikzpicture}
+        \begin{axis} [
+            title = {Mean percentage deviation from the optimal for DGHS and BMQHOA across all datasets},
+            ybar = .05cm,
+            bar width = 9pt,
+            symbolic x coords={100 randomized, 1000 randomized, 10k randomized, Uncorrelated, Weakly, Strongly},
+            x tick label style={font=\scriptsize,text width=1cm,align=left},
+            ymin=0,
+            ylabel = Percent deviation from optimal, 
+            legend cell align={left},
+            legend pos = north west,
+            %ytick = data,+
+            enlarge y limits = {value = .2, upper},
+            enlarge x limits = {abs = 13pt}
+        ]
+        \addplot+[] coordinates {
+            (100 randomized, 0.12)
+            (1000 randomized, 12.73)
+            (10k randomized, 22.78)
+            (Uncorrelated, 7.44)
+            (Weakly, 2.81)
+            (Strongly, 5.52)
+        };
+        \addplot+[] coordinates {
+            (100 randomized, 4.17)
+            (1000 randomized, 18.50)
+            (10k randomized, 25.02)
+            (Uncorrelated, 11.56)
+            (Weakly, 5.42)
+            (Strongly, 7.77)
+        };
+        
+        \legend {DGHS, BMQHOA};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Mean percentage deviation from optimal across all datasets} \label{deviation-graph}
+\end{figure}
+
+\end{changemargin}
+
+\clearpage
+\subsection{Statistical Test}
+An unpaired t-test was performed on the 2 groups of all the profit values produced by the DGHS and BMQHOA algorithms respectively to compare the means. The raw data was processed to get the means $\textcolor{purple}{x}$ of all profit values for each algorithm and the sum of squares $\textcolor{purple}{s}$ of the differences between observed values and the means for the profit values of each algorithm:
+
+\begin{table}[h!]
+    \centering
+    \caption{\scriptsize Shows the means of the 2 groups of the profit values produced by the DGHS and BMQHOA algorithms, and the sums of squares of the differences between the observed values and the means of the groups} \label{t-test}
+    \begin{tabu}{|c|[1pt]c|c|}
+        \tabucline[1pt]{1-3} 
+        & DGHS & BMQHOA \\ [-1pt] \tabucline[1pt]{1-6} 
+        $\textcolor{purple}{x}$ & 1558988.34  &1513027.61 \\ \hline
+        $\textcolor{purple}{s}$ & 2049263936280287.25 & 1934581405094429.75 \\\tabucline[1pt]{1-6}
+    \end{tabu}
+\end{table}
+
+The formula for an unpaired t-test is:
+$$ t = \frac{ x_{1} - x_{2} }{ \sqrt{ \frac{s_{1}^{2}}{n_{1}} + \frac{s_{2}^{2}}{n_{2}} } } $$
+In this case, $n_{1} = n_{2} = 180$ as there are 180 values in both groups. This gives a t-test value of $0.00000000022$ and the corresponding p-value of $0.999998$. The null hypothesis is:
+\begin{center}
+    $H_{0}$ - There is no difference in total profit values produced by the DGHS and BMQHOA algorithms for the dataset.
+\end{center}
+
 \clearpage
 
 \newpage 
 
 \section{Not finished - Discussion}
-As one can see in Figure 1, the DGHS algorithm deviates more than the BMQHOA algorithm in all datasets. One can draw the conclusion that the DGHS algorithm is superior.
+As one can see in Figure 1, the DGHS algorithm deviates more than the BMQHOA algorithm in all datasets. This suggests that the DGHS algorithm is superior. However, the t-test and its p-value of $0.99998$ accepts the null hypothesis and suggests that the difference is not statistically significant. 
 
 In Table 7 and the corresponding Figure 1, the data shows that testcases with a greater number of items have resulted in greater deviations from the optimal. Both algorithms are probabilistic and work by generating new candidate solutions, and replacing worse solutions with better ones. As the generation process is only run 100 times in both algorithms, and as there are $2^{noItems}$ different possible solutions (possibly violating the constraints), the likelihood of finding optimal or near-optimal solutions decreases.
 
@@ -901,7 +946,7 @@ The BMQHOA algorithm only flips 1 item toward the corresponding item in the curr
 
 \section{Appendix}
 \begin{table}[!h]\centering
-    \caption{Randomized 100 items} \label{random100}
+    \caption{\scriptsize Shows the total profit values produced by the DGHS and BMQHOA algorithms in the dataset of Randomized 100 items} \label{random100}
     \begin{tabu}{|c|c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
@@ -922,7 +967,7 @@ The BMQHOA algorithm only flips 1 item toward the corresponding item in the curr
 \end{table}
 
 \begin{table}[!h] \centering
-    \caption{Randomized 1000 items} \label{random1000}
+    \caption{\scriptsize Shows the total profit values produced by the DGHS and BMQHOA algorithms in the dataset of Randomized 1000 items} \label{random1000}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
@@ -943,7 +988,7 @@ The BMQHOA algorithm only flips 1 item toward the corresponding item in the curr
 \end{table}
 
 \begin{table}[!h] \centering
-    \caption{Randomized 10k items} \label{random10k}
+    \caption{\scriptsize Shows the total profit values produced by the DGHS and BMQHOA algorithms in the dataset of Randomized 10k items} \label{random10k}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
@@ -964,7 +1009,7 @@ The BMQHOA algorithm only flips 1 item toward the corresponding item in the curr
 \end{table}
 
 \begin{table}[!h] \centering
-    \caption{Uncorrelated Dataset} \label{uncorrelated}
+    \caption{\scriptsize Shows the total profit values produced by the DGHS and BMQHOA algorithms in the profit-weight uncorrelated dataset} \label{uncorrelated}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
@@ -985,7 +1030,7 @@ The BMQHOA algorithm only flips 1 item toward the corresponding item in the curr
 \end{table}
 
 \begin{table}[!h] \centering
-    \caption{Weakly Correlated Dataset} \label{weakly-correlated}
+    \caption{\scriptsize Shows the total profit values produced by the DGHS and BMQHOA algorithms in the profit-weight weakly-correlated dataset} \label{weakly-correlated}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
@@ -1006,7 +1051,7 @@ The BMQHOA algorithm only flips 1 item toward the corresponding item in the curr
 \end{table}
 
 \begin{table}[!h] \centering
-    \caption{Strongly correlated Dataset} \label{strongly-correlated}
+    \caption{\footnotesize Shows the total profit values produced by the DGHS and BMQHOA algorithms in the profit-weight strongly-correlated dataset} \label{strongly-correlated}
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
