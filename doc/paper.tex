@@ -31,7 +31,7 @@
 \newpage
 
 \begin{abstract}
-    The 0-1 Knapsack problem is a well-known NP-complete problem. Various types of heuristic algorithms like genetic algorithms, simulated annealing algorithms, population evolution algorithms have been designed to solve the 0-1 Knapsack problem. The diploma project compared two such heuristic algorithms' ability to solve the 0-1 Knapsack Problem based on the generated total profit values: the Binary Multi-Scale Harmonic Oscillator Algorithm versus the Discrete Global-Best Harmony Search Algorithm. All codes for this paper are available at \href{github.com/raunakCode}{https://github.com/raunakCode/diploma-project}.
+    The 0-1 Knapsack problem is a well-known NP-complete problem. Various types of heuristic algorithms like genetic algorithms, simulated annealing algorithms, population evolution algorithms have been designed to solve the 0-1 Knapsack problem. The paper compared two such heuristic algorithms' ability to solve the 0-1 Knapsack Problem based on the generated total profit values: the BMQHOA (Binary Multi-Scale Harmonic Oscillator) Algorithm versus the DGHS (Discrete Global-Best Harmony Search) Algorithm. The algorithms were tested on 6 testgroups - 100, 1000, and 10000 randomized items, and uncorrelated, weakly correlated, and strongly-correlated items where the items are profit to weight correlated. The DGHS algorithm produced higher profit values on average than the BMQHOA algorithm in every testgroup. However, an unpaired t-test was performed and the difference in profit values produced between the two algorithms was evaluated as not statistically significant. The profit values produced by both algorithms in the uncorrelated, weakly-correlated, and strongly-correlated testgroups still showed the DGHS as superior, and the degree of correlation did not seem to have an affect on the profit values produced.  All codes for this paper are available at \href{github.com/raunakCode}{https://github.com/raunakCode/diploma-project}.
 \end{abstract}
 
 \newpage
@@ -79,7 +79,7 @@ In the 0-1 Knapsack Problem, there are $n$ items and a maximum weight capacity $
 The rest of this paper will use the abbreviation "KP01" for the 0-1 Knapsack Problem. 
 
 \subsection{Aim}
-The aim of this paper is to compare the Discrete Global-Best Harmony Search Algorithm and the Binary Harmonic Multi-Scale Algorithm on their ability to solve KP01 to investigate the strength of commonly used techniques for solving optimization problems.
+The aim of this paper is to compare the Discrete Global-Best Harmony Search Algorithm and the Binary Harmonic Multi-Scale Algorithm on their ability to solve KP01 to investigate the strength of the heuristic  techniques used for solving optimization problems.
 
 \subsection{Research Question}
 How do the Discrete Global-Best Harmony Search Algorithm and the Binary Harmonic Multi-Scale Algorithm perform when implemented for solving KP01?
@@ -132,7 +132,7 @@ Computer scientists usually categories the time complexity of an algorithm into 
             samples=100, 
             color=orange,
           ]
-          {2^x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(2^{x})$};
+          {2^x}node[above,pos=1,style={font=\Large}]{$\mathcal{O}(2^{n})$};
           \addplot [
             samples=100, 
             color=green,
@@ -218,6 +218,8 @@ It consists of 4 main parts:
     \item If generated harmony is better than the best in the harmony, replace it. If not, check if it is better than then worst harmony, and replace it if so. 
     \item If maximum number of iterations has been met, output the best sum profit value found so far.
 \end{enumerate}
+
+The 4 steps above take on the order of $nlogn$ time and thus have a time complexity of ${O}(n\log{}n)$.
 
 \vskip 0.5cm
 %DGHS
@@ -341,6 +343,8 @@ The BMQHOA algorithm consists of 4 parts:
     \item If termination constraint is satisfied, output the best total profit value found so far, else return to Step 2.
 \end{enumerate}
 
+Similarly to the DGHS algorithm, the 4 steps above take on the order of $nlogn$ time and thus have a time complexity of ${O}(n\log{}n)$.
+
 %BMQHOA
 \begin{breakablealgorithm}
 \caption{The BMQHOA algorithm with solution generation}\label{BMQHOA}
@@ -414,23 +418,26 @@ $Q_{1}[1, 2,...,n]$ is the index for the items in the density ratio array in the
 
 \newpage
 
-\section{Not finished - Methodology}
+\section{Methodology}
 
-Testdata is made up of different testcases, each of which is an input on which every algorithm is run.
+\subsection{Coding the algorithms}
+The DP (dynamic programming) bruteforce was used to try all possible combinations of items to find the optimal profit value. The DP bruteforce algorithm, DGHS algorithm and the BMQHOA algorithm were coded in C++ based on the pseudocode provided in articles that proposed the respective algorithms. These C++ implementations of the algorithms can be found at \href{https://github.com/raunakCode/diploma-project/tree/main/algorithms}{\textcolor{blue}{https://github.com/raunakCode/diploma-project/tree/main/algorithms}}. 
 
 \subsection{Generating testdata}
+The testdata was categorized into 6 testgroups, each of which had 5 different testcases, each of which is an input on which every algorithm was run. 3 testgroups of 5 testcases were made using a random number generator, where a random number was generated using the Mersenne Prime Twister (mt19937) \cite{mersenne} with some C++ code - available \href{https://github.com/raunakCode/diploma-project/blob/main/testing/gen.cpp}{\textcolor{blue}{here}}. A computer cannot generate a truly random number. A pseudorandom number is what is generated, which is a number which appears to be statistically random, but has been generated using a deterministic process, in this case - the Mersenne Prime Twister. The 3 groups had item counts of 100, 1000, and 10000. The number of solutions in memory (for the heuristic algorithms) was put in the input file and was kept a constant, 20, in all testcases and algorithms for this report. 
 
-3 testgroups of 5 testcases were made using a random number generator, where a random number was generated using the Mersenne Prime Twister (mt19937). A computer cannot generate a truly random number. A pseudorandom number is what is generated, which is a number which appears to be statistically random, but has been generated using a deterministic process. The 3 groups had item counts of 100, 1000, and 10000. The number of solutions in memory (for the heuristic algorithms) was put in the input file which was kept constant, 20, in all testcases and algorithms for this report. In the random number generated testcases, the number of items $n$ was chosen to either be 100, 1000 or 10000. The profit and weight values were then randomly generated in a range of $ [1, noItems] $ while a sum-of-weights variable \emph{sum} was kept. The max weight was then randomly generated in a range of $[\frac{\text{sum}}{100} , \frac{\text{sum}}{10}]$, so that the knapsack would not be able to hold all the items. To avoid any overflow errors, all generated numbers (and the sum of the profit/weight values) were kept below the max value of an \emph{int} which is $2^{31}-1$ in many programming languages.  Then $n$, $W$ (maxWeight), and each item (profit and weight values) was put in an input file. To make a fair comparison the number of $ITERATIONS$ (how many times a candidate solution is generated) was set to 100 for both algorithms. 
+In the 3 random number generated testgroups, the number of items $noItems$ was chosen to either be 100, 1000 or 10000. The profit and weight values were then randomly generated in a range of $ [1, noItems] $ while a sum-of-weights variable \emph{sum} was kept. The max weight was then randomly generated in a range of $[\frac{\text{sum}}{100} , \frac{\text{sum}}{10}]$, so that the knapsack would not be able to hold all the items. To avoid any integer overflow errors, all generated numbers and the sum of all the profit/weight values were kept below the max value of an \emph{int} which is $2^{31}-1$ in many programming languages.  Then $n$, $W$ (maxWeight), and each item (profit and weight values) were all put in an input file which was later used to test the algorithms. This process was repeated 6 times for each of 3 random-items testgroups.
 
-3 groups of five testcases were taken from a database \ref{some website}. These 3 "testgroups" are mentioned/used several times in the literature. The 3 testgroups are uncorrelated, weakly correlated, and strongly correlated; the correlation being between the items' profit and weight values. The number of solutions in memory (20) was added to each of these testcases taken from \ref{some website}. 
+The other 3 testgroups of 5 testcases were taken from a database \cite{dataset}. These 3 "testgroups" are mentioned/used several times in the literature for KP01. The 3 testgroups are uncorrelated, weakly correlated, and strongly correlated; the correlation being between the items' profit and weight values. The number of solutions in memory, 20, was added to each of these testcases as well. 
 
-These input files were then saved for later testing of the algorithms. 
+To make a fair comparison the number of $ITERATIONS$ (how many times a candidate solution is generated) was set to 100 for both algorithms. These input files were then saved for later testing of the algorithms. Each testcase was then run on each algorithm and raw data of the total profit values generated was then saved, refer to appendix.
 
-Each testcase was then run on each algorithm and saved in a spreadsheet producing a csv table, refer to appendix.
+\subsection{Testing}
+The C++ codes were compiled with the GNU G++17 compiler. Every testcase in each testgroup was then tested 6 times on both algorithms, and the raw data (profit values generated) was then saved for further processing. An unpaired t-test was conducted over all the profit values for both algorithms respectively. Unpaired t-tests were also performed within each testgroup as well, however they the t-tests' evaluation of the data did not change and thus has not been shown here. 
 
 \newpage
 
-\section{Not finished - Results}
+\section{Results}
 
 \subsection{Raw Data}
 Refer to the appendix for the \hyperlink{random100}{raw data} for the algorithms running on the six testgroups: 100, 1000, 10k randomized numbers respectively and 3 differently profit-weight correlated datasets. 
@@ -456,6 +463,7 @@ The mean and standard deviations for each group can be viewed in the following c
 \end{table}
 
 \begin{figure}[hbt!]
+    \centering
     \vspace{1em}
     \begin{tikzpicture}
         \begin{axis} [
@@ -900,7 +908,7 @@ The mean and standard deviations for each group can be viewed in the following c
         \legend {DGHS, BMQHOA};
         \end{axis}
     \end{tikzpicture}
-    \caption{Mean percentage deviation from optimal across all datasets} \label{deviation-graph}
+    \caption{Shows the mean percentage deviation from optimal across all datasets} \label{deviation-graph}
 \end{figure}
 
 \end{changemargin}
@@ -931,12 +939,16 @@ In this case, $n_{1} = n_{2} = 180$ as there are 180 values in both groups. This
 
 \newpage 
 
-\section{Not finished - Discussion}
+\section{Discussion}
 As one can see in Figure 1, the DGHS algorithm deviates more than the BMQHOA algorithm in all datasets. This suggests that the DGHS algorithm is superior. However, the t-test and its p-value of $0.99998$ accepts the null hypothesis and suggests that the difference is not statistically significant. 
 
-In Table 7 and the corresponding Figure 1, the data shows that testcases with a greater number of items have resulted in greater deviations from the optimal. Both algorithms are probabilistic and work by generating new candidate solutions, and replacing worse solutions with better ones. As the generation process is only run 100 times in both algorithms, and as there are $2^{noItems}$ different possible solutions (possibly violating the constraints), the likelihood of finding optimal or near-optimal solutions decreases.
+In Table 7 and the corresponding Figure 1, the data shows that testcases with a greater number of items have resulted in greater deviations from the optimal. Both algorithms are probabilistic and work by generating new candidate solutions, and replacing worse solutions with better ones. As the generation process is only run 100 times in both algorithms, and as there are $2^{noItems}$ different possible solutions (possibly violating the constraints), the likelihood of finding optimal or near-optimal solutions decreases as the number of items $noItems$ increases.
 
 The BMQHOA algorithm only flips 1 item toward the corresponding item in the current best solution during the solution generation process. The DGHS harmony generation, on the other hand, probabilistically considers every item for flipping toward the best solution, depending on the current iteration's HMCR value.  As the BMQHOA has produced worse profit values, it can be suggested that a greater level of evolution toward current best solutions is advantageous - so flipping more items toward the best solution in the BMQHOA algorithm might have resulted in better profit values. 
+
+
+\subsection{Conclusion}
+The testing in this paper suggests that while the DGHS algorithm seems to perform better than the BMQHOA algorithm, it is not statistically significant. However, the small margin by which DGHS outperforms BMQHOA could be attributed to increased influence that the current best solution in memory has on the candidate solution in every iteration. 
 
 \newpage
 
@@ -971,7 +983,7 @@ The BMQHOA algorithm only flips 1 item toward the corresponding item in the curr
     \begin{tabu}{|c|[1pt]c|c|c|c|c|c|}
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
-        Optimal & 4169 & 2561 & 5309 & 3535 & 1747 \\ [-1pt] \tabucline[1pt]{1-6} 
+        Optimal & 180899 & 134411 & 167772 & 122983 & 145717 \\ [-1pt] \tabucline[1pt]{1-6} 
         \multirow{6}{*}{DGHS} & 156898 & 119888 & 141878 & 110608 & 128009 \\ \cline{2-6}
         &155104 &117086 &143322 &108732 &124714 \\ \cline{2-6} 
         &155849 &117110 &145381 &108973 &125400 \\ \cline{2-6} 
