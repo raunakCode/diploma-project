@@ -32,6 +32,8 @@
 
 \begin{abstract}
     The 0-1 Knapsack problem is a well-known NP-complete problem. Various types of heuristic algorithms like genetic algorithms, simulated annealing algorithms, population evolution algorithms have been designed to solve the 0-1 Knapsack problem. The paper compared two such heuristic algorithms' ability to solve the 0-1 Knapsack Problem based on the generated total profit values: the BMQHOA (Binary Multi-Scale Harmonic Oscillator) Algorithm versus the DGHS (Discrete Global-Best Harmony Search) Algorithm. The algorithms were tested on 6 testgroups - 100, 1000, and 10000 randomized items, and uncorrelated, weakly correlated, and strongly-correlated items where the items are profit to weight correlated. The DGHS algorithm produced higher profit values on average than the BMQHOA algorithm in every testgroup. However, an unpaired t-test was performed and the difference in profit values produced between the two algorithms was evaluated as not statistically significant. The profit values produced by both algorithms in the uncorrelated, weakly-correlated, and strongly-correlated testgroups still showed the DGHS as superior, and the degree of correlation did not seem to have an affect on the profit values produced.  All codes for this paper are available at \href{github.com/raunakCode}{https://github.com/raunakCode/diploma-project}.
+
+    \textbf{Keywords:} knapsack, NP, complete, algorithms, heuristic, unpaired t-test
 \end{abstract}
 
 \newpage
@@ -48,9 +50,9 @@
 \subsection{Background}
 
 \renewcommand{\familydefault}{Computer Modern}
-There are many situations in every day life, where people wonder whether they are doing something efficiently. Unforunately, the human brain is not always capable of coming up with an optimal approach when the problem has includes several factors to be accounted for. It is here when an external system is used, and the true power of computing can be recognised. 
+There are many situations in every day life, where people wonder whether they are doing something efficiently. Unforunately, the human brain is not always capable of coming up with an optimal approach when the problem includes several factors to be accounted for. It is here when an external system is used, and the true power of computing can be recognised. 
 
-To solve such problems, a computer is provided all the information, from which it will produce an optimal answer. For the system to process all the information, certain instructions must be written into the system so that it knows how to handle the information. This set of instructions is called an algorithm. The system or computer uses algorithms to take in information (the input), and produce an answer - the output. The efficiency (in all aspects) of the algorithm is dependant on the steps that make it up. Most problems have several algorithms which can solve them. For problems in computer science, more than one algorithm is usually proposed and used. This is usually the case for optimization problems. 
+To solve such problems, a computer is provided all the information, from which it will produce an optimal answer. For the system to process all the information, certain instructions must be written into the system so that it knows how to handle the information. This set of instructions is called an algorithm. The system or computer uses algorithms to take in information (the input), and produce an answer - the output. The efficiency (in all aspects) of the algorithm is dependant on the steps that make it up. For problems in computer science, most problems have several algorithms which can solve them, and usually more than one is used in practice. This is usually the case for optimization problems. 
 
 In the fields of computer science and mathematics, optimization problems are problems of finding the optimal solution, from a range of many feasible solutions. They are usually categorized into 2 categories: discrete optimizations and continuous optimizations, depending on whether the variables are discrete or continuous respectively. Combinatorial optimization problems are a subset of optimization problems that fall into the discrete. Combinatorial optimization involves searching for a maxima or minima for an objective function whose search space domain is discrete but usually large.
 
@@ -61,9 +63,9 @@ Typical combinatorial optimization problems include:
     \item \textcolor{blue}{Set Cover} - Given a set of elements $\{1, 2, ..., n\}$ called the universe, and a collection of $m$ sets whose union equals the universe, what is the smallest sub-collection of those m sets whose union is the universe?
 \end{itemize}
 
-Combinatorial optimization problems show up in an array of different fields. The Knapsack Problem in particular has many variants which include the 0-1 knapsack problem, the bounded and unbounded knapsack problems, the multidimensional knapsack problem, the discounted knapsack problem, etc. The 0-1 Knapsack Problem is the simplest form of the knapsack problem and thus has also been in the main focus within the research community. It appears in real-world decision-making processes in a variety of fields. Some examples include: financial modelling and investments \cite{finance}, cryptography, and resource allocation in networking \cite{resource} (all considered high-scale instances of the knapsack problem; large amount of data to process).
+Combinatorial optimization problems show up in an array of different fields. The Knapsack Problem in particular has many variants which include the 0-1 knapsack problem, the bounded and unbounded knapsack problems, the multidimensional knapsack problem, the discounted knapsack problem, etc \cite{knapsackVariants}. The 0-1 Knapsack Problem is the simplest form of the knapsack problem and thus has also been in the main focus within the research community. It appears in real-world decision-making processes in a variety of fields. Some examples include: financial modelling and investments \cite{finance}, cryptography, and resource allocation in networking \cite{resource} (all considered high-scale instances of the knapsack problem; large amount of data to process).
 
-Exact deterministic algorithms are those which will always produce the same optimal result every time. Many of combinatorial optimization problems including the 0-1 Knapsack problem currently do not have exact deterministic algorithms which are considered fast enough for them to be used in high-scale data situations. Consequently, the research focus has been on algorithms that do not necessarily guarantee the best solution but win over deterministic algorithms when it comes to time. 
+Exact deterministic algorithms are those which will always produce the same optimal result every time. Many combinatorial optimization problems including the 0-1 Knapsack problem currently do not have exact deterministic algorithms which are considered fast enough for them to be used in high-scale data situations. Consequently, the research focus has been on algorithms that do not necessarily guarantee the best solution but win over deterministic algorithms when it comes to time. 
 
 \subsubsection*{Problem statement}
 In the 0-1 Knapsack Problem, there are $n$ items and a maximum weight capacity $W$. Each item has a profit value $p_i$ and a weight value $w_i$. One must then find the optimal selection of items which maximizes the profit value while respecting the max weight value. The problem can be mathematically represented as such:
@@ -88,12 +90,12 @@ How do the Discrete Global-Best Harmony Search Algorithm and the Binary Harmonic
 
 \section{Theory}
 \subsection{Computational Complexity}
-In computer science, computational complexity is the measure of how expensive it is to the run an algorithm; the amount of resources required to run the algorithm. The 2 resources are time and memory usage by a computer. As there are many low-level computer operations which happen, it is hard to exactly know how much time a program will take to run, however since these low-level operations always occur, the time taken for a program to run is usually some constant times some function of the size of the input - the time complexity. For this reason, the time and memory are usually given as time and space complexities which are given in terms of the size of the input.  As the memory complexity is dependent on the time complexity, the time complexity is the limiting factor for the efficiency of an algorithm and is usually the one focused on. Computable problems' time complexities can be factorial, exponential, polynomial, logarithmic, etc.
+In computer science, computational complexity is the measure of how expensive it is to run an algorithm; the amount of resources required to run the algorithm. The 2 resources are time and memory usage by a computer. As there are many low-level computer operations which happen, it is hard to know exactly how much time a program will take to run, however since these low-level operations always occur, the time taken for a program to run is usually some constant times some function of the size of the input - the time complexity. For this reason, the time and memory usage are estimated and usually given as time and space complexities which are in terms of the size of the input.  As the memory complexity is dependent on the time complexity, the time complexity is the limiting factor for the efficiency of an algorithm and is usually the one focused on. Computable problems' time complexities can be factorial, exponential, polynomial, logarithmic, etc.
 
 \subsubsection*{Big O notation}
 The time complexity of an algorithm is a function of the size of the input of that algorithm. For example, if a set of $n$ numbers $a_1, a_2, a_3, ..., a_n$ are given, and an algorithm checks the existence of an certain number in that set, by checking all n elements of the set for equality, then the time complexity is some constant times $n$ - the size of the input. Computer scientists would denote this using Big O notation as $\mathcal{O}(n)$. Big O notation is a system developed by mathematicians and computer scientists to describe an function/algorithm's asymptotic limiting factor. \cite{bigO}
 
-Computer scientists usually categories the time complexity of an algorithm into polynomial time complexities and non polynomial time complexities. This is because non-polynomial functions like factorial and exponential functions tend to grow quicker than polynomial functions and thus are usually considered nonviable for large data. One can see thus in the graph below before that the \textit{non-polynomial} functions like $f(x) = x!\cdot3^{x}$ or $f(x) = 2^{x}$ grow much faster than the other \textit{polynomial} or \textit{subpolynomial} functions. 
+Computer scientists usually categorize the time complexity of an algorithm into polynomial time complexities and non polynomial time complexities. This is because non-polynomial functions like factorial and exponential functions tend to grow quicker than polynomial functions and thus are usually considered nonviable for large data. One can see thus in the graph below before that the \textit{non-polynomial} functions like $f(x) = x!\cdot3^{x}$ or $f(x) = 2^{x}$ grow much faster than the other \textit{polynomial} or \textit{subpolynomial} functions. 
 
 \vskip 1cm
 
@@ -158,14 +160,16 @@ Computer scientists usually categories the time complexity of an algorithm into 
 \end{center}
 
 \subsubsection*{Complexity Classes}
-All problems in computer science are classified into a complexity class, which describes how difficult it is to find a solution for the problem on demand \cite{complexity-class}. For example the class $P$ is is the set of problems which can be solved in polynomial time. The problems of the $NP$ class are those where a proposed solution to an instance of the problem can be verified in polynomial time, but a way of algorithmically determining an optimal solution in polynomial time is not (yet) known. $NP\text{-complete}$ problems are a subset of $NP$ problems for which it is possible to reduce any other problem in $NP$ to a problem in the subset $NP\text{-complete}$ in some polynomial time process. This is important, because then if it is then shown that the Knapsack Problem (an NP-complete problem) is actually in $P$ (a method of determining an optimal solution quickly exists), then all NP problems will be in $P$, proving $P=NP$, which is sometimes considered to be the most important problem in computer science \cite{PvsNP}. 
+All problems in computer science are classified into a complexity class, which describes how difficult it is to find a solution for the problem on demand \cite{complexity-class}. For example the class $P$ is is the set of problems which can be solved in polynomial time. The problems of the $NP$ class are those where a proposed solution to an instance of the problem can be verified in polynomial time, but a way of algorithmically determining an optimal solution in polynomial time is not (yet) known. $NP\text{-complete}$ problems are a subset of $NP$ problems for which it is possible to reduce any other problem in $NP$ to a problem in the subset $NP\text{-complete}$ in some polynomial time process. This is important, because if it is then shown that the Knapsack Problem (or any other NP-complete problem) is actually in $P$ (a method of determining an optimal solution quickly exists), then all NP problems will be in $P$, proving $P=NP$, which is sometimes considered to be the most important problem in computer science \cite{PvsNP}. 
+
+\vskip 1cm
 
 \textbf{Solving the 0-1 Knapsack Problem} \mbox{}\
 
 There are 2 main approaches to solving KP01: An exact solution using deterministic algorithms, and probabilistic approaches involving heuristic algorithms. A small-scale KP01 can be solved with deterministic approaches, but for high-scale situations it is not realistic to get optimal solutions with exact approaches \cite{QWPA} as the KP01 problem is NP-complete \cite{KPNP}. 
 
 \subsection*{Deterministic algorithms}
-Dynamic programming is a general technique for solving optimization problems. If a problem has an optimal substructure and over-lapping subproblems, then dynamic programming is applicable . In computer science a problem has \emph{optimal substructure} if an optimal solution for a problem can be constructed from optimal solutions of its sub-problems, and \emph{over-lapping subproblems} is when a problem can be decomposed into sub-problems which are reused \cite{optimalSubstructure}. Dynamic programming breaks down a complicated problem into smaller sub-problems in a recursive manner, while also using some memory to save the solutions of the sub-problems (usually in tabular form). This way, when one needs to get a solution for a sub-problem again, one can just use previously calculated values. 
+Dynamic programming is a general technique for solving optimization problems. If a problem has an optimal substructure and over-lapping subproblems, then dynamic programming is applicable. In computer science a problem has \emph{optimal substructure} if an optimal solution for a problem can be constructed from optimal solutions of its sub-problems. \emph{Over-lapping subproblems} is when a problem can be decomposed into sub-problems which are reused \cite{optimalSubstructure}. Dynamic programming breaks down a complicated problem into smaller sub-problems in a recursive manner, while also using some memory to save the solutions of the sub-problems (usually in tabular form). This way, when one needs to get a solution for a sub-problem again, one can just use previously calculated values. 
 
 KP01 is solved using dynamic programming using a table based computation:
 
@@ -209,7 +213,7 @@ Heuristic algorithms for combinatorial optimization are usually designed in a sp
 Both the Discrete Global-Best Harmony Search (DGHS), and Binary Multi-Scale Quantum Harmonic Oscillator (BMQHOA) have a similar framework.
 
 \subsubsection{Discrete Global-Best Harmony Search Algorithm}
-The Harmony Search algorithm (HS) was developed in 2001 based on the improvisation of music players who try to create better harmonies by adjusting previously known harmonies, hoping to produce more desirable ones \cite{geem01}. This algorithm was made for continuous search spaces and thus cannot be used for discrete search spaces in combinatorial optimization problems, as in KP01, items are either fully chosen or not, meaning one cannot add a fraction of the weight and the profit value of a particular item into the knapsack. The DGHS was proposed by Wan-li Xiang et al to overcome this by rounding decimals to the nearest integer value to discretize the search space \cite{DGHS-article}. The DGHS for KP01 also has a repair-operator and a greedy selection mechanism. A harmony in this algorithm refers to a candidate solution, or a certain selection of items to be put in the knapsack. 
+The Harmony Search algorithm (HS) was developed in 2001 based on the improvisation of music players who try to create better harmonies by adjusting previously known harmonies, hoping to produce more desirable ones \cite{geem01}. This algorithm was made for continuous search spaces and thus cannot be used for discrete search spaces in combinatorial optimization problems like KP01. In KP01, items are either fully chosen or not, meaning one cannot add a fraction of the weight and the profit value of a particular item into the knapsack. The DGHS was proposed by Wan-li Xiang et al to overcome this by rounding decimals to the nearest integer value to discretize the search space \cite{DGHS-article}. The DGHS for KP01 also has a repair-operator and a greedy selection mechanism. A harmony in this algorithm refers to a candidate solution, or a certain selection of items to be put in the knapsack. 
 
 It consists of 4 main parts:
 \begin{enumerate}
@@ -288,7 +292,7 @@ Any time a harmony is generated, during Part 1 or Part 2, it is "repaired" in ca
 
 The add phase is always done after the drop phase, as a harmony previously infeasible becomes feasible after the drop phase, but its total weight may be less than the capacity of the knapsack. Here is the pseudocode for the repair-operator:
 
-\vskip 0.5cm
+\clearpage
 %harmonyRepair
 \begin{breakablealgorithm}
 \caption{Repair-operator for DGHS}\label{harmonyRepair}
@@ -333,12 +337,12 @@ The add phase is always done after the drop phase, as a harmony previously infea
 \vskip 1cm
 \subsubsection{Binary Multi-Scale Quantum Harmonic Oscillator Algorithm}
 
-The Multi-Scale Quantum Harmonic Oscillator Algorithm (MQHOA) is called as such as it follows a model of a solving a particle's ground state wave function under the harmonic oscillator potential well \cite{BMQHOA-article} . In MQHOA, candidate solutions are generated by sampling points in a Gaussian distribution within a certain distance of something. The Binary Multi-Scale Quantum Harmonic Oscillator Algorithm (BMQHOA) discretizes this by defining the number of bits between solutions (item decision variable) as the distance between solutions, so it becomes a discrete search space. Similar to the DGHS algorithm, a repair-operator is added to fix solutions that violate the capacity constraint. 
+The Multi-Scale Quantum Harmonic Oscillator Algorithm (MQHOA) is called as such as it follows a model of a solving a particle's ground state wave function under the harmonic oscillator potential well \cite{BMQHOA-article} . In MQHOA, candidate solutions are generated by sampling points in a Gaussian distribution within a certain distance of something. The Binary Multi-Scale Quantum Harmonic Oscillator Algorithm (BMQHOA) discretizes this by defining the number of bits between solutions (item decision variables) as the distance between solutions, so it becomes a discrete search space. Similar to the DGHS algorithm, a repair-operator is added to fix solutions that violate the capacity constraint. 
 
 The BMQHOA algorithm consists of 4 parts:
 \begin{enumerate}
     \item Random binary vector generation -> repair
-    \item Generating a solutions by flipping $m$ items, mutating, and repairing
+    \item Generating a solution by flipping $m$ items, mutating, and repairing
     \item Reducing the standard deviation value for the normal distribution from which the value for $m$ is determined during and for each iteration.
     \item If termination constraint is satisfied, output the best total profit value found so far, else return to Step 2.
 \end{enumerate}
@@ -375,7 +379,7 @@ Similarly to the DGHS algorithm, the 4 steps above take on the order of $nlogn$ 
 \end{breakablealgorithm}
 \vskip 0.5cm
 
-After generating a new solution, $m$ items are flipped in the aspiration of increasing diversity of the solutions and increasing the likelihood of finding the optimal solution. A normal distribution is defined by a mean value and a standard deviation. The value for $m$ is generated randomly by using a normal probability distribution which has a mean of $0$ and a Std. Deviation value which is determined by the iteration the algorithm is on. The Std. Deviation decreases with each new-solution-generation iteration so as to increase diversity in the beginning of the search, while reducing the likelihood of deteriorating a binary vector near the end of the search when close to optimal solutions have probably been found \cite{BMQHOA-article}. Initially the value of the standard deviation is set to $noItems/3$, so that there is a $\sim 99.7\%$ chance that the generated number of flipped items $m$ are in the range $[0-3\sigma_{s}, 0+3\sigma_{s}] \approx [-noItems, noItems]$, however in the case that $m \notin [-noItems, noItems]$, the value is reduced mod $noItems$:
+After generating a new solution, $m$ items are flipped in the aspiration of increasing diversity of the solutions and increasing the likelihood of finding the optimal solution. A normal distribution is defined by a mean value and a standard deviation. The value for $m$ is generated randomly by using a normal probability distribution which has a mean of $0$ and a Std. Deviation value which is determined by the iteration the algorithm is on. The Std. Deviation decreases with each new-solution generation so as to increase diversity in the beginning of the search, while reducing the likelihood of deteriorating a binary vector near the end of the search when close to optimal solutions have probably been found \cite{BMQHOA-article}. Initially the value of the standard deviation is set to a third of the number of the items, $noItems/3$, so that there is a $\sim 99.7\%$ chance that the generated number of flipped items $m$ are in the range $[0-3\sigma_{s}, 0+3\sigma_{s}] \approx [-noItems, noItems]$, however in the case that $m \notin [-noItems, noItems]$, the value is reduced mod $noItems$:
 
 $$STDEV_{max} = noItems/3$$
 $$\sigma_{s} = 1-\frac{t}{ITERATIONS} STDEV_{max}$$
@@ -389,6 +393,8 @@ The repair-operator of the BMQHOA algorithm has 3 phases:
 \end{enumerate}
 
 $Q_{1}[1, 2,...,n]$ is the index for the items in the density ratio array in the original vector. $Q_{2}[1, 2,..., n]$ is index of the items in the minimum weight sorted array in the original vector.
+
+\clearpage
 
 \begin{breakablealgorithm}
 \caption{Repair-Operator for BMQHOA}\label{harmonicRepair}
@@ -421,19 +427,19 @@ $Q_{1}[1, 2,...,n]$ is the index for the items in the density ratio array in the
 \section{Methodology}
 
 \subsection{Coding the algorithms}
-The DP (dynamic programming) bruteforce was used to try all possible combinations of items to find the optimal profit value. The DP bruteforce algorithm, DGHS algorithm and the BMQHOA algorithm were coded in C++ based on the pseudocode provided in articles that proposed the respective algorithms. These C++ implementations of the algorithms can be found at \href{https://github.com/raunakCode/diploma-project/tree/main/algorithms}{\textcolor{blue}{https://github.com/raunakCode/diploma-project/tree/main/algorithms}}. 
+The DP (dynamic programming) bruteforce was used to try all possible combinations of items to find the optimal profit value. The DP bruteforce algorithm, DGHS algorithm and the BMQHOA algorithm were coded in C++ based on the pseudocode provided in articles that proposed the respective algorithms. The C++ implementations of these algorithms can be found at \href{https://github.com/raunakCode/diploma-project/tree/main/algorithms}{\textcolor{blue}{https://github.com/raunakCode/diploma-project/tree/main/algorithms}}. 
 
 \subsection{Generating testdata}
-The testdata was categorized into 6 testgroups, each of which had 5 different testcases, each of which is an input on which every algorithm was run. 3 testgroups of 5 testcases were made using a random number generator, where a random number was generated using the Mersenne Prime Twister (mt19937) \cite{mersenne} with some C++ code - available \href{https://github.com/raunakCode/diploma-project/blob/main/testing/gen.cpp}{\textcolor{blue}{here}}. A computer cannot generate a truly random number. A pseudorandom number is what is generated, which is a number which appears to be statistically random, but has been generated using a deterministic process, in this case - the Mersenne Prime Twister. The 3 groups had item counts of 100, 1000, and 10000. The number of solutions in memory (for the heuristic algorithms) was put in the input file and was kept a constant, 20, in all testcases and algorithms for this report. 
+The testdata was categorized into 6 testgroups, each of which had 5 different testcases. Each testcase is an input on which every algorithm was run. 3 testgroups of 5 testcases were made using a random number generator, where a random number was generated using the Mersenne Prime Twister (mt19937) \cite{mersenne} with some C++ code - available \href{https://github.com/raunakCode/diploma-project/blob/main/testing/gen.cpp}{\textcolor{blue}{here}}. A computer cannot generate a truly random number. A pseudorandom number is what is generated, which is a number which appears to be statistically random, but has been generated using a deterministic process, in this case - the Mersenne Prime Twister. The 3 groups had item counts of 100, 1000, and 10000. The number of solutions in memory (for the heuristic algorithms) was put in the input file and was kept a constant, 20, in all testcases and algorithms for this report. 
 
 In the 3 random number generated testgroups, the number of items $noItems$ was chosen to either be 100, 1000 or 10000. The profit and weight values were then randomly generated in a range of $ [1, noItems] $ while a sum-of-weights variable \emph{sum} was kept. The max weight was then randomly generated in a range of $[\frac{\text{sum}}{100} , \frac{\text{sum}}{10}]$, so that the knapsack would not be able to hold all the items. To avoid any integer overflow errors, all generated numbers and the sum of all the profit/weight values were kept below the max value of an \emph{int} which is $2^{31}-1$ in many programming languages.  Then $n$, $W$ (maxWeight), and each item (profit and weight values) were all put in an input file which was later used to test the algorithms. This process was repeated 6 times for each of 3 random-items testgroups.
 
 The other 3 testgroups of 5 testcases were taken from a database \cite{dataset}. These 3 "testgroups" are mentioned/used several times in the literature for KP01. The 3 testgroups are uncorrelated, weakly correlated, and strongly correlated; the correlation being between the items' profit and weight values. The number of solutions in memory, 20, was added to each of these testcases as well. 
 
-To make a fair comparison the number of $ITERATIONS$ (how many times a candidate solution is generated) was set to 100 for both algorithms. These input files were then saved for later testing of the algorithms. Each testcase was then run on each algorithm and raw data of the total profit values generated was then saved, refer to appendix.
+To make a fair comparison the number of $ITERATIONS$ (how many times a candidate solution is generated) was set to 100 for both algorithms. These input files were then saved for later testing of the algorithms. Each testcase was then run on each algorithm and the raw data of the total profit values generated was then saved, refer to appendix.
 
 \subsection{Testing}
-The C++ codes were compiled with the GNU G++17 compiler. Every testcase in each testgroup was then tested 6 times on both algorithms, and the raw data (profit values generated) was then saved for further processing. An unpaired t-test was conducted over all the profit values for both algorithms respectively. Unpaired t-tests were also performed within each testgroup as well, however they the t-tests' evaluation of the data did not change and thus has not been shown here. 
+The C++ codes were compiled with the GNU G++17 compiler. Every testcase in each testgroup was then tested 6 times on both algorithms, and the raw data (profit values generated) was then saved for further processing. An unpaired t-test was conducted over all the profit values for both algorithms respectively. Unpaired t-tests were also performed within each testgroup as well, however the t-tests' evaluation of the data did not change and thus has not been shown here. 
 
 \newpage
 
@@ -456,9 +462,9 @@ The mean and standard deviations for each group can be viewed in the following c
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
         DGHS Mean &4160.33$\pm$3.50 &2561$\pm$0 &5288$\pm$19.66 &3535$\pm$0 &1747$\pm$0 \\[1em] \hline
-        Mean Percent deviation from optimal &0.21\%  &0\%  &0.40\%  &0\%  &0\%  \\ [-1pt] \tabucline[1pt]{1-6}
+        Mean \% dev. from optimal &0.21\%  &0\%  &0.40\%  &0\%  &0\%  \\ [-1pt] \tabucline[1pt]{1-6}
         BMQHOA Mean &3926.83$\pm$40.27 &2561.00$\pm$0 &4879$\pm$46.18 &3360.66$\pm$68.96 &1711.5$\pm$25.71 \\[1em] \hline
-        Mean Percent deviation from optimal &5.80\% &0\%  &8.09\% &4.93\% &2.03\% \\ [-1pt] \tabucline[1pt]{1-6}
+        Mean \% dev. from optimal &5.80\% &0\%  &8.09\% &4.93\% &2.03\% \\ [-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
 \end{table}
 
@@ -522,9 +528,9 @@ The mean and standard deviations for each group can be viewed in the following c
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
         DGHS Mean &156083.83$\pm$830.04 &118603.83$\pm$830.04 &144070$\pm$1343.77 &109734.33$\pm$1037.03 &126366.16$\pm$1236.73 \\ \hline
-        Mean Percent deviation from optimal &13.71\% &11.76\% &14.12\% &10.77\% &13.27\% \\ [-1pt] \tabucline[1pt]{1-6}
+        Mean \% dev. from optimal &13.71\% &11.76\% &14.12\% &10.77\% &13.27\% \\ [-1pt] \tabucline[1pt]{1-6}
         BMQHOA Mean &145086.5$\pm$1035.45 &109876.33$\pm$1540.63 &136622.66$\pm$2042.95 &101951.33$\pm$1271.88 &118291.16$\pm$799.78 \\ \hline
-        Mean Percent deviation from optimal &19.79\% &18.25\% &18.56\% &17.10\% &18.82\% \\ [-1pt] \tabucline[1pt]{1-6}
+        Mean \% dev. from optimal &19.79\% &18.25\% &18.56\% &17.10\% &18.82\% \\ [-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
 \end{table}
 
@@ -589,9 +595,9 @@ The mean and standard deviations for each group can be viewed in the following c
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
         DGHS Mean &7681910$\pm$51555 &10567302$\pm$23956 &8014906$\pm$39449.15 &9347061$\pm$56967.66 &9583139$\pm$55816.60 \\ \hline
-        Mean Percent deviation from optimal &22.61\% &23.11\% &22.07\% &23.10\% &23.00\% \\[-1pt] \tabucline[1pt]{1-6}
+        Mean \% dev. from optimal &22.61\% &23.11\% &22.07\% &23.10\% &23.00\% \\[-1pt] \tabucline[1pt]{1-6}
         BMQHOA Mean &7438487$\pm$29887.17 &10276681$\pm$50507.35 &7774520$\pm$34559.10 &9075476$\pm$53168.02 &9330322$\pm$46301.35 \\ \hline
-        Mean Percent deviation from optimal &25.07\% &25.22\% &24.41\% &25.33\% &25.03\% \\[-1pt] \tabucline[1pt]{1-6}
+        Mean \% dev. optimal &25.07\% &25.22\% &24.41\% &25.33\% &25.03\% \\[-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
 \end{table}
 
@@ -654,9 +660,9 @@ The mean and standard deviations for each group can be viewed in the following c
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
         DGHS Mean &9147$\pm$0 &11238$\pm$0 &51019.50$\pm$437.85 &99036.16$\pm$1544.34 &448975$\pm$1135.46 \\ \hline
-        Mean Percent deviation from optimal &0\% &0.00\% &6.39\% &10.47\% &20.34\% \\[-1pt] \tabucline[1pt]{1-6}
+        Mean \% dev. from optimal &0\% &0.00\% &6.39\% &10.47\% &20.34\% \\[-1pt] \tabucline[1pt]{1-6}
         BMQHOA Mean &8974.5$\pm$147.24 &10976.50$\pm$154.37 &47401.50$\pm$841.75 &91725.83$\pm$1346.23 &431259.66$\pm$3049.43 \\ \hline
-        Mean Percent deviation from optimal &1.88\% &2.32\% &13.02\% &17.08\% &23.48\% \\[-1pt] \tabucline[1pt]{1-6}
+        Mean \% dev. from optimal &1.88\% &2.32\% &13.02\% &17.08\% &23.48\% \\[-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
 \end{table}
 
@@ -724,9 +730,9 @@ The mean and standard deviations for each group can be viewed in the following c
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
         DGHS Mean &1514$\pm$0 &1627.66$\pm$2.42 &8907.33$\pm$27.56 &17371.83$\pm$126.76 &82681.33$\pm$390.98 \\ \hline
-        Mean Percent deviation from optimal &0\% &0.38\% &1.59\% &3.76\% &8.33\% \\[-1pt] \tabucline[1pt]{1-6}
+        Mean \% dev. from optimal &0\% &0.38\% &1.59\% &3.76\% &8.33\% \\[-1pt] \tabucline[1pt]{1-6}
         BMQHOA Mean &1508.16$\pm$6.82 &1613.66$\pm$16.74 &8435.33$\pm$60.60 &16539$\pm$133.95 &80900.66$\pm$970.71 \\ \hline
-        Mean Percent deviation from optimal &0.38\% &1.24\% &6.81\% &8.37\% &10.31\% \\[-1pt] \tabucline[1pt]{1-6}
+        Mean \% dev. from optimal &0.38\% &1.24\% &6.81\% &8.37\% &10.31\% \\[-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
 \end{table}
 
@@ -794,9 +800,9 @@ The mean and standard deviations for each group can be viewed in the following c
         \tabucline[1pt]{1-6} 
         Testcase & 1 & 2 & 3 & 4 & 5 \\ [-1pt] \tabucline[1pt]{1-6} 
         DGHS Mean &2391.66$\pm$6.08 &2697$\pm$0 &13682.5$\pm$60.05 &26444.66$\pm$240.84 &126448$\pm$615.61 \\ \hline
-        Mean Percent deviation from optimal &0.22\% &0\% &4.91\% &8.55\% &13.93\% \\[-1pt] \tabucline[1pt]{1-6}
+        Mean \% dev. from optimal &0.22\% &0\% &4.91\% &8.55\% &13.93\% \\[-1pt] \tabucline[1pt]{1-6}
         BMQHOA Mean &2327.33$\pm$48.55 &2658.66$\pm$48.81 &13334.66$\pm$182.91 &25604$\pm$91.32 &123813.83$\pm$773.19 \\ \hline
-        Mean Percent deviation from optimal &2.90\% &1.42\% &7.33\% &11.46\% &15.72\% \\[-1pt] \tabucline[1pt]{1-6}
+        Mean \% dev. from optimal &2.90\% &1.42\% &7.33\% &11.46\% &15.72\% \\[-1pt] \tabucline[1pt]{1-6}
     \end{tabu}
 \end{table}
 
@@ -940,15 +946,19 @@ In this case, $n_{1} = n_{2} = 180$ as there are 180 values in both groups. This
 \newpage 
 
 \section{Discussion}
-As one can see in Figure 1, the DGHS algorithm deviates more than the BMQHOA algorithm in all datasets. This suggests that the DGHS algorithm is superior. However, the t-test and its p-value of $0.99998$ accepts the null hypothesis and suggests that the difference is not statistically significant. 
+Viewing Figure 7, the DGHS algorithm deviates more from the optimal than the BMQHOA algorithm in all datasets, and in Figures 1-6 the error bars (standard deviations) between the means for the DGHS and BMQHOA algorithm do not overlap with the DGHS having a greater mean then the BMQHOA. This suggests that the DGHS algorithm is superior. However, the unpaired t-test across all values and its p-value of $0.99998$ accepts the null hypothesis and suggests that the difference is not statistically significant. 
 
-In Table 7 and the corresponding Figure 1, the data shows that testcases with a greater number of items have resulted in greater deviations from the optimal. Both algorithms are probabilistic and work by generating new candidate solutions, and replacing worse solutions with better ones. As the generation process is only run 100 times in both algorithms, and as there are $2^{noItems}$ different possible solutions (possibly violating the constraints), the likelihood of finding optimal or near-optimal solutions decreases as the number of items $noItems$ increases.
+In Table 7 and the corresponding Figure 7, the data shows that testcases with a greater number of items have resulted in greater deviations from the optimal. Both algorithms are probabilistic and work by generating new candidate solutions, and replacing worse solutions with better ones. As the generation process is only run 100 times in both algorithms, and as there are $2^{noItems}$ different possible solutions (possibly violating the constraints), the likelihood of finding optimal or near-optimal solutions decreases as the number of items, $noItems$, increases.
 
-The BMQHOA algorithm only flips 1 item toward the corresponding item in the current best solution during the solution generation process. The DGHS harmony generation, on the other hand, probabilistically considers every item for flipping toward the best solution, depending on the current iteration's HMCR value.  As the BMQHOA has produced worse profit values, it can be suggested that a greater level of evolution toward current best solutions is advantageous - so flipping more items toward the best solution in the BMQHOA algorithm might have resulted in better profit values. 
+Results in the differently correlated profit-weight datasets, which can be seen in Tables 4-6 and Figures 4-6, all show that the DGHS algorithm produces higher total profit values. However, viewing Table 7 and Figure 7, one can see that the testgroup with uncorrelated items produces the greatest deviations from the optimal followed by the strongly-correlated items testgroup and then the weakly-correlated dataset which had the least deviation from the optimal. This is slightly contradictory, however a possible reason for this is that the correlation in the testcases might not be evenly spread across the items, potentially resulting in the items with relatively high profits being more correlated to their weight than the items with lower profits. As the higher profit items contribute more to the total profit value, they have more influence on the results. The non-monotonic deviations from the optimal in the testgroups suggest that correlation does not have an affect on the performance of the DGHS and the BMQHOA algorithm. However, the low number of testcases in every testgroup (5) makes the results less reliable.  
+
+Both algorithms are population-based heuristic algorithms, those which use and keep a set of solutions between each iteration to the next. There is no decision made during either algorithm that takes into account both an item's weight and profit at the same time. Thus, it can be expected that correlation of item's profit and weight has no affect on the total profit values generated by either algorithm.  %nothing in the algs support anything with correlation
+
+One of the ways that both the algorithms differ is how much they let the current best solution in every iteration influence the candidate solution. The BMQHOA algorithm only flips 1 item toward the corresponding item in the current best solution during the solution generation process. The DGHS harmony generation, on the other hand, probabilistically considers every item for flipping toward the best solution, depending on the current iteration's HMCR value.  As the BMQHOA has produced worse profit values, it can be suggested that a greater level of evolution toward current best solutions is advantageous - so flipping more items toward the best solution in the BMQHOA algorithm might have resulted in better profit values.
 
 
 \subsection{Conclusion}
-The testing in this paper suggests that while the DGHS algorithm seems to perform better than the BMQHOA algorithm, it is not statistically significant. However, the small margin by which DGHS outperforms BMQHOA could be attributed to increased influence that the current best solution in memory has on the candidate solution in every iteration. 
+The testing in this paper suggests that while the DGHS algorithm seems to perform better than the BMQHOA algorithm, it is not statistically significant. However, the small margin by which DGHS outperforms BMQHOA could be attributed to the greater influence that the current best solution in memory has on the candidate solution in every iteration in the DGHS algorithm. It can also be concluded that the correlation of item's profit and weight does not influence the performance of the DGHS and BMQHOA algorithms, nor other similar population-based heuristic algorithms that do not consider an item's profit and weight value at the same time.  
 
 \newpage
 
